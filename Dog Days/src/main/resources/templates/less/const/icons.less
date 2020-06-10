@@ -1,0 +1,45 @@
+@import "colors.less";
+
+@icon-color: @dark_gray35;
+@icon-sub_color: @gray65;
+
+.fa {
+	&.alr-user {
+		position: relative;
+		color: @icon-color;
+		
+		&::before {
+			content: "\f007";
+		}
+		
+		&::after {
+			position: absolute;
+			color: @icon-sub_color;
+			z-index: 100;
+		}
+	}
+	
+	&.alr-user-foster {
+		&:extend(.fa.alr-user all);
+		
+		&::after {
+			content: "\f6d3";
+			font-size: .85em;
+			
+			left: .5em;
+			bottom: -.25em;
+		}
+	}
+	
+	&.alr-user-distributor {
+		&:extend(.fa.alr-user all);
+		
+		&::after {
+			content: "\f466";
+			font-size: .7em;
+			
+			left: .65em;
+			bottom: -.25em;
+		}
+	}
+}

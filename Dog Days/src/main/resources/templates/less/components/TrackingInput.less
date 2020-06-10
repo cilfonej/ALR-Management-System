@@ -1,0 +1,134 @@
+@import "../const/all.less"; 
+
+.tracking-input {
+	display: flex;
+    align-items: center;
+    
+    border: @border-divider;
+    border-radius: 3px;
+    
+    .tracking-select_list {
+		position: absolute;
+		top: 100%;
+		left: -1px;
+		
+		background: @light_gray93;
+		font-size: .8rem;
+		
+		box-shadow: 0 1px 2px @gray65;
+		border: @border-divider;
+		border-radius: 3px;
+		
+		z-index: 100;
+		
+		&.closed {
+			display: none;
+		}
+		
+		.tracking-select_item {
+			display: flex;
+			align-items: center;
+			
+			padding: 5px 0;
+			padding-right: 10px;
+
+			&:hover {
+				background-color: @light_gray90; 
+			}
+
+			&:last-child .tracking-select_item_icon {
+				font-size: .85rem;
+			}
+
+			&.selected {
+				background-color: @gray85; 
+			}
+						
+			.tracking-select_item_icon {
+				display: flex;
+				
+				width: 2rem;
+				font-size: 1.25rem;
+				
+				i {
+					margin: auto;
+				}
+			}
+			
+			.tracking-select_item_label {
+				flex-grow: 1;
+				margin-left: 5px;
+			}
+		}
+    }
+    
+    .tracking-input_type {
+	    position: relative;
+	    display: flex;
+	    
+	    width: 35px;
+	    height: 28px;
+	    
+    	padding: 5px;
+    	
+	    border-right: @border-divider;
+	    background-color: @gray85;
+	    
+		cursor: pointer;
+	    
+	    a {
+			display: flex;
+			align-self: stretch;			
+			flex-grow: 1;
+
+	    	i {
+				font-size: 1.75rem;
+				margin: auto;
+				
+				&.fa-question {
+					font-size: 1.25rem;
+				}
+	    	}
+	    }
+    }
+    
+    .tracking-input_wrapper {
+		display: flex;
+		align-items: center;
+		
+		padding: 5px 10px;
+		
+		align-self: stretch;
+		flex-grow: 1;
+		
+		background-color: @light_gray95;
+		font-size: 1.05rem;
+		
+		input {
+			background: none;
+			border: none;
+			outline: none;
+			
+			flex-grow: 1;
+			padding-right: 10px;
+			
+			font-family: @font-monospace;
+		}
+		
+		&:hover {
+			a {
+				opacity: .3;
+				transition: opacity .075s ease-out;
+			}
+		}
+		
+		a {
+			opacity: 0;
+			cursor: pointer;
+			
+			&:hover {
+				opacity: .6;
+			}
+		}
+    }
+}

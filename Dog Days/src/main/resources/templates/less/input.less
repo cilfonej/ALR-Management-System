@@ -1,0 +1,131 @@
+@import "const/all.less";
+
+@input-padding: 5px;
+@input-padding_vertical: 3px;
+
+.input-label {
+	padding-bottom: 6px;
+
+	color: @dark_gray35;
+	font-size: .7rem;
+	font-weight: bold;
+}
+
+.input {
+	display: flex;
+	flex-direction: column;
+	
+	margin-bottom: @card-padding + 10px;
+	box-sizing: border-box;
+
+	.input-wrapper {
+		position: relative;
+
+		display: flex;
+	    align-items: baseline;
+	    
+	    padding-bottom: @input-padding_vertical !important;
+	    border-bottom: @border-divider;
+	    
+		box-sizing: border-box;
+	    
+	    i {
+	    	margin-right: @card-padding;
+			color: @dark_gray35;
+			
+			flex-shrink: 0;
+	    }
+	    
+	    input {
+			width: 1px;
+			flex-grow: 1;
+			flex-shrink: 1;
+			
+			background: none;
+			border: none;
+			outline: none;
+		    
+		    box-sizing: border-box;
+	    }
+	    
+	    .input-address {
+	    	flex-grow: 1;
+	    	
+	    	padding: 0;
+	    	background: none;
+	    	border: none;
+	    	outline: none;
+	    	
+	    	height: 3rem;
+	    	
+	    	font-family: inherit;
+	    	line-height: 1rem;
+	    	font-size: .75rem;
+	    	
+	    	box-sizing: border-box;
+	    	overflow: hidden;
+	    	resize: none;
+	    }
+	    
+	    .input-status_icon {
+			display: none;	    	
+	    	margin: 0;
+	    	
+			font-size: .75rem;
+			opacity: .3;
+	    }
+	}
+	
+	&.input-error {
+		.input-wrapper {
+			&::after {
+				content: "Please select an option";
+				
+				position: absolute;
+				bottom: -1rem;
+				right: 0;
+				
+				color: @text_color-error;
+				font-size: .75rem;
+		    }
+		    
+		    &[data-error]::after {
+		    	content: attr(data-error);
+		    }
+		}
+	}
+	
+	&:not(.readonly) {
+		.input-label {
+			padding: @input-padding_vertical @input-padding;
+		}
+		
+		.input-wrapper {
+			padding: @input-padding;
+			background-color: @light_gray95;
+			
+			border: @border-divider;
+			
+			border-top-right-radius: 3px;
+			border-top-left-radius: 3px;
+		}
+		
+		&.input-has_value {
+			.input-status_icon {
+				display: inline-block;
+			}
+		}
+	}
+	
+	&.readonly {
+		.input-wrapper {
+			border: none;
+			
+			.input-address {
+				font-size: .85rem;
+				line-height: 1.25rem;
+				height: 4rem;
+			}
+		}
+	}
+}

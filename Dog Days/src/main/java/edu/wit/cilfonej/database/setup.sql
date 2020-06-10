@@ -1,0 +1,11 @@
+DROP DATABASE IF EXISTS dog_days;
+CREATE DATABASE dog_days;
+USE dog_days;
+
+SET default_storage_engine = INNODB;
+
+CREATE TABLE `dog` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(45) NOT NULL,
+PRIMARY KEY (`id`),
+UNIQUE INDEX `id_UNIQUE` (`id` ASC));

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script type="text/javascript" src="/js/Sidebar.js"></script>
+</head>
+
+<body>
+	<aside th:fragment="sidebar" class="page-content_sidebar">
+		<script type="text/javascript">
+			Sidebar.setRoot($(".page-content_sidebar"));
+		</script>
+		
+		<div class="tab-sidebar">
+		
+				<div th:replace=":: tab(
+					title='Help', 
+					icon='fa fa-question-circle', 
+					template=~{components/ContentSidebar :: sidebar(
+						tab='Help',
+			
+						title='Help',
+						content=~{:: #empty})
+					})">
+				</div>
+				
+				<div th:replace="shipment/shipment :: shipment_tab"></div>
+		</div>
+	</aside>
+	
+	<div id="empty"></div>
+	
+	<div th:fragment="tab(title, icon, template)" 
+		th:id="${'sidebar_tab-' + title}"
+		
+		class="tab-sidebar_tab"
+		th:classappend="${classes ?: ''}"
+		
+		th:onclick="Sidebar.openTab([[${title}]]);"
+		
+		th:attr="data-tippy-content=${title}" 
+		data-tippy-arrow="false"
+		data-tippy-placement="left"
+		data-tippy-group="tab-sidebar">
+		
+		<i th:classappend="${icon}"></i>
+		
+		<!-- NOTE: sidebar/template cannot use Sidebar.js durring init
+				   as TAB has not be initalized yet
+		-->
+		<aside th:replace="${template}"></aside>
+		
+		<!-- Tab-init Script, must be run AFTER template -->
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/ Sidebar.addTab(/*[[${title}]]*/); /*]]>*/
+		</script>
+	</div>
+</body>
+</html>

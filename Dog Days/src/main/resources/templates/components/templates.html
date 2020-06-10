@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+
+<body>
+	<div th:fragment="address(addr)" class="address">
+		<span th:if="${addr.streetAddress != null}">
+			<th:block th:text="${addr.streetAddress}"></th:block>
+		</span>
+		
+		<span th:if="${addr.city != null || addr.state != null}">
+			<th:block th:text="${addr.city}">
+			</th:block><th:block th:if="${addr.city != null && addr.state != null}">,</th:block>
+			<th:block th:text="${addr.state}"></th:block>
+		</span>
+		
+		<span th:if="${addr.postalCode != null}">
+			<th:block th:text="${addr.postalCode}"></th:block>
+		</span>
+	</div>
+</body>
+</html>

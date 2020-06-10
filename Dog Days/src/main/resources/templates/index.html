@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>ALR Demo</title>
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/buttons.css" />
+    <link rel="stylesheet" href="/webjars/font-awesome/css/all.min.css"/>
+    
+    <script type="text/javascript" src="/webjars/momentjs/moment.js"></script>
+    <script type="text/javascript" src="/webjars/jquery/jquery.js"></script>
+    
+	<script type="text/javascript" src="/js/UID.js"></script>
+    
+    <!--/*/ <th:block th:include="index/drug_history :: head"></th:block> /*/-->
+    <!--/*/ <th:block th:include="index/dog_info_card :: head"></th:block> /*/-->
+    <!--/*/ <th:block th:include="index/foster_info_card :: head"></th:block> /*/-->
+    
+    <!--/*/ <th:block th:include="shipment/shipment :: head"></th:block> /*/-->
+    
+    <!--/*/ <th:block th:include="components/jsx :: head"></th:block> /*/-->
+    <!--/*/ <th:block th:include="components/tooltips :: head"></th:block> /*/-->
+    <!--/*/ <th:block th:include="components/tab_sidebar :: head"></th:block> /*/-->
+    
+    <!--/*/ <th:block th:include="common/header :: head"></th:block> /*/-->
+    <!--/*/ <th:block th:include="common/sidebar :: head"></th:block> /*/-->
+</head>
+<body th:with="u_id='root'" th:attr="data-uid=${u_id}">
+	<div th:replace="common/sidebar :: sidebar"> </div>
+	
+	<div class="page-layout">
+		<div th:replace="common/header :: header"> </div>
+		<div th:replace="common/header :: breadcrums"> </div>
+	
+		<section class="page-content_wrapper">
+			<div class="page_content">
+				<div class="index-row_wrapper">
+					<div th:replace="index/dog_info_card :: dog_info"></div>
+					<div th:replace="index/foster_info_card :: foster_info"></div>
+				</div>
+				
+				<div class="index-row_wrapper">
+					<div th:replace="index/drug_history :: drug_history(null, ${history})"> </div>
+					<div th:replace="components/jsx :: Calendar('cal')"> </div>
+				</div>
+			</div>
+			
+			<div th:replace="components/tab_sidebar :: sidebar"> </div>
+			<!-- 
+			
+			<div class="tab-sidebar">
+				<div class="tab-sidebar_tab tab-help"
+					data-tippy-content="Help" 
+					data-tippy-arrow="false"
+					data-tippy-placement="left"
+					data-tippy-group="tab-sidebar">
+					
+					<i class="fa fa-question-circle"></i>
+				</div>
+			
+				<div class="tab-sidebar_tab" 
+					data-tippy-content="Shipment" 
+					data-tippy-arrow="false"
+					data-tippy-placement="left"
+					data-tippy-group="tab-sidebar">
+					
+					<i class="fa fa-truck"></i>
+				</div>
+				
+				<div style="flex-grow: 1"></div>
+			</div>
+			
+			<div th:replace="shipment/shipment :: sidebar(${shipment})"> </div> -->
+		</section>
+    </div>
+</body>
+</html>

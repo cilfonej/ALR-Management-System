@@ -1,0 +1,50 @@
+@import "const/all.less";
+
+@card-border_radius: 3px; 
+
+@card-barground_color: white;
+@card-header_color: @light_gray97;
+
+.card {
+	position: relative;
+    width: 280px; 
+	
+    display: flex;
+    align-content: start;
+    flex-direction: column;
+    
+    border-radius: @card-border_radius;
+    box-shadow: @border-shadow;
+
+    box-sizing: border-box;
+
+    color: @text_color;
+    overflow: hidden;
+    
+    margin-right: @card-margin;
+    margin-bottom: @card-margin;
+    
+    background: @card-barground_color;
+    
+    .card-header {
+    	display: flex;
+	    align-items: center;
+	    justify-content: space-between;
+	    
+	    padding: @card-padding;
+	    
+	    font-size: @font_size-header;
+	    color: @text_color;
+	    
+	    background: @card-header_color;
+	    box-shadow: @border-shadow;
+	    
+	    h2 {
+		    flex-grow: 1;
+	    	margin: 0;
+	    	
+		    font-size: 1.05rem;
+		    font-weight: normal;
+	    }
+    }
+}

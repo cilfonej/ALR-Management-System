@@ -1,0 +1,54 @@
+@import "components/Calendar.less";
+@import "components/tab_sidebar.less";
+
+body {
+	display: flex;
+
+	height: 100vh;
+	margin: 0;
+
+	font-family: @font-default;
+	
+	.page-layout {
+		display: flex;
+	    flex-direction: column;
+	    
+	    flex-grow: 1;
+	    
+		.page-content_wrapper {
+			position: relative;
+			width: 100%;
+			
+			flex-grow: 1;
+			flex-shrink: 1;
+			
+			display: flex;
+			background: @light_gray96;
+			
+			box-sizing: border-box;
+			overflow: hidden auto;
+		    
+		    .page_content {
+				padding: @card-margin;
+				flex-grow: 1;
+		    }
+		    
+		    .page-content_sidebar {
+				position: sticky;
+				top: 0;
+				height: 100%;
+				
+				z-index: 500;
+		    }
+		}	
+	}
+	
+	.index-row_wrapper {
+	    display: flex;
+	    flex-wrap: wrap;
+	    
+	    #cal {
+			align-self: flex-start;
+	    }
+	}
+}

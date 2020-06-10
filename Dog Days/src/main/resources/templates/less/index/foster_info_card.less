@@ -1,0 +1,101 @@
+@import "../const/all.less";
+@import "../components/templates.less";
+
+// OVERRIDE
+@card-padding: 12px;
+
+@foster-image_size: 90px;
+
+@foster-name_font-size: 1.15rem;
+@foster-info_font-size: .85rem;
+
+@address-label_font-size: .75rem;
+@address-divider_border: 1px solid @gray85;
+
+.foster-info {
+	padding: @card-padding;
+	width: 434px !important;
+	
+	.foster-info_contact-wrapper {
+		position: relative;
+		
+		display: flex;
+		margin-bottom: @card-margin;
+		
+		flex-grow: 1;
+		
+		.foster-info_image {
+			display: flex;
+			
+			width: @foster-image_size;
+			height: @foster-image_size;
+			
+			margin-right: @card-padding;
+
+			background: @theme-color_light;
+			border-radius: 15%;
+			
+			.foster-info_image-default {
+				margin: auto;
+				
+				color: white;
+				font-size: @foster-image_size * 2/3;
+			}
+		}
+		
+		.foster-info_contact {
+			display: flex;
+			flex-direction: column;
+			
+			flex-grow: 1;
+			
+			div {
+				margin: @card-padding / 4 0;
+			}
+			
+			.foster-info_name {
+				display: flex;
+				align-items: flex-end;
+				justify-content: space-between;
+				
+				margin: .5rem 0;
+				
+				font-weight: bold;
+				font-size: @foster-name_font-size;
+			}
+			
+			.foster-info_contact {
+			    font-size: @foster-info_font-size;
+			}
+		}
+	}
+	
+	.foster-info_address-info {
+		display: flex;
+		flex-wrap: wrap;
+		
+		.foster-info_address-wrapper {
+			display: flex;
+			flex-direction: column;
+			
+			align-self: start;
+
+			margin-right: @card-margin;
+			margin-bottom: @card-margin / 2;
+			
+			flex-grow: 1;
+			max-width: 150px;
+			
+			color: @text_color;
+			font-size: @foster-info_font-size;
+			
+			.foster-info_address-label {
+				width: 100%;
+			    margin-bottom: @card-padding / 2;
+				
+			    font-size: @address-label_font-size;
+			    border-bottom: @address-divider_border;
+			}
+		}
+	}
+}

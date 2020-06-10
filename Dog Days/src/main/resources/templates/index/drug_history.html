@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/index/drug_history.css" />
+</head>
+
+<body>
+
+	<div th:fragment="drug_history(next_date, history)" class="card drug-history">
+		<header class="card-header">
+			<h2> Health History</h2>
+				    	
+			<a class="icon-button icon-button_ghost">
+				<i class="fa fa-cog"></i>
+			</a>
+		</header>
+		    
+		<div class="drug-history_content">
+			<div class="drug-history_current">
+				<span> Due: </span>
+				<span class="drug-history_due-date"> 4/22/2020</span>
+					            
+				<a class="icon-button icon-button_box" 
+					data-tippy-content="Send Shipment"
+					onclick="openNewShipment()">
+					<i class="fa fa-truck"></i>
+				</a>
+			</div>
+				        
+			<div class="drug-history_transations">
+				<header>
+					<span></span>
+					<span> Status </span>
+					<span> Sent </span>
+					<span> Receipt </span>
+				</header>
+							
+				<div class="drug-history_timeline"></div>
+				
+				<div id="drug-history_list">
+					<th:block th:each="ship : ${history}">
+						<div th:replace=":: transactionRecord(${ship})"> </div>
+					</th:block>
+				</div>
+				
+				<div th:fragment="test(ship)">
+					<span th:text="${ship?.status?.name()}"></span>
+				</div>
+					
+				<div th:fragment="transactionRecord(shipment)"
+						class="drug-history_transation" 
+						th:if="${shipment != null}">
+						
+					<span class="drug-history_transation-icon" th:switch="${shipment.status.name()}">
+						<i th:case="Opened" class="fa fa-box-open"></i>
+						<i th:case="Delivered" class="fa fa-box"></i>
+						<i th:case="*" class="fa fa-truck"></i>
+					</span>
+					                
+					<div class="drug-history_transaction-detail">
+						<div class="drug-history_transaction-status-label" th:switch="${shipment.status.name()}">
+							<th:block th:case="Packing"></th:block>
+							<th:block th:case="Shipping"> Transit - ETA </th:block>
+							<th:block th:case="Delivered"> Delivered </th:block>
+							<th:block th:case="Opened"> Opened </th:block>
+						</div>
+												
+						<span class="drug-history_transaction-date" 
+							th:text="${#temporals.format(shipment.dateRecvied, 'M/d/yyyy')}"></span>
+					</div>
+											
+					<div class="drug-history_transaction-detail">
+						<span class="drug-history_transaction-date" 
+							th:text="${#temporals.format(shipment.dateSent, 'M/d/yyyy')}"></span>
+					</div>
+							                
+					<a class="icon-button icon-button_box" 
+						data-tippy-content="Open Receipt"
+						th:onclick="openReciept([[${shipment.Id}]])">
+						<i class="fa fa-receipt"></i>
+					</a>
+				</div>
+				
+				<script type="text/javascript">
+					function openNewShipment() {
+						Sidebar.openOrLoad("Shipment", "/render/shipment/tab/new");
+					}
+				
+					function openReciept(shipment_id) {
+						Sidebar.setTabLoading("Shipment Receipt");
+						Sidebar.openTab("Shipment Receipt");
+						
+						Sidebar.loadAndReplace("/render/shipment/tab/receipt?id=" + shipment_id); 
+					}
+				</script>
+			</div>
+      	</div>
+   	</div>
+</body>
+</html>

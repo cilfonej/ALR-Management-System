@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+
+<body>
+	<aside th:fragment="sidebar(tab)" class="content-sidebar loading" th:attr="data-sidebar=${tab}">
+		<header th:replace="${header} ?: _" class="content-sidebar_header">
+			<div class="content-sidebar_menu-button icon-button icon-button_ghost" 
+				th:onclick="Sidebar.closeTab([[${tab}]])">
+				<i class="fa fa-bars"></i>
+			</div>
+			
+			<h2 id="sidebar-title" th:text="${title}"></h2>
+			<span id="sidebar-sub_title" th:text="${title_sub}"> </span>
+		</header>
+		
+		<div class="content-sidebar_content" th:replace="${content} ?: _">
+			<div class="content-sidebar_loading-overlay" th:replace="${loading} ?: _">
+				<i class="fa fa-sync-alt fa-spin content-sidebar_loading-icon"></i>
+				<span> Loading, please wait... </span>
+			</div>
+			
+			<!-- Instructs Sidebar.js to run a 'replaceContent' on load -->
+			<div th:attr="data-replace=${url}"></div>
+		</div>
+		
+		<div class="content-sidebar_scroll" onclick="Sidebar.onScrollClick(event)">
+			<i class="fa fa-angle-double-down"></i>
+			Scroll for more 
+			<i class="fa fa-angle-double-down"></i>
+		</div>
+	</aside>
+</html>

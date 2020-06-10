@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/index/foster_info_card.css" />
+</head>
+
+<body>
+	<div th:fragment="foster_info" class="card foster-info" th:if="${foster != null}">
+	    <div class="foster-info_contact-wrapper">
+			<div class="foster-info_image">
+	    		<i class="foster-info_image-default fa fa-user"></i>
+			</div>
+			
+		    <div class="foster-info_contact">
+				<div class="foster-info_name">
+					<span th:text="${foster.name}"> </span>
+				</div>
+				
+				<div class="foster-info_contact">
+					<span th:text="${foster.primaryContact}"> </span>
+				</div>
+			</div>
+		</div>
+
+		<div class="foster-info_address-info">
+			<div class="foster-info_address-wrapper">
+			    <span class="foster-info_address-label"> 
+			    	Home Address 
+			    </span>
+			    
+				<th:block th:replace="components/templates :: address(${foster.homeAddress})"></th:block>
+			</div>
+			
+			<div class="foster-info_address-wrapper" th:if="${foster.mailingAddress != null}">
+			    <span class="foster-info_address-label"> 
+			    	Mailing Address 
+			    </span>
+			    
+				<th:block th:replace="components/templates :: address(${foster.mailingAddress})"></th:block>
+			</div>
+		</div>
+   	</div>
+</body>
+</html>

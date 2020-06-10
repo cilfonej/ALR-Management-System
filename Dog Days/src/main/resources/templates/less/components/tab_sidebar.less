@@ -1,0 +1,63 @@
+@import "ContentSidebar.less";
+
+@tab-expand: 10px;
+
+.tab-sidebar {
+	display: flex;
+	flex-direction: column;
+
+	height: 100%;
+	
+	.tab-sidebar_tab {
+		position: relative;
+		left: 0;
+		
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		
+		padding: 10px;
+		padding-right: 7px;
+		
+		margin-bottom: 1px;
+		
+		font-size: 18px;
+		
+		color: @light_gray94;
+		background: @gray55;
+
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 11px;
+
+		box-sizing: border-box;
+		cursor: pointer;
+		
+		transition: padding-right, .1s ease-out;
+		
+		&.tab-sidebar_tab-removed {
+			left: 100%;
+		}
+		
+		&:hover {
+			left: -@tab-expand;
+		}
+		
+		&::after {
+			content: "";
+			
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			
+			right: -@tab-expand;
+			width: @tab-expand;
+			
+			background-color: @gray55;
+		}
+		
+		&.tab-help {
+			padding: 8px;
+			font-size: 20px;
+		}
+	}
+}

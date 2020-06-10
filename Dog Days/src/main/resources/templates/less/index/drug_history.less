@@ -1,0 +1,131 @@
+@import "../buttons.less";
+@import "../card.less";
+
+@import "../const/vars.less";
+@import "../const/fonts.less";
+@import "../const/colors.less";
+@import "../const/components.less";
+
+@veritcal-padding: 7px;
+
+@transation-timeline_width: 2px;
+@transation-icon_width: 2rem * @rem-to-px;
+
+@transation-icon_margin: 14px;
+
+.drug-history {
+	width: 330px;
+	
+    .drug-history_content {
+    	flex-grow: 1;
+    
+		display: flex;
+	    flex-direction: column;
+	    
+	    .drug-history_current {
+			display: flex;
+			align-items: center;
+			
+			color: @text_color;
+			font-size: .9rem;
+			
+			padding: @veritcal-padding @card-padding;
+			border-bottom: @border-divider;
+			
+			box-sizing: border-box;
+			
+			.drug-history_due-date {
+				flex-grow: 1;
+				
+			    font-family: @font-monospace;
+			    font-size: 1rem;
+			    
+			    margin: 0 8px;
+			}
+	    }
+	    
+	    .drug-history_transations {
+			position: relative;
+			flex-grow: 1;
+			
+			header {
+			    display: flex;
+			    justify-content: space-between;
+			    
+				padding: @card-padding/2 @card-padding;
+			    background: @light_gray94;
+			    
+			    span {
+				    color: @text_color;
+				    font-size: .75rem;
+				    font-weight: bold;
+				    
+				    flex-grow: 1;
+			    }
+			    
+			    :first-child {
+			    	width: @transation-icon_width + @transation-icon_margin * 2 - @card-padding;
+			    	flex-grow: 0;
+			    }
+			    
+			    :last-child {
+			    	flex-grow: 0;
+			    }
+			}
+			
+			.drug-history_timeline {
+				position: absolute;
+			    top: 0;
+			    bottom: 0;
+			    
+			    left: (@transation-icon_width - @transation-timeline_width) / 2 + @transation-icon_margin;
+			    
+			    border-left: @transation-timeline_width solid @gray75;
+			}
+			
+			.drug-history_transation {
+				display: flex;
+			    align-items: center;
+			    justify-content: space-between;
+			    
+			    padding: @veritcal-padding @card-padding;
+			    
+			    .drug-history_transation-icon {
+					display: flex;
+					
+					width: @transation-icon_width;
+					height: @transation-icon_width;
+					
+					border-radius: 50%;
+					
+					margin-right: @transation-icon_margin;
+					margin-left: @transation-icon_margin - @card-padding;
+					
+					color: white;
+					background: @theme-color;
+					
+					z-index: 1;
+					
+					i {
+						margin: auto;
+						font-size: .85rem;
+					}
+			    }
+			    
+			    .drug-history_transaction-detail {
+			    	flex-grow: 1;
+			    	
+			    	.drug-history_transaction-status-label {
+						font-size: .75rem;
+						color: #808080;
+			    	}
+			    	
+			    	.drug-history_transaction-date {
+						font-family: @font-monospace;
+						font-size: 1rem;
+			    	}
+			    }
+			}
+	    }
+    }
+}

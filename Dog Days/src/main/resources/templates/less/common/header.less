@@ -1,0 +1,162 @@
+@import "../buttons.less";
+
+@import "../const/vars.less";
+@import "../const/fonts.less";
+@import "../const/colors.less";
+@import "../const/components.less";
+
+@page-header_size: 50px;
+@page-header_padding: 10px;
+
+@user-image_size: 34px;
+
+@breadcrums_size: 22px;
+
+.page-header {
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+	height: @page-header_size;
+    flex-shrink: 0;
+    
+    background: white;
+    box-shadow: @border-shadow;
+    
+    .page-header_menu-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		
+		margin: @page-header_padding;
+    }
+    
+    .page-header_search-wrapper {
+		display: flex;
+		align-items: center;
+		
+		flex-grow: 1;
+		margin: @page-header_padding;
+		
+		.page-header_search {
+			background: @light_gray93;
+			
+			border-radius: @page-header_size / 2 - @page-header_padding;
+			padding: @page-header_padding / 2 @page-header_padding;
+			
+			i {
+				margin-right: .4rem;
+				
+				color: @gray50;
+				font-size: .8rem;
+			}
+			
+			input {
+				font-size: 1rem;
+				
+				background: none;
+				outline: none;
+				border: none;
+			}
+		}
+    }
+    
+    .page-header_user-wrapper {
+		display: flex;
+		align-items: center;
+		
+		color: @text_color;
+		cursor: pointer;
+		
+		border-radius: @user-image_size / 2;
+		margin: (@page-header_size - @user-image_size) / 2;
+
+		background-color: transparent;
+		transition: background-color .15s ease-out;
+
+		&:hover {
+			background-color: @light_gray92;
+		}
+
+		.page-header_user {
+			padding: @page-header_padding;
+			
+			i {
+				margin-right: @page-header_padding / 2;
+			}
+		}
+		
+		.page-header_user-image {
+			display: flex;
+			
+			width: @user-image_size;
+			height: @user-image_size;
+			
+			border-radius: 50%;
+			
+			background: #dde783;
+			box-sizing: border-box;
+			
+			.page-header_user-image-default {
+				margin: auto;
+				
+				color: white;
+				font-size: @user-image_size / 2;
+			}
+		}
+    }
+}
+
+.breadcrums {
+    display: flex;
+    justify-content: start;
+
+    width: 100%;
+	height: @breadcrums_size;
+    flex-shrink: 0;
+
+    color: @text_color;
+    background: @light_gray93;
+    border-bottom: 1px solid @gray85;
+    
+    ul {
+	    margin: auto 0;
+	    
+	    padding: 0;
+	    padding-left: 5px;
+	    
+		list-style: none;
+		
+		li {
+			display: inline;
+    		font-size: 14px;
+
+			i {
+			    font-size: 13px;
+			    margin-right: 5px;
+			}
+			
+			span {
+				color: @gray50;
+			}
+		}
+		
+		li+li::before {
+		    padding: 8px;
+		    color: #000;
+		    content: "/\00a0";
+		}
+    }
+}
+
+
+
+
+
+
+
+
+
+

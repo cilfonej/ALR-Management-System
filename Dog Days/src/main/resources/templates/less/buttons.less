@@ -1,0 +1,83 @@
+@import "const/colors.less";
+
+@button-shadow: 0 1px 2px 0px @gray65;
+
+.button {
+	border: none;
+	outline: none;
+	
+	padding: 5px 20px;
+	
+	border-radius: 3px;
+	border-right: 4px solid rgba(0, 0, 0, .2);
+	
+	color: white;
+	font-size: 1rem;
+	
+	cursor: pointer;
+	box-sizing: border-box;
+}
+
+.icon-button {
+    display: flex;
+	cursor: pointer;
+	
+	i, span {
+		margin: auto;
+		z-index: 1;
+	}
+	
+	&.icon-button_inline {
+		display: inline-flex;
+	}
+	
+	&.icon-button_ghost {
+		position: relative;
+		
+	    width: 1.5rem;
+	    height: 1.5rem;
+	    
+		border-radius: 50%;
+		
+		&::after {
+			content: "";
+
+			position: absolute;
+			top: -.25rem;
+			left: -.25rem;
+			
+			width: 2rem;
+			height: 2rem;
+	    
+			border-radius: 50%;
+			
+			background-color: transparent;
+			transition: background-color .15s ease-out;
+		}
+		
+		&:hover::after {
+			background-color: @light_gray92;
+		}
+	}
+	
+	&.icon-button_box {
+		width: 2rem;
+		height: 2rem;
+		
+		border-radius: 25%;
+		
+		box-shadow: @button-shadow;
+		border: 1px solid #f0f0f0;
+		
+		background-color: @light_gray97;
+		transition: background-color .15s ease-out;
+		
+		&:hover {
+			background-color: @light_gray92;
+		}
+		
+		&:active {
+			background-color: @gray85;
+		}
+	}
+}

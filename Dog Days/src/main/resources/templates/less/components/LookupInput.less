@@ -1,0 +1,101 @@
+@import "../input.less";
+
+.input-lookup {
+	position: relative;
+	
+	&.input-lookup_open {
+		.input-lookup_results {
+			display: block;
+		}
+	}
+	
+	.input-lookup_results {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		
+		min-width: 100%;
+		
+		font-size: .85rem;
+		background-color: @light_gray93;
+		
+		border: @border-divider;
+		border-top: none;
+		
+		border-bottom-left-radius: 3px;
+		border-bottom-right-radius: 3px;
+		
+		box-sizing: border-box;
+		z-index: 900;
+		
+		display: none;
+		
+		.input-lookup_message {
+			padding: @input-padding_vertical @input-padding;
+			font-size: .75rem;
+			
+			i {
+				margin-right: .5rem;
+			}
+		}
+		
+		.input-lookup_sub-header {
+			padding: @input-padding 0;
+			border-bottom: @border-divider;
+			
+			&:last-child {
+				border-bottom: none;
+			}
+			
+			h3 {
+				padding: 0 @input-padding;
+				
+				margin: 0;
+				margin-bottom: @input-padding_vertical;
+				
+				font-size: .75rem;
+				font-weight: bold;
+			}
+			
+			.input-lookup_option {
+				padding: @input-padding_vertical @input-padding;
+				
+				font-size: .85rem;
+				font-weight: normal;
+				
+				user-select: none;
+				cursor: pointer;
+				
+				&:hover {
+					background-color: @light_gray90;				
+				}
+				
+				&:active,
+				&.selected {
+					background-color: @gray85;
+				}
+				
+				i {
+			    	margin-right: @card-padding;
+					color: @dark_gray35;
+			    }
+			    
+			    .input-lookup_option-sub {
+					margin-left: 3px;
+    
+			    	color: @gray50;
+			    	font-size: .75rem;
+			    }
+			    
+			    &.input-lookup_option_address {
+			    	display: flex;
+			    	
+			    	.address {
+			    		font-size: .75rem
+			    	}
+			    }
+			}
+		}
+	}
+}

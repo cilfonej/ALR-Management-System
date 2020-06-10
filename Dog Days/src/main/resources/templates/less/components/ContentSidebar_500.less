@@ -1,0 +1,19 @@
+@media(max-width: 500px) {
+	.content-sidebar {
+		position: fixed;
+		top: 0;
+		
+		// push off screen + a bit for drop-shadow
+		right: -105vw;
+		left: 105vw;
+		
+		// fill screen
+		height: 100vh;
+		max-width: unset;
+		
+		&.content-sidebar_open {
+			left: 0;
+			right: 0;
+		}
+	}
+}

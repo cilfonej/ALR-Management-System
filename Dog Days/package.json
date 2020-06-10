@@ -1,0 +1,32 @@
+{
+  "name": "ALR-Management",
+  "version": "0.0.1-SNAPSHOT",
+  "description": "Demo of ReactJS + Spring Data REST",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Greg L. Turnquist",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/spring-guides/tut-react-and-spring-data-rest/issues"
+  },
+  "dependencies": {
+    "@tippyjs/react": "^4.0.2",
+    "classnames": "^2.2.6",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "scripts": {
+    "watch": "webpack --watch -d",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.1.0"
+  }
+}

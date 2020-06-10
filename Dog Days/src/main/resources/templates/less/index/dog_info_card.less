@@ -1,0 +1,122 @@
+@import "../card.less";
+
+@import "../const/vars.less";
+@import "../const/fonts.less";
+@import "../const/colors.less";
+@import "../const/components.less";
+
+// OVERRIDE
+@card-padding: 12px;
+
+@dog-image_size: 90px;
+
+@dog-id_font-size: .85rem;
+@dog-name_font-size: 1.15rem;
+@dog-info_font-size: .85rem;
+
+.dog-info {
+	padding: @card-padding;
+	width: 350px !important;
+	
+	.dog-info_main-wrapper {
+		position: relative;
+		
+		display: flex;
+		margin-bottom: @card-padding;
+		
+		flex-grow: 1;
+		
+		.dog-info_dog-image {
+			display: flex;
+			
+			width: @dog-image_size;
+			height: @dog-image_size;
+			
+			margin-right: @card-padding;
+
+			background: @theme-color_light;
+			border-radius: 15%;
+			
+			.dog-info_dog-image-default {
+				margin: auto;
+				
+				color: white;
+				font-size: @dog-image_size * 2/3;
+			}
+		}
+		
+		.dog-info_id {
+			position: absolute;
+			
+			top: 0;
+			right: 0;
+			
+			font-size: @dog-id_font-size;
+			color: @gray50;
+		}
+		
+		.dog-info_main {
+			display: flex;
+			flex-direction: column;
+			
+			flex-grow: 1;
+			
+			div {
+				margin: @card-padding / 4 0;
+			}
+			
+			.dog-info_name {
+				display: flex;
+				align-items: flex-end;
+				justify-content: space-between;
+				
+				max-width: 150px;
+				margin: .5rem 0;
+				
+				font-weight: bold;
+				font-size: @dog-name_font-size;
+			}
+			
+			.dog-info_age-wrapper {
+			    display: flex;
+			    flex-wrap: wrap;
+			    
+			    align-items: flex-end;
+			    justify-content: space-between;
+			    
+				font-size: @dog-info_font-size;
+				
+				.dog-info_age-year {
+					flex-grow: 1;
+				    margin-right: 1rem;
+				}
+				
+				.dog-info_age {
+					width: 3rem;
+					
+					span {
+						color: @gray50;
+						float: right;
+					}
+				}
+			}
+			
+			.dog-info_weight {
+			    display: flex;
+			    flex-wrap: wrap;
+			    
+			    flex-grow: 1;
+			    font-size: @dog-info_font-size;
+			    
+			    span {
+			    	margin-left: .5rem;
+			    	color: @gray50;
+			    	
+			    	&::after {
+					    content: "\202Flbs"
+					}
+				}
+			}
+		}
+	}
+}

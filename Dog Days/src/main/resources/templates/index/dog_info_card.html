@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/index/dog_info_card.css" />
+</head>
+
+<body>
+	<div th:fragment="dog_info" class="card dog-info">
+	    <div class="dog-info_main-wrapper">
+			<div class="dog-info_dog-image">
+	    		<i class="dog-info_dog-image-default fa fa-dog"></i>
+			</div>
+			
+		    <span class="dog-info_id" th:text="${'#' + dog.ID}"></span>
+		    
+		    <div class="dog-info_main">
+				<div class="dog-info_name">
+					<span th:text="${dog.name}"></span>
+				</div>
+				
+				<div class="dog-info_age-wrapper">
+		    		<div>
+						<span class="dog-info_age-year">
+							<th:block th:text="${#temporals.format(dog.birthday, 'MMMM d, yyyy')}">
+						</span>
+			    	</div>
+			    	<div class="dog-info_age">
+			    		Age:
+			    		<span th:text="${dog.age}"> </span>
+					</div>
+				</div>
+				
+				<div class="dog-info_weight">
+					Weight:    
+					<span th:text="${dog.weight}"> </span>
+				</div>
+			</div>
+		</div>
+		<!-- <div style="
+		    font-size: .85rem;
+		    display: flex;
+		    flex-wrap: wrap;
+		    align-self: start;
+		    max-width: 150px;
+		">
+		    <span style="
+		    width: 100%;
+		    font-size: .75rem;
+		    border-bottom: 1px solid #d9d9d9;
+		    margin-bottom: 3px;
+		"> Born </span>
+		<span style="
+		    flex-grow: 1;
+		    margin-right: 16px;
+		    padding-bottom: 3px;
+		    margin: 3px 0;
+		" class="edit">April 31, 2020
+		    <i class="fas fa-calendar-alt" style="
+		    float: right;
+		"></i>
+		</span>
+		    
+		<span style="
+		    width: 100%;
+		    padding-bottom: 3px;
+		" class="edit">Jacksonville, TN<i class="fas fa-pen" style="
+		    font-size: .75rem;
+		    margin-bottom: 5px;
+		    float: right;
+		"></i></span></div>-->
+   	</div>
+</body>
+</html>

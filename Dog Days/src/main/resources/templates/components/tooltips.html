@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/webjars/tippy.js/dist/tippy.css">
+
+    <script type="text/javascript" src="/webjars/popperjs__core/dist/umd/popper.min.js"></script>
+    <script type="text/javascript" src="/webjars/tippy.js/dist/tippy.umd.min.js"></script>
+    
+    <script type="text/javascript">
+    	tippy.setDefaultProps({
+    		delay: [100, null]
+    	});
+    	
+    	$(function() {
+    		// tracking object for Tippy-Singletons
+    		var tippyGroups = {};
+        	function setupSingleton(node) {
+        		var group = $(node).attr("data-tippy-group");
+        		if(!group) return;
+        		
+        		// if singleton doesn't exist
+        		if(!tippyGroups[group]) {
+        			var props = Object.assign({}, node._tippy.props);
+        			props.moveTransition = 'transform 0.2s ease-out';
+        			
+        			tippyGroups[group] = {};
+        			tippyGroups[group].elements = [node._tippy];
+        			tippyGroups[group].tippy = tippy.createSingleton(tippyGroups[group].elements, props);
+        		
+       			// if group already exists
+        		} else {
+        			// add self to group
+        			tippyGroups[group].elements.push(node._tippy);
+        			tippyGroups[group].tippy.setInstances(tippyGroups[group].elements);
+        		}
+        	}
+        	
+        	// setup Observer to detect when new nodes are added to the DOM and init Tippy
+    		var tippyObserver = new MutationObserver(function(changes) {
+    			for(var record of changes) {
+    				if(record.addedNodes) {
+    					for(var node of record.addedNodes) {
+    						if(node.nodeType != Node.ELEMENT_NODE) continue;
+    						
+    						// if new node has 'tippy-content' initalize tippy on it
+    						if(node.hasAttribute("data-tippy-content")) {
+    							tippy(node);
+    							
+    							// if node also has a group
+    							if(node.hasAttribute("data-tippy-group")) {
+    								setupSingleton(node);
+        						}
+    						}
+    					}
+    				}
+    			}
+    		});
+        	
+        	// bind Observer to the root of the DOM
+    		tippyObserver.observe($("body")[0], { childList: true, subtree: true });
+    		
+
+    		// find and initiate tippy
+    		tippy("[data-tippy-content]");
+    		// setup Tippy-Singletons for inital nodes
+    		$("[data-tippy-group]").each((index, ele) => setupSingleton(ele));
+    	});
+    </script>
+</head>
+
+<body>
+	
+</body>
+</html>

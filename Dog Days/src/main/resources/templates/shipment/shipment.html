@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/shipment/shipment.css" />
+	<script type="text/javascript" src="/js/shipment/shipment.js"></script>
+</head>
+
+<body>
+	<!-- 
+		Renders a shipment-tab for a new Shipment 
+	-->
+	<div th:fragment="shipment_tab" th:remove="tag">
+		<th:block th:replace="components/tab_sidebar :: tab(
+			title='Shipment', 
+			icon='fa fa-truck', 
+			template=~{:: sidebar_new})">
+		</th:block>
+	</div>
+
+	<!-- 
+		Renders sidebar for a blank Shipment 
+	-->
+	<aside th:fragment="sidebar_new" th:remove="tag">
+		<th:block th:replace="components/ContentSidebar :: sidebar(
+			tab='Shipment',
+			
+			title='Shipment',
+			url='/render/shipment/new')" />
+	</aside>
+	
+	<!-- 
+		Renders a receipt-tab for a specified Shipment 
+	-->
+	<div th:fragment="receipt_tab(shipment)" th:remove="tag">
+		<th:block th:replace="components/tab_sidebar :: tab(
+			title='Shipment Receipt', 
+			icon='fa fa-receipt', 
+			template=~{:: sidebar(${shipment})})">
+		</th:block>
+	</div>
+	
+	<!-- 
+		Renders sidebar for a specific Shipment 
+	-->
+	<aside th:fragment="sidebar(shipment)" th:remove="tag">
+		<th:block th:replace="components/ContentSidebar :: sidebar(
+			tab='Shipment Receipt',
+			
+			title='Shipment',
+			content=~{:: sidebarContent(${shipment})})">
+		</th:block>
+	</aside>
+
+	<!-- 
+		Renders sidebar-content for provided Shipment 
+	-->
+	<div th:fragment="sidebarContent(shipment)" 
+			th:with="u_id=${#UID.$()}, readonly=${shipment.status.name() != 'Packing'}" 
+			class="content-sidebar_content shipment" th:classappend="${readonly ? 'readonly' : ''}"
+			th:attr="data-uid=${u_id}">
+		
+		<div th:attr="data-sub_title=${shipment.Id > 0 ? '#' + shipment.Id : ''}"></div>
+		
+	    <div class="shipment-details_wrapper">
+			<div class="shipment-status">
+				<ul>
+					<li th:classappend="${shipment.status.ordinal() > 0 ? 'active' : ''}"> Package </li>
+					<li th:classappend="${shipment.status.ordinal() > 1 ? 'active' : ''}"> In Transit </li>
+					<li th:classappend="${shipment.status.ordinal() > 2 ? 'active' : ''}"> Delivered </li>
+					<li th:classappend="${shipment.status.ordinal() > 3 ? 'active' : ''}"> Opened </li>
+				</ul>
+			</div>
+			
+			<div class="shipment-info_section">
+		    	<div class="shipment-sub_header"> Shipping Info </div>
+				<div class="shipment-tracking"> 
+				
+					<th:block 
+						th:replace="components/jsx :: TrackingInput(
+							id='shipment-track-input', 
+							readonly=${readonly},
+							type=${shipment.courier},
+							value=${shipment.trackingNumber})">
+					</th:block>
+				
+					<span class="shipment-tracking_update"> 
+						Last updated on
+						<th:block th:text="${#temporals.format(shipment.lastUpdated, 'M/d/yyyy')}"> </th:block>
+						at
+						<th:block th:text="${#temporals.format(shipment.lastUpdated, 'h:mm a')}"> </th:block>
+						<i class="fa fa-sync-alt"></i>
+					</span>
+				
+					<div class="shipment-tracking_date_wrapper">
+						<div class="shipment-tracking_date">
+							<span class="input-label"> Date Sent</span>
+							<th:block th:text="${#temporals.format(shipment.dateSent, 'M / d / yyyy')}">
+						</div>
+						    
+						<div class="shipment-tracking_date_arrow">
+							<i class="fa fa-arrow-right"></i>    
+						</div>
+						    
+						<div class="shipment-tracking_date">
+							<th:block th:switch="${shipment.status.name()}">
+								<span th:case="Packing" class="input-label"></span>
+								<span th:case="Shipping" class="input-label"> Estimated Arrival</span>
+								<span th:case="Delivered" class="input-label"> Delivered On</span>
+								<span th:case="Opened" class="input-label"> Date Received</span>
+							</th:block>
+	
+							<th:block th:text="${#temporals.format(shipment.dateRecvied, 'M / d / yyyy')}">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="shipment-info_section">
+				<div class="shipment-sub_header"> Mail to Details</div>
+			    
+				<div class="shipment-to_wrapper">
+					<div class="shipment-to_details"> 
+						<th:block th:replace="components/jsx :: LookupInput(
+												id='ship-to', 
+												label='Send To', icon='fa fa-user', 
+												text=${shipment?.to?.person?.name}, value=${shipment?.to?.person?.ID},
+												readonly=${readonly})"></th:block>
+						
+						<th:block th:replace="components/jsx :: LookupInput(
+												id='ship-for', 
+												label='For Dog', icon='fa fa-dog', 
+												text=${shipment?.for?.name}, value=${shipment?.for?.ID},
+												readonly=${readonly})"></th:block>
+					</div>
+					
+					<div class="shipment-address">
+						<th:block th:replace="components/jsx :: LookupInput(
+												id='ship-address', type='address',
+												label='Mail to Address', icon='fa fa-address-card', 
+												text=${
+													T(edu.wit.cilfonej.web.FilterInput$AddressFilterType)
+														.formatSearchString(shipment?.to, true)
+												}, 
+												value=${shipment?.to?.ID},
+												readonly=${readonly})"></th:block>
+					</div>
+					
+					<script type="text/javascript" th:inline="javascript">
+						/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+							function requestPeople(event) {
+								var data = {};
+								if(event.value) data['dog_id'] = event.value;
+								$jsx('ship-to').requestData('api/shipping/list/to', data);
+							}
+							
+							function requestDogs(event) {
+								var data = {};
+								if(event.value) data['person_id'] = event.value;
+								$jsx('ship-for').requestData('api/shipping/list/for', data);
+								
+								if(event.value) {
+									$jsx('ship-address').requestData('api/shipping/list/addresses', data);
+								} else {
+									$jsx('ship-address').setUnqueryable('Please select a Person first');
+								}
+							}
+							
+							var person_id = /*[[${shipment?.to?.person?.ID}]]*/ null;
+							var dog_id = /*[[${shipment?.for?.ID}]]*/ null;
+	
+							requestDogs({ value: person_id });
+							$jsx('ship-for').addEventListener("to-person", UID.bind(requestPeople));
+							
+							requestPeople({ value: dog_id });
+							$jsx('ship-to').addEventListener("for-dog", UID.bind(requestDogs));
+						}); /*]]>*/
+					</script>
+				</div>
+			</div>
+			
+			<div class="shipment-items_section">
+				<div class="shipment-sub_header"> Shipment Items </div>
+				<div class="shipment-item_add" th:if="${!readonly}">
+					<th:block th:replace="components/jsx :: LookupInput(
+										id='ship-add', label='', icon='fa fa-pills')"></th:block>
+						
+					<div class="shipment-input_amount">
+						<input type="number" th:id="ship-add_count" min="1" value="1" />
+					</div>
+					
+					<div class="icon-button icon-button_box" 
+						data-tippy-content="Add Item"
+						th:onclick="Shipment.addItemRow(this)">
+						<i class="fa fa-plus"></i>
+					</div>
+					
+					<script type="text/javascript" th:inline="javascript">
+						/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+							function requestDrugList(event) {
+								var data = {};
+								if(event.value) data['dog_id'] = event.value;
+								$jsx('ship-add').requestData('api/shipping/list/drugs', data);
+							}
+							
+							var dog_id = /*[[${shipment?.for?.ID}]]*/ null;
+							
+							requestDrugList({ value: dog_id });
+							$jsx('ship-for').addEventListener("list-drugs", UID.bind(requestDrugList));
+						}); /*]]>*/
+					</script>
+				</div>
+				
+				<div class="shipment-items_wrapper">
+				
+					<div class="shipment-items_container" 
+						th:id="'shipment-items'"
+						th:attr="data-count=${#arrays.length(shipment.items)}">
+						<th:block th:each="item : ${shipment.items}">
+						
+							<div class="shipment-item" th:fragment="item_row" 
+								th:attr="data-id=${item.drug.ID}, data-count=${item.quantity}">
+								 
+								<span class="shipment-item_name"> 
+									<span class="icon-button icon-button_inline" 
+										th:if="${!readonly}"
+										th:onclick="Shipment.removeShipmentRow(this, event)">
+										
+										<i class="fa fa-times"></i>
+									</span> 
+									<th:block th:text="${item.drug.name}"></th:block>
+								</span>
+								
+								<span class="shipment-item_extra">
+									<th:block th:text="${#NumberFormat.format(item.drug.weightRange.min, '#.##')}">
+									</th:block>
+									-
+									<th:block th:text="${#NumberFormat.format(item.drug.weightRange.max, '#.##')}">
+									</th:block>&thinsp;lbs
+								</span>
+								
+								<span class="shipment-item_count" th:text="${item.quantity}"></span>
+							</div>
+							
+						</th:block>
+					</div>
+				    
+					<span class="shipment-items_more"> 
+						<span th:onclick="Shipment.toggleShipmetItemShow(this)">
+							<i class="fa fa-arrow-right"></i> 
+						</span>
+					</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="shipment-actions"> 
+			<button th:if="${!readonly}" 
+					class="button shipment-clear_button" 
+					th:onclick="Shipment.clearInputs(this)"> 
+				Clear 
+			</button> 
+			
+			<button th:if="${!readonly}" 
+					class="button shipment-submit_button" 
+					th:onclick="Shipment.submitShipment(this)"> 
+				Submit 
+			</button>
+		</div>
+   	</div>
+</body>
+</html>

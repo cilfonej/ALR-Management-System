@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<script src="/built/Components.js" type="text/javascript"></script>
+	
+	<script type="text/javascript">
+		window.jsx = {};
+		
+		window.jsx.disconnectJSX = function(uid) {
+			UID.exe(uid, function() {
+				for(var id in jsx[uid] || {}) {
+					ReactComponents.remove($$("#" + id)[0]);
+				}
+			});
+		}
+	</script>
+</head>
+
+<body>
+	<div th:fragment="Calendar(id)" th:id="${id}" class="card"> 
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			    UID.exe(/*[[${u_id}]]*/, function() {
+			    	var u_id = /*[[${u_id}]]*/ 'default';
+			    	var jsx = window.jsx[u_id] || (window.jsx[u_id] = {});
+			    	
+			    	var id = /*[[${id}]]*/;
+					
+					var onEvent = event => jsx[id].__listeners.forEach((name, func) => func(event));
+				    jsx[id] = ReactComponents.insertCalendar($$("#" + id)[0], onEvent);
+				    
+				    jsx[id].__listeners = new Map();
+				    jsx[id].addEventListener = (name, func) => jsx[id].__listeners.set(name, func);
+				    jsx[id].removeEventListener = (name) => jsx[id].__listeners.delete(name);
+			    });
+			/*]]>*/
+		</script>
+	</div>
+	
+	<div th:fragment="LookupInput(id, label, icon)" th:id="${id}"> 
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			    UID.exe(/*[[${u_id}]]*/, function() {
+			    	var u_id = /*[[${u_id}]]*/ 'default';
+			    	var jsx = window.jsx[u_id] || (window.jsx[u_id] = {});
+			    	
+			    	var id = /*[[${id}]]*/;
+
+				    var label = /*[[${label}]]*/;
+				    var icon = /*[[${icon}]]*/;
+				    var type = /*[[${type}]]*/;
+
+				    var value = /*[[${value}]]*/;
+				    var text = /*[[${text}]]*/;
+				    var data = { 
+				    		value: value, 
+				    		text: text || value 
+				    	};
+				    
+				    var readonly = /*[[${readonly}]]*/false;
+
+					var onEvent = event => jsx[id].__listeners.forEach((func, name) => func(event));
+				    jsx[id] = ReactComponents.insertLookupInput($$("#" + id)[0], 
+							readonly, data, label, icon, type, onEvent);
+
+				    jsx[id].__listeners = new Map();
+				    jsx[id].addEventListener = (name, func) => jsx[id].__listeners.set(name, func);
+				    jsx[id].removeEventListener = (name) => jsx[id].__listeners.delete(name);
+			    });
+			/*]]>*/
+		</script>
+	</div>
+	
+	<div th:fragment="TrackingInput(id, type)" th:id="${id}"> 
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+				UID.exe(/*[[${u_id}]]*/, function() {
+			    	var u_id = /*[[${u_id}]]*/ 'default';
+			    	var jsx = window.jsx[u_id] || (window.jsx[u_id] = {});
+			    	
+					var id = /*[[${id}]]*/;
+				    var type = /*[[${type}]]*/"Unknown";
+				    var value = /*[[${value}]]*/;
+				    var readonly = /*[[${readonly}]]*/false;
+
+					var onEvent = event => jsx[id].__listeners.forEach((name, func) => func(event));
+				    jsx[id] = ReactComponents.insertTrackingInput($$("#" + id)[0], readonly, type, value, onEvent);
+
+				    jsx[id].__listeners = new Map();
+				    jsx[id].addEventListener = (name, func) => jsx[id].__listeners.set(name, func);
+				    jsx[id].removeEventListener = (name) => jsx[id].__listeners.delete(name);
+				});
+			/*]]>*/
+		</script>
+	</div>
+</body>
+</html>
