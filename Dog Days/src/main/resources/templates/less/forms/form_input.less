@@ -1,0 +1,108 @@
+@import "../const/all.less";
+
+@input-padding: 5px;
+@input-padding_vertical: 3px;
+
+.form-input_label {
+	padding-top: .3rem;
+
+	color: @dark_gray35;
+	font-size: .9rem;
+}
+
+.form-input {
+	position: relative;
+
+	display: flex;
+    align-items: baseline;
+	
+	padding: @input-padding;
+	padding-bottom: @input-padding_vertical !important;
+	
+	margin-bottom: 10px;
+	border-bottom: 1px solid @dark_gray35;
+
+	box-sizing: border-box;
+		    
+    i {
+    	margin-right: @card-padding;
+		color: @dark_gray35;
+		
+		flex-shrink: 0;
+    }
+    
+    .form-input_counter {
+		align-self: flex-end;
+		
+		color: @text_color;
+		font-size: .75rem;
+		
+		opacity: 0;
+		transition: opacity .15s ease-out;
+		
+		&.lock-counter {
+			opacity: .75 !important;
+		}
+    }
+    
+    input:focus + .form-input_counter {
+		opacity: .75;
+		
+		&:hover {
+			opacity: 1 !important;
+		}
+    }
+    
+    input {
+		width: 1px;
+		flex-grow: 1;
+		flex-shrink: 1;
+		
+		background: none;
+		border: none;
+		outline: none;
+	    
+	    box-sizing: border-box;
+    }
+    
+    
+    //.input-status_icon {
+	//	display: none;	    	
+    //	margin: 0;
+    //	
+	//	font-size: .75rem;
+	//	opacity: .3;
+    //}
+	
+	&.input-error {
+		border-bottom: 1px solid @color-error_dark;
+	
+		&::after {
+			content: "Please select an option";
+			
+			position: absolute;
+			bottom: -1rem;
+			right: 0;
+			
+			color: @text_color-error;
+			font-size: .75rem;
+	    }
+	    
+	    &[data-error]::after {
+	    	content: attr(data-error);
+	    }
+	}
+	
+	&:not(.readonly) {
+		
+		//&.input-has_value {
+		//	.input-status_icon {
+		//		display: inline-block;
+		//	}
+		//}
+	}
+	
+	&.readonly {
+		
+	}
+}

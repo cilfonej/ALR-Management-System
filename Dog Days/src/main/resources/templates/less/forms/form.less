@@ -1,0 +1,20 @@
+@import "../card.less";
+
+@max-form_width: 600px;
+
+.form {
+	&:extend(.card all);
+	
+	width: 100%;
+    max-width: @max-form_width;
+    
+    margin: 0 auto;
+    
+    .form-content {
+    	padding: @card-padding;
+    	
+		display: grid;
+		grid-template-columns: 100px auto;
+		grid-row-gap: 10px;
+    }
+}

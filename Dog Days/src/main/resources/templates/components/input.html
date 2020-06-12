@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/input.css" />
+</head>
+
+<body>
+	<div th:fragment="form_input" 
+		th:with="u_id=${#UID.$()}"
+		th:remove="tag">
+		
+		<!-- 
+			label: string <optional>
+			icon: string <optional>
+			
+			formatter: js-function <optional>
+			validate: js-function <default = stdValidator>
+			allow_blank: boolean <default = true>
+			
+			type: string <default = text> [text, number, date, phone, email]
+			
+			pattern: RegEx | Decimal-Pattern <optional>
+			
+			min_length: int <default = 0>
+			max_length: int <optional>
+			
+			show_limit: boolean <default = true>
+			always_show_limit: boolean <default = false>
+			
+			value: string <optional>
+			placeholder: string <optional>
+			
+			
+		 -->
+		
+		<!-- input-error readonly -->
+		
+		<span class="form-input_label" th:text="${label}" th:if="${label != null}"> </span>
+			
+		<div class="form-input"  th:attr="data-uid=${u_id}" data-error="">
+			<i th:classappend="${icon}" th:if="${icon != null}"> </i>
+			
+			<input data-default="true" type="text" 
+					th:value="${value}" 
+					th:placeholder="${placeholder}"
+					th:replace="${content} ?: _">
+			
+			<span class="form-input_counter" 
+				th:classappend="${(always_show_limit ?: false) ? 'lock-counter' : ''}"
+				th:if="${
+					(show_limit == null ? true : show_limit) &&
+					(max_length == null ? false : max_length > 0)
+				}"> </span>
+		</div>
+
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				Input.setupInput($$("input[data-default]"), {
+					'min-length': /*[[${min_length}]]*/ '',
+					'max-length': /*[[${max_length}]]*/ '',
+					
+				});
+			}); /*]]>*/
+		</script>
+	</div>
+</body>
+</html>
+
+<!-- 
+	Form style inputs
+		- standard inputs (text, numbers, ect.)
+		- lookup-inputs
+		
+		- character counters
+			- display on mouse_over
+			
+		- validation methods
+		
+		- number inputs
+		- text inputs
+		- date inputs
+
+ -->
