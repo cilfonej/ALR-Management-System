@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/forms/form.css" />
+    <link rel="stylesheet" href="/css/forms/form_input.css" />
+    <link rel="stylesheet" href="/css/forms/transport/transport.css" />
+    
+	<script type="text/javascript" src="/js/forms/Input.js"></script>
+</head>
+
+<body>
+	<div th:fragment="form" class="form">
+		<header class="card-header">
+			<h2> Transport Dog </h2>
+		</header>
+		
+		<div class="form-content">
+			
+			<!-- TODO: type input for autofill dog names and people names -->
+			<div th:replace="components/input :: form_input(label='Choose Dog' , type ='' , icon='fas fa-dog')"></div>
+			<div th:replace="components/input :: form_input(label='Who\'s picking up this dog?' , type ='' , icon='fas fa-user-alt')"></div>
+			<div th:replace="components/input :: form_input(label='Date of transportation' , type='date' , icon='fas fa-calendar-alt')"></div>
+			
+			<span class="form-input_label">Address</span>
+			<div>
+				<div th:replace="components/input :: form_input(placeholder='Street' , type='' , icon='fas fa-home')"></div>
+				
+				<div class="city-state">
+					<div th:replace="components/input :: form_input(placeholder='City' , type='')"></div>
+					<div th:replace="components/input :: form_input(placeholder='State' , type='')"></div>
+				</div>
+				
+				<div class="zip-country">
+					<div th:replace="components/input :: form_input(placeholder='Zipcode' , type='')"></div>
+					<div th:replace="components/input :: form_input(placeholder='Country' , value='United States', type='')"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
