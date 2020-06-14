@@ -1,13 +1,92 @@
 @import "../const/all.less";
 
+@top-padding: .3rem;
+
 @input-padding: 5px;
 @input-padding_vertical: 3px;
 
+@checkbox-size: 1rem;
+
 .form-input_label {
-	padding-top: .3rem;
+	padding-top: @top-padding;
+	margin-bottom: 10px;
 
 	color: @dark_gray35;
 	font-size: .9rem;
+}
+
+.form-input_group {
+	position: relative;
+
+	&.input-error {
+		&:extend(.form-input.input-error all);
+	}
+}
+
+.form-input_checkbox {
+	position: relative;
+	display: block;
+	
+	padding-top: @top-padding;
+    padding-left: @checkbox-size + .5rem;
+    
+    margin-bottom: @card-padding;
+    
+    color: @text_color;
+
+	user-select: none;
+	cursor: pointer;
+	
+	input {
+		position: absolute;
+		height: 0;
+		width: 0;
+		
+		cursor: pointer;
+		opacity: 0;
+	}
+	
+	.form-input_checkbox-mark {
+		position: absolute;
+		top: @top-padding;
+		left: 0;
+		
+		height: @checkbox-size;
+		width: @checkbox-size;
+		
+		border-radius: 3px;
+		border: @border-divider;
+		box-sizing: border-box;
+		
+		background: @light_gray95;
+		
+		&::after {
+			content: "\f00c";
+			
+			position: absolute;
+			display: none;
+			
+			padding: 3px;
+			color: white;
+			
+			font-family: "Font Awesome 5 Free";
+			font-weight: 900;
+			font-size: .65rem;
+		}
+	}
+	
+	&:hover input ~ .form-input_checkbox-mark {
+		background: @light_gray90;
+	}
+	
+	input:checked ~ .form-input_checkbox-mark {
+		background: @theme-color;
+		border: none;
+	}
+	
+	input:checked ~ .form-input_checkbox-mark::after {
+		display: block;
+	}
 }
 
 .form-input {
@@ -66,13 +145,13 @@
     }
     
     
-    //.input-status_icon {
-	//	display: none;	    	
-    //	margin: 0;
-    //	
-	//	font-size: .75rem;
-	//	opacity: .3;
-    //}
+    .input-status_icon {
+		display: none;	    	
+    	margin: 0;
+    	
+		font-size: .75rem;
+		opacity: .3;
+    }
 	
 	&.input-error {
 		border-bottom: 1px solid @color-error_dark;
@@ -94,15 +173,113 @@
 	}
 	
 	&:not(.readonly) {
-		
-		//&.input-has_value {
-		//	.input-status_icon {
-		//		display: inline-block;
-		//	}
-		//}
+		&.input-has_value {
+			.input-status_icon {
+				display: inline-block;
+			}
+		}
 	}
 	
 	&.readonly {
 		
+	}
+	
+	&.input-lookup {
+		position: relative;
+		
+		&.input-lookup_open {
+			.form-input_results {
+				display: block;
+			}
+		}
+		
+		.form-input_results {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			
+			min-width: 100%;
+			
+			font-size: .85rem;
+			background-color: @light_gray98;
+			
+			border: @border-divider;
+			
+			border-bottom-left-radius: 3px;
+			border-bottom-right-radius: 3px;
+			
+			box-sizing: border-box;
+			z-index: 900;
+			
+			display: none;
+			
+			.form-input_lookup_message {
+				padding: @input-padding_vertical @input-padding;
+				font-size: .75rem;
+				
+				i {
+					margin-right: .5rem;
+				}
+			}
+			
+			.filter-input_grouping {
+				padding: @input-padding 0;
+				border-bottom: @border-divider;
+				
+				&:last-child {
+					border-bottom: none;
+				}
+				
+				h3 {
+					padding: 0 @input-padding;
+					
+					margin: 0;
+					margin-bottom: @input-padding_vertical;
+					
+					font-size: .75rem;
+					font-weight: bold;
+				}
+				
+				.input-lookup_option {
+					padding: @input-padding_vertical @input-padding;
+					
+					font-size: .85rem;
+					font-weight: normal;
+					
+					user-select: none;
+					cursor: pointer;
+					
+					&:hover {
+						background-color: @light_gray90;				
+					}
+					
+					&:active,
+					&.selected {
+						background-color: @gray85;
+					}
+					
+					i {
+				    	margin-right: @card-padding;
+						color: @dark_gray35;
+				    }
+				    
+				    .input-lookup_option-sub {
+						margin-left: 3px;
+	    
+				    	color: @gray50;
+				    	font-size: .75rem;
+				    }
+				    
+				    &.input-lookup_option_address {
+				    	display: flex;
+				    	
+				    	.address {
+				    		font-size: .75rem
+				    	}
+				    }
+				}
+			}
+		}
 	}
 }

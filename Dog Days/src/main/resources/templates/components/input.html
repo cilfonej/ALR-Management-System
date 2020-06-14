@@ -5,11 +5,13 @@
 </head>
 
 <body>
-	<div th:fragment="form_input" 
+	<div th:fragment="form_input(name)" 
 		th:with="u_id=${#UID.$()}"
 		th:remove="tag">
 		
 		<!-- 
+			name: string
+		
 			label: string <optional>
 			icon: string <optional>
 			
@@ -30,7 +32,7 @@
 			value: string <optional>
 			placeholder: string <optional>
 			
-			
+			readonly: boolean <default = false>
 		 -->
 		
 		<!-- input-error readonly -->
@@ -55,13 +57,113 @@
 
 		<script type="text/javascript" th:inline="javascript">
 			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
-				Input.setupInput($$("input[data-default]"), {
-					'min-length': /*[[${min_length}]]*/ '',
-					'max-length': /*[[${max_length}]]*/ '',
-					
-				});
+				Input.setupInput(
+					$$("input[data-default]").attr("data-default", null), 
+					new Input.Std(/*[[${name}]]*/, {
+						'min-length': /*[[${min_length}]]*/ '',
+						'max-length': /*[[${max_length}]]*/ '',
+						
+						'allow-blank': /*[[${allow_blank}]]*/ '',
+					})
+				);
 			}); /*]]>*/
 		</script>
+	</div>
+	
+	<div th:fragment="form_checkbox(text)"
+		 th:with="u_id=${#UID.$()}"
+		 th:attr="data-uid=${u_id}">
+		 
+		 <!-- 
+			text: string
+			value: string <optional>
+			
+			checked: boolean <default = false>
+			
+			readonly: boolean <default = false>
+		 -->
+		 
+		<label class="form-input_checkbox">
+			<th:block th:text="${text}"></th:block>
+			<input type="checkbox" th:checked="${checked}" th:value="${value} ?: ${text}">
+			<span class="form-input_checkbox-mark"> </span>
+		</label>
+		
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				Input.setupInput(
+					$$("input"), 
+					new Input.Checkbox(/*[[${text}]]*/)
+				);
+			}); /*]]>*/
+		</script>
+	</div>
+	
+	<div th:fragment="form_group(name)" th:with="u_id=${#UID.$()}" th:remove="tag">
+		 <!-- 
+			name: string
+			options: HTML
+			
+			allow_multiple: boolean <default = false>
+			require: boolean <default = true>
+		 -->
+		 
+		 <script id="group-setup" type="text/javascript" th:inline="javascript">
+		 	var script = $("#group-setup");
+		 	script.parent().attr("data-uid", /*[[${u_id}]]*/'').addClass("form-input_group");
+		 	script.remove();
+		 
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				Input.setupInput(
+					$$(""), 
+					new Input.Group(/*[[${name}]]*/, {
+						"allow-multiple": /*[[${allow_multiple}]]*/ '',
+						"require": /*[[${require}]]*/ '',
+					})
+				);
+			}); /*]]>*/
+		</script>
+	</div>
+	
+	<div th:fragment="form_lookup(name)"
+		 th:with="u_id=${#UID.$()}"
+		 th:remove="tag">
+		 
+		 <!-- 
+		 	name: string
+		 
+			label: string <optional>
+			icon: string <default = [based on type]>
+			
+			allow_blank: boolean <default = true>
+			
+			type: string [...]
+			type_tags: string-array
+			
+			placeholder: string <optional>
+			
+			readonly: boolean <default = false>
+		 -->
+		 
+		<span class="form-input_label" th:text="${label}" th:if="${label != null}"> </span>
+		 
+		 <div th:attr="data-uid=${u_id}">
+			<th:block th:replace="components/jsx :: LookupFormInput(
+									id=${name}, 
+									icon='fa fa-user', 
+									readonly=${readonly})"></th:block>
+						
+			<script type="text/javascript" th:inline="javascript">
+				/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+					$jsx(/*[[${name}]]*/).requestData('api/shipping/list/to', {});
+					
+					Input.setupInput(
+						$$("#" + /*[[${name}]]*/), 
+						new Input.Lookup(/*[[${name}]]*/, $jsx(/*[[${name}]]*/))
+					);
+				}); /*]]>*/
+			</script>
+		</div>
 	</div>
 </body>
 </html>

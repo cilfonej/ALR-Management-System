@@ -71,6 +71,39 @@
 		</script>
 	</div>
 	
+	<div th:fragment="LookupFormInput()" th:id="${id}"> 
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			    UID.exe(/*[[${u_id}]]*/, function() {
+			    	var u_id = /*[[${u_id}]]*/ 'default';
+			    	var jsx = window.jsx[u_id] || (window.jsx[u_id] = {});
+			    	
+			    	var id = /*[[${id}]]*/;
+
+				    var icon = /*[[${icon}]]*/;
+				    var type = /*[[${type}]]*/;
+
+				    var value = /*[[${value}]]*/;
+				    var text = /*[[${text}]]*/;
+				    var default_data = { 
+				    		value: value, 
+				    		filter: text 
+				    	};
+				    
+				    var readonly = /*[[${readonly}]]*/ false;
+
+					var onEvent = event => jsx[id].__listeners.forEach((func, name) => func(event));
+				    jsx[id] = ReactComponents.insertLookupFormInput($$("#" + id)[0], 
+							readonly, default_data, icon, type, onEvent);
+
+				    jsx[id].__listeners = new Map();
+				    jsx[id].addEventListener = (name, func) => jsx[id].__listeners.set(name, func);
+				    jsx[id].removeEventListener = (name) => jsx[id].__listeners.delete(name);
+			    });
+			/*]]>*/
+		</script>
+	</div>
+	
 	<div th:fragment="TrackingInput(id, type)" th:id="${id}"> 
 		<script th:inline="javascript">
 			/*<![CDATA[*/

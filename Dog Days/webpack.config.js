@@ -4,6 +4,7 @@ module.exports = {
     entry: {
 //		app: './src/main/js/app.js'
 		index: './src/main/js/pages/index.jsx',
+		Input: './src/main/js/inputs/Input.js',
 		Components: './src/main/js/components/Components.jsx'
 	},
 	
