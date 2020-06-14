@@ -18,7 +18,7 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:/edu/wit/cilfonej/database/database.properties")
+@PropertySource("classpath:/edu/wit/alr/database/database.properties")
 public class DatabaseConfig {
 
 	@Value("${database.user_access.username}")
@@ -34,7 +34,7 @@ public class DatabaseConfig {
     public LocalSessionFactoryBean databaseSessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "edu.wit.cilfonej.database.model" });
+        sessionFactory.setPackagesToScan(new String[] { "edu.wit.alr.database.model" });
         sessionFactory.setHibernateProperties(hibernateProperties());
  
         return sessionFactory;

@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Dog {
 
 	@Id
-	@GenericGenerator(name = "dog_id_gen", strategy = "edu.wit.cilfonej.database.util.IdGenerator")
+	@GenericGenerator(name = "dog_id_gen", strategy = "edu.wit.alr.database.util.IdGenerator")
 	@GeneratedValue(generator = "dog_id_gen")  
 	@Column(unique = true, nullable = false)
 	private int id;
