@@ -23,7 +23,7 @@ var UID = {
 	/** Run a provided function within a given UID context */
 	exe: function(uid, func) {
 		// if a DOM Element is provided
-		if(isElement(uid)) {
+		if(isElement(uid) || uid instanceof jQuery) {
 			// search for the closest UID, and use that
 			uid = $(uid).closest("*[data-uid]").attr("data-uid");
 		}

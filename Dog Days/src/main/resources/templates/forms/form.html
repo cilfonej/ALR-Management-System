@@ -4,18 +4,35 @@
     <link rel="stylesheet" href="/css/forms/form.css" />
     <link rel="stylesheet" href="/css/forms/form_input.css" />
     
-	<script type="text/javascript" src="/js/forms/Input.js"></script>
+	<script type="text/javascript" src="/built/Input.js"></script>
+	<script type="text/javascript" src="/js/forms/Form.js"></script>
+	<script type="text/javascript" src="/js/Request.js"></script>
 </head>
 
 <body>
-	<div th:fragment="form" class="form">
-		<header class="card-header">
-			<h2> Register Dog </h2>
+	<div th:fragment="form(url, body)" class="form"
+		 th:with="u_id=${#UID.$()}"
+		 th:attr="data-uid=${u_id}, data-form=${url}">
+		 
+		 <!-- 
+		 	url: string 				- server url to post data to
+		 	body: HTML					- form content body
+		 	
+		 	title: string	<optional>	- default form-header title 
+		 	header: HTML 	<optional>	- page fragment to replace default form-header
+		  -->
+		 
+		<header class="card-header" th:replace="${header} ?: _">
+			<h2 th:text="${title}"> </h2>
 		</header>
 		
 		<div class="form-content">
-			
+			<th:block th:replace="${body}"></th:block>
 		</div>
-	</div>
+		
+		<footer>
+			<button onclick="Form.submit($(this).closest('.form'))"> Submit </button>
+		</footer>
+	 </div>
 </body>
 </html>

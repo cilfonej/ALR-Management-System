@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>edu.wit.cilfonej</groupId>
+	<groupId>edu.wit.alr</groupId>
 	<artifactId>ALR-Management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
