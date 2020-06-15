@@ -1,8 +1,7 @@
 package edu.wit.alr.web.lookups;
 
-import edu.wit.alr.database.model.Distributor;
-import edu.wit.alr.database.model.Foster;
 import edu.wit.alr.database.model.Person;
+import edu.wit.alr.database.model.roles.Foster;
 
 public class UserLookupOption extends LookupOption {
 	protected String name;
@@ -19,13 +18,8 @@ public class UserLookupOption extends LookupOption {
 	
 	public static class FostertLookupOption extends UserLookupOption {
 		public FostertLookupOption(Foster foster) {
-			super("foster", foster.getBasePerson());
+			super("foster", foster.getPerson());
 		}
 	}
 	
-	public static class DistributorLookupOption extends UserLookupOption {
-		public DistributorLookupOption(Distributor distributor) {
-			super("distributor", distributor.getBasePerson());
-		}
-	}
 }

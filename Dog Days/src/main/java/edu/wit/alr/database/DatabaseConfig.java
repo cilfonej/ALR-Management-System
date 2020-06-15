@@ -34,7 +34,7 @@ public class DatabaseConfig {
     public LocalSessionFactoryBean databaseSessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "edu.wit.alr.database.model" });
+        sessionFactory.setPackagesToScan(new String[] { "edu.wit.alr.database.model", "edu.wit.alr.database.model.roles" });
         sessionFactory.setHibernateProperties(hibernateProperties());
  
         return sessionFactory;
