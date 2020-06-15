@@ -28,7 +28,7 @@ public abstract class Caretaker extends Role {
 	Caretaker() { }
 		
 	protected Caretaker(Person person) {
-		this.person = person;
+		super(person);
 	}
 	
 	public PhoneContact getPrimaryPhone() { return phone; }

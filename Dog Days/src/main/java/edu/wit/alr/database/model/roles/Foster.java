@@ -14,6 +14,6 @@ public class Foster extends Caretaker {
 	Foster() { }
 			
 	public Foster(Person person) {
-		this.person = person;
+		super(person);
 	}
 }

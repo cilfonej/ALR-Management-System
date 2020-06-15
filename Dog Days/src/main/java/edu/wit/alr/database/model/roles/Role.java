@@ -35,6 +35,7 @@ public abstract class Role {
 	
 	protected Role(Person person) {
 		this.person = person;
+		person.addRole(this);
 	}
 
 	public String getName() { return person.getName(); }

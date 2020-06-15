@@ -26,7 +26,7 @@ public class Admin extends Role {
 	Admin() { }
 		
 	protected Admin(Person person) {
-		this.person = person;
+		super(person);
 	}
 	
 	public PhoneContact getPrimaryPhone() { return phone; }

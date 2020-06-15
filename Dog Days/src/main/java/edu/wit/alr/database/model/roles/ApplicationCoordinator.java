@@ -14,6 +14,6 @@ public class ApplicationCoordinator extends Admin {
 	ApplicationCoordinator() { }
 			
 	public ApplicationCoordinator(Person person) {
-		this.person = person;
+		super(person);
 	}
 }

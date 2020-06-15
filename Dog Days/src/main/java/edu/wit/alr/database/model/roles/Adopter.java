@@ -14,6 +14,6 @@ public class Adopter extends Caretaker {
 	Adopter() { }
 			
 	public Adopter(Person person) {
-		this.person = person;
+		super(person);
 	}
 }
