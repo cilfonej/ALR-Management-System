@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <link rel="stylesheet" href="/css/forms/confirmation/confirmation.css" />
+	</head>
+
+	<body>
+		<div th:fragment="form" th:replace="forms/form :: form(url='/test', title='Confirmation', body=~{:: #form})">
+			<div id="form" th:remove="tag">
+				
+				<!-- TODO: Put dog and person card here -->
+				<div th:replace="components/input :: form_input(label='Dog and Person card here' , type='' , name='dog-guy' , value='FILLER')"></div>
+				
+				<!-- TODO: Fix font size to match -->
+				<span class="confirm"> Confirmation: Is this info correct? </span>
+					<div class="yesNo">
+						<div th:replace="components/input :: form_group(name='group')"></div>
+						<div th:replace="components/input :: form_checkbox(text='Yes')"> </div>
+	                	<div th:replace="components/input :: form_checkbox(text='No')"> </div>
+	                </div>
+				<div th:replace="components/input :: form_input(label='Weight' , type='date' , icon='fas fa-weight' , name='weightInfo')"></div>
+				<!-- TODO: When multiple lines of /words/ input line starts at the bottom -->
+				<div th:replace="components/input :: form_input(label='Last Medication Date' , type='date' , icon='fas fa-calendar-alt' , name='medDate')"></div>
+				
+			</div>
+		</div>
+	</body>
+
+</html>
