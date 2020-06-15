@@ -5,7 +5,7 @@
 </head>
 
 <body>
-	<div th:fragment="form" th:replace="forms/form :: form(url='/test', title='Transport Dog', body=~{:: #form})">
+	<div th:fragment="form" th:replace="forms/form :: form(url='/forms/transport', title='Transport Dog', body=~{:: #form})">
         <div id="form" th:remove="tag">
 			
 			<!-- TODO: type input for autofill dog names and people names -->
