@@ -12,6 +12,8 @@ var Request = (function() {
 			config = {};
 		}
 		
+		config = config || {};
+		
 		var request = {
 			"url": url,
 			"method": "POST",

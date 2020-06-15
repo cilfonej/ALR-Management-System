@@ -29,7 +29,7 @@ var Form = (function() {
 				form_data[input.getField()] = input.getValue();
 			}
 			
-			Request.send(url, data);
+			Request.send(url, form_data);
 			
 		} else {
 			// TODO: ???

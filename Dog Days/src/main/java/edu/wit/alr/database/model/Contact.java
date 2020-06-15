@@ -1,16 +1,7 @@
 package edu.wit.alr.database.model;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Embeddable;
 import javax.validation.constraints.Email;
 
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -20,34 +11,12 @@ import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 import edu.wit.alr.Config;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "contact_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Contact {
-	
-	@Id
-	@GeneratedValue
-	@Column(unique = true, nullable = false)
-	private int id;
-	
-	@ManyToOne
-	@JoinColumn
-	private Person contact_for;
-	
-	// no-agrs constructor
-	Contact() { }
-	
-	public Person getPerson() { return contact_for; }
-	
-	void setPerson(Person person) {
-		this.contact_for = person;
-	}
 
 //	======================================== ============= ======================================== \\
 //	======================================== Phone Contact ======================================== \\
 
-	@Entity
-	@DiscriminatorValue("phone")
+	@Embeddable
 	public static class PhoneContact extends Contact {
 		private static final PhoneNumberUtil PHONE_UTIL = PhoneNumberUtil.getInstance();
 		
@@ -92,8 +61,7 @@ public abstract class Contact {
 //	======================================== ============= ======================================== \\
 //	======================================== Email Contact ======================================== \\
 	
-	@Entity
-	@DiscriminatorValue("email")
+	@Embeddable
 	public static class EmailContact extends Contact {
 		
 		@Email
