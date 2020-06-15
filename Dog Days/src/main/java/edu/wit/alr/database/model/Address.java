@@ -28,6 +28,9 @@ public class Address {
 	
 	@Column(length = 16)
 	private String postal_code;
+
+	@Column(length = 128)
+	private String country;
 	
 	@ManyToOne
 	@JoinColumn
@@ -37,14 +40,15 @@ public class Address {
 	public Address() { }
 	
 	public Address(String street, String city, String state) {
-		this(street, city, state, null);
+		this(street, city, state, null, "United States");
 	}
 	
-	public Address(String street, String city, String state, String postalCode) {
+	public Address(String street, String city, String state, String postalCode, String country) {
 		this.street_address = street;
 		this.city = city;
 		this.state = state;
 		this.postal_code = postalCode;
+		this.country = country;
 	}
 	
 	public int getID() { return id; }
@@ -55,6 +59,7 @@ public class Address {
 	public String getState() { return state; }
 
 	public String getPostalCode() { return postal_code; }
+	public String getCountry() { return country; }
 
 	public void setStreet_address(String street_address) {
 		this.street_address = street_address;
@@ -70,6 +75,10 @@ public class Address {
 
 	public void setPostalCode(String postal_code) {
 		this.postal_code = postal_code;
+	}
+	
+	public void setCountry(String country) {
+		this.country = country;
 	}
 	
 	void setPerson(Person address_for) {

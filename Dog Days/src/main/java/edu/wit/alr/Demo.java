@@ -14,22 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.javafaker.Faker;
 
 import edu.wit.alr.database.model.Address;
-import edu.wit.alr.database.model.Contact;
-import edu.wit.alr.database.model.Distributor;
-import edu.wit.alr.database.model.Dog;
-import edu.wit.alr.database.model.Drug;
-import edu.wit.alr.database.model.Foster;
-import edu.wit.alr.database.model.Person;
 import edu.wit.alr.database.model.Contact.EmailContact;
 import edu.wit.alr.database.model.Contact.PhoneContact;
+import edu.wit.alr.database.model.Dog;
+import edu.wit.alr.database.model.Drug;
 import edu.wit.alr.database.model.Drug.DrugType;
+import edu.wit.alr.database.model.Person;
+import edu.wit.alr.database.model.roles.Foster;
 import edu.wit.alr.database.repository.AddressRepository;
-import edu.wit.alr.database.repository.DistributorRepository;
 import edu.wit.alr.database.repository.DogRepository;
 import edu.wit.alr.database.repository.DrugRepository;
-import edu.wit.alr.database.repository.FosterRepository;
 import edu.wit.alr.database.repository.PersonRepository;
-import edu.wit.alr.database.repository.ShipmentRepository;
 
 @Component
 public class Demo {
@@ -38,12 +33,6 @@ public class Demo {
 	private DogRepository dogRepository;
 	@Autowired
 	private PersonRepository personRepository;
-	@Autowired
-	private FosterRepository fosterRepository;
-	@Autowired
-	private DistributorRepository distributorRepository;
-	@Autowired
-	private ShipmentRepository shipmentRepository;
 	@Autowired
 	private DrugRepository drugRepository;
 	@Autowired
@@ -108,29 +97,17 @@ public class Demo {
 		generateStaticData();
 		
 		ArrayList<Person> people = new ArrayList<>();
-		ArrayList<Foster> fosters = new ArrayList<>();
-		ArrayList<Distributor> distributors = new ArrayList<>();
 		
-		for(int i = 0, limit = rand.nextInt(6) + 2; i < limit; i ++) {
+		for(int i = 1000, limit = rand.nextInt(6) + 2; i < limit; i ++) {
 			Faker faker = data();
 			Person person = generatePerson(faker);
 			people.add(person);
 			
-			if(rand.nextDouble() > .9) 
-				distributors.add(generateDistributor(faker, person));
+//			if(rand.nextDouble() > .9) 
+//				distributors.add(generateDistributor(faker, person));
 			
 			if(rand.nextDouble() > .1)
-				fosters.add(generateFoster(faker, person));
-				
-			person.setPrimaryContact(generateContact(faker));
-			
-			for(int j = 0, count = (int) Math.round(Math.abs(rand.nextGaussian())); j < count; j ++) {
-				person.addContact(generateContact(data()));
-			}
-			
-			for(int j = 0, count = (int) Math.round(Math.abs(rand.nextGaussian()) / 2); j < count; j ++) {
-				person.addAddress(generateAddress(data()));
-			}
+				generateFoster(faker, person);
 		}
 		
 		ArrayList<Dog> dogs = new ArrayList<>();
@@ -139,14 +116,11 @@ public class Demo {
 			Dog dog = generateDog(faker);
 			dogs.add(dog);
 			
-			if(faker.bool().bool())
-				dog.setCustodian(fosters.get(rand.nextInt(fosters.size())).getBasePerson());
+//			if(faker.bool().bool())
+//				dog.setCustodian(fosters.get(rand.nextInt(fosters.size())).getBasePerson());
 		}
 		
 		personRepository.saveAll(people);
-		fosterRepository.saveAll(fosters);
-		distributorRepository.saveAll(distributors);
-		
 		dogRepository.saveAll(dogs);
 	}
 	
@@ -155,19 +129,25 @@ public class Demo {
 	}
 	
 	private void clearAll() {
-		shipmentRepository.deleteAll();
 		drugRepository.deleteAll();
 		dogRepository.deleteAll();
 		personRepository.deleteAll();
-		fosterRepository.deleteAll();
-		distributorRepository.deleteAll();
 		addressRepository.deleteAll();
 	}
 	
 	private void generateStaticData() {
-		Distributor ann = new Distributor("Ann", "Cilfone", new Address("123 Street Rd.", "Boston", "NY", "90210"));
-		ann.setPrimaryContact(new PhoneContact("1 (800) 867-5309"));
-		distributorRepository.save(ann);
+//		Distributor ann = new Distributor("Ann", "Cilfone", new Address("123 Street Rd.", "Boston", "NY", "90210"));
+//		ann.setPrimaryContact(new PhoneContact("1 (800) 867-5309"));
+//		distributorRepository.save(ann);
+		
+		Person person = new Person("Ann", "Cilfone");
+		Foster foster = new Foster(person);
+		Faker faker = new Faker();
+//		foster.setPrimaryPhone(generatePhoneContact(faker));
+		foster.setEmail(generateEmailContact(faker));
+		foster.setHomeAddress(generateAddress(faker));
+		person.addRole(foster);
+		personRepository.save(person);
 		
 		Drug ft_tiny = new Drug("K9 Advantix II", DrugType.Flea_Tic, 4, 10);
 		Drug ft_small = new Drug("K9 Advantix II", DrugType.Flea_Tic, 11, 20);
@@ -182,23 +162,25 @@ public class Demo {
 		drugRepository.saveAll(List.of(ft_tiny, ft_small, ft_medium, ft_large, heart_tiny, heart_small, heart_medium, heart_large));
 	}
 	
-	private Distributor generateDistributor(Faker faker, Person person) {
-		return new Distributor(person, generateAddress(faker));
-	}
-	
-	private Foster generateFoster(Faker faker, Person person) {
-		Foster foster = new Foster(person, generateAddress(faker));
+	private void generateFoster(Faker faker, Person person) {
+		Foster foster = new Foster(person);
+		
+		foster.setPrimaryPhone(generatePhoneContact(faker));
+		foster.setEmail(generateEmailContact(faker));
+		foster.setHomeAddress(generateAddress(faker));
 		
 		Faker f2 = data();
 		if(f2.bool().bool()) foster.setMailingAddress(generateAddress(f2));
 		
-		return foster;
+		person.addRole(foster);
 	}
 	
 	private Dog generateDog(Faker faker) {
 		Dog dog = new Dog(faker.cat().name());
 		dog.setWeight(faker.number().randomDouble(2, 2, 120));
-		dog.setBirthday(LocalDate.from(faker.date().birthday(0, 15).toInstant().atZone(ZoneId.systemDefault())));
+		
+		LocalDate date = LocalDate.from(faker.date().birthday(0, 15).toInstant().atZone(ZoneId.systemDefault()));
+		dog.setBirthday(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
 		return dog;
 	}
 	
@@ -206,9 +188,9 @@ public class Demo {
 		return new Person(faker.name().firstName(), faker.name().lastName());
 	}
 	
-	private Contact generateContact(Faker faker) {
-		return faker.bool().bool() ? generatePhoneContact(faker) : generateEmailContact(faker);
-	}
+//	private Contact generateContact(Faker faker) {
+//		return faker.bool().bool() ? generatePhoneContact(faker) : generateEmailContact(faker);
+//	}
 	
 	private PhoneContact generatePhoneContact(Faker faker) {
 		return new PhoneContact(faker.phoneNumber().phoneNumber());
@@ -223,6 +205,7 @@ public class Demo {
 				faker.address().streetAddress(), 
 				faker.address().city(), 
 				faker.address().stateAbbr(), 
-				faker.address().zipCode());
+				faker.address().zipCode(),
+				"United States");
 	}
 }
