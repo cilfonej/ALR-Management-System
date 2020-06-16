@@ -110,13 +110,36 @@
 		 
 		 <script id="group-setup" type="text/javascript" th:inline="javascript">
 		 	var script = $("#group-setup");
+		 	script.parent().attr("data-uid", /*[[${u_id}]]*/'');
+		 	script.remove();
+		 
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				Input.setupInput(
+					$$(""), 
+					new Input.Group(/*[[${name}]]*/)
+				);
+			}); /*]]>*/
+		</script>
+	</div>
+	
+	<div th:fragment="form_buttonGroup(name)" th:with="u_id=${#UID.$()}" th:remove="tag">
+		 <!-- 
+			name: string
+			options: HTML
+			
+			allow_multiple: boolean <default = false>
+			require: boolean <default = true>
+		 -->
+		 
+		 <script id="group-setup" type="text/javascript" th:inline="javascript">
+		 	var script = $("#group-setup");
 		 	script.parent().attr("data-uid", /*[[${u_id}]]*/'').addClass("form-input_group");
 		 	script.remove();
 		 
 			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
 				Input.setupInput(
 					$$(""), 
-					new Input.Group(/*[[${name}]]*/, {
+					new Input.ButtonGroup(/*[[${name}]]*/, {
 						"allow-multiple": /*[[${allow_multiple}]]*/ '',
 						"require": /*[[${require}]]*/ '',
 					})
@@ -155,7 +178,7 @@
 						
 			<script type="text/javascript" th:inline="javascript">
 				/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
-					$jsx(/*[[${name}]]*/).requestData('api/shipping/list/to', {});
+					$jsx(/*[[${name}]]*/).requestData('/list/people', {});
 					
 					Input.setupInput(
 						$$("#" + /*[[${name}]]*/), 

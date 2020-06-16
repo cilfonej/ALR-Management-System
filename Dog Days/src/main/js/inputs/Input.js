@@ -1,5 +1,6 @@
 import StarndardInput from "./StandardInput";
 import LookupInput from "./LookupInput";
+import GroupInput from "./GroupInput";
 import ButtonGroupInput, {CheckboxInput} from "./ButtonGroupInput";
 
 window.Input = (function() {
@@ -20,7 +21,8 @@ window.Input = (function() {
 		"Std": StarndardInput,
 		"Lookup": LookupInput,
 		"Checkbox": CheckboxInput,
-		
-		"Group": ButtonGroupInput,
+
+		"Group": GroupInput,
+		"ButtonGroup": ButtonGroupInput,
 	};
 })();
