@@ -10,7 +10,9 @@ export default class LookupInput extends Input {
 	}
 	
 	getValue() {
-		return this.jsx.getValue();
+		return {
+			"option": this.jsx.getValue()
+		};
 	}
 
 	validate() {

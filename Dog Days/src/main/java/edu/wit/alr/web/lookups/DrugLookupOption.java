@@ -12,6 +12,9 @@ public class DrugLookupOption extends LookupOption {
 	protected String min;
 	protected String max;
 	
+	// no-args constructor
+	DrugLookupOption() { }
+	
 	public DrugLookupOption(Drug drug) {
 		super("drug", 
 				drug.getType().getDisplayName() + " " + 

@@ -7,6 +7,9 @@ public class DogLookupOption extends LookupOption {
 	protected String name;
 	protected int number;
 	
+	// no-args constructor
+	DogLookupOption() { }
+	
 	public DogLookupOption(Dog dog) {
 		super("dog", 
 				dog.getName() + "#" + dog.getID(), 
@@ -16,4 +19,6 @@ public class DogLookupOption extends LookupOption {
 		this.name = dog.getName();
 		this.number = dog.getID();
 	}
+	
+	public int getID() { return number; }
 }

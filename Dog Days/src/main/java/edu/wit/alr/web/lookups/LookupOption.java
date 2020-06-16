@@ -17,6 +17,9 @@ public class LookupOption {
 	/** Unique identifier for each option in a set */ 
 	protected String key;
 
+	// no-args constructor
+	LookupOption() { }
+	
 	LookupOption(String type, String filter, String text, Object key) {
 		this.type = type;
 		this.filter = filter;

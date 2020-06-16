@@ -57,7 +57,7 @@ class LookupOption_User extends React.Component {
 		return (
 			<div className="input-lookup_option" onClick={this.props.onClick}> 
 				<i className={this.props.icon}></i> 
-				{hightlightMatch(this.props.value, this.props.search)}
+				{hightlightMatch(this.props.name, this.props.search)}
 			</div>
 		);
 	}
@@ -102,11 +102,14 @@ export default class LookupOption extends React.Component {
 	
 		switch(this.props.data.type) {
 			case 'user': var icon = icon || 'fa alr-user';
-			case 'foster': var icon = icon || 'fa alr-user-foster';
-			case 'distributor': var icon = icon || 'fa alr-user-distributor';
+			case 'foster':
+			case 'adopter':
+			case 'caretaker': var icon = icon || 'fa alr-user-foster';
+			case 'admin': var icon = icon || 'fa alr-user-distributor';
+			case 'coordinator': var icon = icon || 'fa alr-user-distributor';
 				return <LookupOption_User 
 							icon={icon} 
-							value={this.props.data.name} search={this.props.filter} 
+							name={this.props.data.name} search={this.props.filter} 
 							onClick={onClick} />;
 				
 			case 'dog': 
@@ -130,7 +133,7 @@ export default class LookupOption extends React.Component {
 				
 			default:
 				return <div className="input-lookup_option" onClick={onClick}> 
-					{hightlightMatch(this.props.data.text, this.props.search)} 
+					{hightlightMatch(this.props.data.text, this.props.filter)} 
 				</div>;
 		}
 	}
