@@ -4,10 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import edu.wit.alr.database.DatabaseCleaner;
 
 @Entity
 public class Address {
@@ -32,10 +28,6 @@ public class Address {
 	@Column(length = 128)
 	private String country;
 	
-	@ManyToOne
-	@JoinColumn
-	private Person address_for;
-	
 	// no-args constructor
 	public Address() { }
 	
@@ -52,7 +44,6 @@ public class Address {
 	}
 	
 	public int getID() { return id; }
-	public Person getPerson() { return address_for; }
 
 	public String getStreetAddress() { return street_address; }
 	public String getCity() { return city; }
@@ -79,24 +70,5 @@ public class Address {
 	
 	public void setCountry(String country) {
 		this.country = country;
-	}
-	
-	void setPerson(Person address_for) {
-		if(this.address_for != null) {
-			if(address_for == null) {
-				// TODO: validate if address is "in-use"
-				//			if so, throw new IllegalStateException("Address is in use on User");
-			}
-			
-			else if(!this.address_for.equals(address_for)) {
-				throw new IllegalStateException("Address is already for someone else");
-			}
-		}
-		
-		this.address_for = address_for;
-		
-		if(address_for == null) {
-			DatabaseCleaner.removeIfOrphan(this);
-		}
 	}
 }
