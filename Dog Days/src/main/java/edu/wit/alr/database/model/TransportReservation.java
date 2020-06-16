@@ -2,6 +2,7 @@ package edu.wit.alr.database.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class TransportReservation {
 	@Column
 	private LocalDate transportDate;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn
 	private Address pickupAddress;
 	

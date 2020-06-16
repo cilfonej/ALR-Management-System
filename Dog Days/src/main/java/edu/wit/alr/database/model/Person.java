@@ -26,7 +26,7 @@ public class Person {
 	@Column(length = 25, nullable = false)
 	private String lastname;
 	
-	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, mappedBy = "person")
+	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, mappedBy = "person", orphanRemoval = true)
 	private Set<Role> roles;
 	
 	// no-args constructor
