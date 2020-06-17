@@ -1,8 +1,18 @@
 import Input from "./InputBase";
 
+import DateType from "./extensions/DateInput";
+import NumberType from "./extensions/NumberInput";
+
+var types = {
+	"date": DateType,
+	"number": NumberType,
+	"decimal": NumberType,
+};
+
 var DEFAULT_PARAMS = {
-	"min-length": 0,
+	"type": 'text',
 	
+	"min-length": 0,
 	"allow-blank": true
 };
 
@@ -26,6 +36,13 @@ export default class StandardInput extends Input {
 		
 		// locate counter element (if it exists)
 		this.counter = $ele.siblings(".form-input_counter");
+		var input = this;
+		
+		// perform special setup based on input-type
+		UID.exe(input.ele, () => {
+			var type = types[this.params['type']]
+			type && type.setupInput && type.setupInput(this);
+		});
 		
 		// bind input event-listeners
 		$ele.on("input", e => this.onInput(this.ele))
@@ -36,6 +53,11 @@ export default class StandardInput extends Input {
 	}
 	
 	getValue() { 
+		// perform special value-generation based on input-type
+		var type = types[this.params['type']]
+		if(type && type.validate) return type.getValue(this);
+		
+		// default-value
 		return $(this.ele).val(); 
 	}
 
@@ -64,6 +86,10 @@ export default class StandardInput extends Input {
 				$ele.val(val.substring(0, max));
 			}
 		}
+
+		// perform special input-filtering based on input-type
+		var type = types[this.params['type']]
+		type && type.validate && type.onInput(this);
 		
 		// --- ALL VISUAL UPDATE AFTER HERE ---
 		
@@ -82,13 +108,29 @@ export default class StandardInput extends Input {
 		
 		var value = $ele.val() || '';
 		
-		if(!param["allow-blank"] && /^\s*$/.test(value)) {
+		var isBlank = /^\s*$/.test(value);
+		var allowBlank = param["allow-blank"];
+		
+		// short-cut validity, if blank and allowing blank, done
+		if(isBlank && allowBlank) {
+			// clear error message
+			this.setError(null);
+			return true;
+		}
+		
+		if(!allowBlank && isBlank) {
 			this.setError('Please complete this field');
 			return false;
 		}
 		
 		if(value.length < param["min-length"]) {
 			this.setError('Please enter at-least ' + param["min-length"] + ' characters');
+			return false;
+		}
+		
+		// perform special validation based on input-type
+		var type = types[this.params['type']]
+		if(type && type.validate && !type.validate(this)) {
 			return false;
 		}
 		

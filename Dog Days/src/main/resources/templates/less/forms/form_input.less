@@ -89,11 +89,56 @@
 	}
 }
 
+.form-textarea {
+	position: relative;
+	display: flex;
+	
+	textarea {
+		width: 1px;
+		height: 8rem;
+		
+		flex-grow: 1;
+		
+		padding: 5px;
+		margin: 0px;
+		
+		border: 1px solid @dark_gray35;
+		border-radius: 3px;
+		
+		outline: none;
+		resize: vertical;
+	}
+	
+	.form-input_counter {
+		&:extend(.form-input .form-input_counter all);
+		
+		position: absolute;
+		bottom: -1rem;
+	}
+	
+	textarea:focus + .form-input_counter {
+		opacity: .75;
+		
+		&:hover {
+			opacity: 1 !important;
+		}
+    }
+	
+	&.input-error {
+		&:extend(.form-input.input-error all);
+		border-bottom: none !important;
+		
+		textarea {
+			border: 1px solid @color-error_dark;
+		}
+	}
+}
+
 .form-input {
 	position: relative;
 
 	display: flex;
-    align-items: baseline;
+    align-items: flex-end;
 	
 	padding: @input-padding;
 	padding-bottom: @input-padding_vertical !important;
@@ -108,6 +153,7 @@
 		color: @dark_gray35;
 		
 		flex-shrink: 0;
+		padding-bottom: 2px;
     }
     
     .form-input_counter {
@@ -132,7 +178,7 @@
 		}
     }
     
-    input {
+    input, select {
 		width: 1px;
 		flex-grow: 1;
 		flex-shrink: 1;
@@ -144,6 +190,19 @@
 	    box-sizing: border-box;
     }
     
+    select {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+	
+		option[value='']:first-child {
+			display: none;
+		}
+	}
+	
+	select + i {
+		font-size: 0.85rem;
+		margin: 0;
+	}
     
     .input-status_icon {
 		display: none;	    	
@@ -152,6 +211,22 @@
 		font-size: .75rem;
 		opacity: .3;
     }
+	
+	.form-input_datepicker {
+		z-index: 900;
+		
+		.card {
+			width: 250px;
+			font-size: .75rem;
+			
+			.cal-header {
+				h2 {
+					font-size: .85rem;
+				}
+			}
+			
+		}	
+	}
 	
 	&.input-error {
 		border-bottom: 1px solid @color-error_dark;
@@ -165,6 +240,8 @@
 			
 			color: @text_color-error;
 			font-size: .75rem;
+			
+			white-space: nowrap;
 	    }
 	    
 	    &[data-error]::after {

@@ -61,7 +61,9 @@ var UID = {
 	/** Performs clean-up process for UID element, including JSX unmount */
 	disconnect: function(uid) {
 		jsx.disconnectJSX(uid);
-	}
+	},
+	
+	peekUID: function() { return current_uid; }
 }
 
 //======================================== Generic Util Functions ======================================== \\

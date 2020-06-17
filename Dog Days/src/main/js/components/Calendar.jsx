@@ -10,7 +10,10 @@ class Day extends React.Component {
 			"cal-day_ghost": !this.props.date.isSame(this.props.data.display, "month"),
 		});
 		
-		return <span className={classes}> {this.props.date.format('D')} </span>;
+		return <span className={classes} 
+					 onClick={e => this.props.onSelect(this.props.date)}> 
+				{this.props.date.format('D')} 
+			</span>;
 	}
 }
 
@@ -26,14 +29,30 @@ export default class Calendar extends React.Component {
 		}
 	}
 	
+	fireSelectEvent() {
+		this.props.onEvent && this.props.onEvent({
+			value: this.state.selected
+		});
+	}
+	
+	 // private functions
+	
+	pickDate(date) {
+		this.setState({
+			selected: date
+		}, this.fireSelectEvent);
+	}
+	
+	 // public functions
+	
 	setSelectedDate(date) {
-		this.setStatus({
+		this.setState({
 			selected: date
 		});
 	}
 	
 	setDisplayDate(date) {
-		this.setStatus({
+		this.setState({
 			display: date
 		});
 	}
@@ -56,11 +75,19 @@ export default class Calendar extends React.Component {
 		
 		var days = [];
 		for(var i = 0; i < 42; i ++) {
-			days.push(<Day key={day.format("MMM-D")} data={this.state} date={day.add(1, "day").clone()} />);
+			days.push(<Day 
+				key={day.format("MMM-D")} 
+				date={day.add(1, "day").clone()}
+				data={this.state} onSelect={d => !this.props.readonly && this.pickDate(d)} />);
 		}
 		
+		var classes = classNames({
+			"calendar": true,
+			"cal-selectable": !this.props.readonly
+		});
+		
 		return (
-			<div className="calendar">
+			<div className={classes}>
 				<header className="cal-header">
 					<div className="cal-month_wrapper">
 						<IconButton icon="fa-angle-left" style="ghost" onClick={e => this.addMonth(-1)}/>

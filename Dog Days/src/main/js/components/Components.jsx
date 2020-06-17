@@ -8,9 +8,9 @@ import TrackingInput from "./TrackingInput";
 
 window.ReactComponents = {};
 
-ReactComponents.insertCalendar = function(element, onEvent) {
+ReactComponents.insertCalendar = function(element, readonly, onEvent) {
 	return ReactDOM.render(
-		<Calendar onEvent={onEvent} />,
+		<Calendar readonly={readonly} onEvent={onEvent} />,
 		element
 	);
 };
