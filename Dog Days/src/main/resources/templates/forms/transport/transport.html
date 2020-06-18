@@ -8,23 +8,25 @@
 	<div th:fragment="form" th:replace="forms/form :: form(url='/forms/transport', title='Transport Dog', body=~{:: #form})">
         <div id="form" th:remove="tag">
 			
-			<!-- TODO: type input for autofill dog names and people names -->
-			<div th:replace="components/input :: form_input(label='Choose Dog' , type ='' , icon='fas fa-dog' , name='chooseDog')"></div>
-			<div th:replace="components/input :: form_input(label='Who\'s picking up this dog?' , type ='' , icon='fas fa-user-alt' , name='pickupPerson')"></div>
-			<div th:replace="components/input :: form_input(label='Date of transportation' , type='date' , icon='fas fa-calendar-alt' , name='pickupDate')"></div>
+			<!--  TODO NEED URL FOR DOG LOOK UP -->
+			<div th:replace="components/input :: form_lookup(label='Choose Dog', icon='fas fa-dog', name='chooseDog', url='/forms/autofill_dogs')"></div>
+			<!--  TODO: NEED URL FOR PERSON LOOK UP -->
+			<div th:replace="components/input :: form_lookup(label='Who\'s picking up this dog?', icon='fas fa-user-alt', name='pickupPerson', url='/forms/autofill_person')"></div>
+			<div th:replace="components/input :: form_input(label='Date of transportation', type='date', icon='fas fa-calendar-alt', name='pickupDate')"></div>
 			
 			<span class="form-input_label">Address</span>
 			<div>
-				<div th:replace="components/input :: form_input(placeholder='Street' , type='' , icon='fas fa-home' , name='addressStreet')"></div>
+				<div th:replace="components/input :: form_group('address')"></div>
+				<div th:replace="components/input :: form_input(placeholder='Street', icon='fas fa-home', name='street')"></div>
 				
 				<div class="city-state">
-					<div th:replace="components/input :: form_input(placeholder='City' , type='' , name='addressCity')"></div>
-					<div th:replace="components/input :: form_input(placeholder='State' , type='' , name='addressState')"></div>
+					<div th:replace="components/input :: form_input(placeholder='City', name='city')"></div>
+					<div th:replace="components/input :: form_input(placeholder='State', name='state')"></div>
 				</div>
 				
 				<div class="zip-country">
-					<div th:replace="components/input :: form_input(placeholder='Zipcode' , type='' , name='addressZipcode')"></div>
-					<div th:replace="components/input :: form_input(placeholder='Country' , value='United States', type='' , name='addressCountry')"></div>
+					<div th:replace="components/input :: form_input(placeholder='Zipcode', name='zipcode')"></div>
+					<div th:replace="components/input :: form_input(placeholder='Country', value='United States', name='country')"></div>
 				</div>
 			</div>
 			
