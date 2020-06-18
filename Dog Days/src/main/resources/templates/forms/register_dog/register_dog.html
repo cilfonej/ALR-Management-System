@@ -4,7 +4,11 @@
 </head>
 
 <body>
-	<div th:fragment="form" th:replace="forms/form :: form(url='/test', title='Register Dog', body=~{:: #form})">
+	<div th:fragment="form" th:replace="forms/form :: form(
+		url='/forms/redgister/dog', 
+		title='Register Dog', 
+		body=~{:: #form})">
+		
 		<div id="form" th:remove="tag">
 			<div th:replace="components/input :: form_input(
 				name='dog-name', 
@@ -107,7 +111,7 @@
 			
 			<div th:replace="components/input :: form_lookup(
 				name='coordinator',
-				url='/list/people',
+				url='/forms/redgister/dog/list/people',
 				
 				label='Application Coordinator',
 				icon='fa alr-user'
