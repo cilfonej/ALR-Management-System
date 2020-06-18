@@ -12,21 +12,24 @@
 		<!-- 
 			name: string
 			
-			class: string <optional>
-		
 			label: string <optional>
 			icon: string <optional>
+			class: string <optional>
 			
 			formatter: js-function <optional>
 			validate: js-function <default = stdValidator>
 			allow_blank: boolean <default = true>
 			
-			type: string <default = text> [text, large-text, number, date, phone, email]
+			type: string <default = text> [text, number, date, phone, email]
 			
-			pattern: RegEx | Decimal-Pattern <optional>
+			pattern: RegEx | Decimal-Pattern (see: http://numeraljs.com/) <optional>
 			
 			min_length: int <default = 0>
 			max_length: int <optional>
+			
+			min_value: int | decimal | date <optional>
+			max_value: int | decimal | date <optional>
+			increment: int | decimal <optional>
 			
 			show_limit: boolean <default = true>
 			always_show_limit: boolean <default = false>
@@ -67,10 +70,15 @@
 				Input.setupInput(
 					$$("input"), 
 					new Input.Std(/*[[${name}]]*/, {
-						'type': /*[[${type}]]*/,
+						'type': /*[[${type}]]*/ '',
+						"pattern": /*[[${pattern}]]*/ '',
 						
 						'min-length': /*[[${min_length}]]*/ '',
 						'max-length': /*[[${max_length}]]*/ '',
+
+						'min-value': /*[[${min_value}]]*/ '',
+						'max-value': /*[[${max_value}]]*/ '',
+						'increment': /*[[${increment}]]*/ '',
 						
 						'allow-blank': /*[[${allow_blank}]]*/ '',
 					})
