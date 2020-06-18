@@ -1,0 +1,31 @@
+@import "../../const/all.less";
+
+@input-gap: @card-padding;
+
+.form-birthday_wrapper {
+	display: grid;
+    grid-template-columns: 10rem 3rem auto;
+    grid-column-gap: @input-gap;
+}
+
+.form-medicine_group {
+	display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: @input-gap;
+}
+
+.form-gender_wrapper {
+	margin-bottom: @card-padding;
+		
+	.form-gender_group {
+		display: grid;
+		grid-template-columns: auto auto;
+		grid-column-gap: 10px;
+		
+		max-width: fit-content;
+		
+		label {
+			margin: 0;
+		}
+	}
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="form" th:replace="forms/form :: form(url='/test', title='Register Dog', body=~{:: #form})">
+		<div id="form" th:remove="tag">
+			<div th:replace="components/input :: form_input(
+				name='dog-name', 
+			
+				label='Dog Name',
+				icon='fa fa-dog',
+				
+				max_length=45,
+				allow_blank=false
+			)"> </div>
+			
+			
+			<span class="form-input_label"> Birthday </span>
+			<div class="form-birthday_wrapper">
+				
+				<select th:replace="components/input :: form_select(
+					name='bday-month',
+					placeholder='Month',
+					options=~{:: #month_options}					
+				)"> 
+					<th:block id="month_options">
+						<option value="01"> January </option>
+						<option value="02"> February </option>
+						<option value="03"> March </option>
+						<option value="04"> April </option>
+						<option value="05"> May </option>
+						<option value="06"> June </option>
+						<option value="07"> July </option>
+						<option value="08"> August </option>
+						<option value="09"> September </option>
+						<option value="10"> October </option>
+						<option value="11"> November </option>
+						<option value="12"> December </option>
+					</th:block>
+				</select>
+				
+				<div th:replace="components/input :: form_input(
+					name='bday-day',
+					
+					type='number',
+					min_value=1, max_value=31,
+					
+					placeholder='Day',
+					show_limit=false
+				)"> </div>
+				
+				<div th:replace="components/input :: form_input(
+					name='bday-year',
+					allow_blank=false,
+					
+					type='number',
+					
+					placeholder='Year',
+					show_limit=false
+				)"> </div>
+			</div>
+			
+			<div th:replace="components/input :: form_input(
+				name='weight',
+				
+				label='Weight',
+				icon='fa fa-weight',
+				
+				type='decimal',
+				pattern='0[.]0[0]',
+				min_value=0
+			)"> </div>
+			
+			<span class="form-input_label"> Last Medication Date </span>
+			<div class="form-medicine_group">
+				<div th:replace="components/input :: form_input(
+					name='heartworm-date',
+					icon='fa fa-calendar-alt',
+					type='date',
+					placeholder='Hearworm'
+				)"> </div>
+				
+				<div th:replace="components/input :: form_input(
+					name='flee_and_tic-date',
+					icon='fa fa-calendar-alt',
+					type='date',
+					placeholder='Flea & Tick'
+				)"> </div>
+			</div>
+			
+			<span class="form-input_label"> Gender </span>
+			<div class="form-gender_wrapper">
+				<div th:replace="components/input :: form_buttonGroup(name='dog-gender')"></div>
+				
+				<div class="form-gender_group">
+					<div th:replace="components/input :: form_checkbox(
+						text='Male'
+					)"> </div>
+					
+					<div th:replace="components/input :: form_checkbox(
+						text='Female'
+					)"> </div>
+				</div>
+			</div>
+			
+			<div th:replace="components/input :: form_lookup(
+				name='coordinator',
+				url='/list/people',
+				
+				label='Application Coordinator',
+				icon='fa alr-user'
+			)"> </div>
+			
+			<div th:replace="components/input :: form_input(
+				name='recruiter',
+				label='Recruiter'
+			)"> </div>
+			
+			<div th:replace="components/input :: form_textarea(
+				name='description',
+				label='Description',
+				
+				max_length=500
+			)"> </div>
+			
+		</div>
+	</div>
+</body>
+</html>
