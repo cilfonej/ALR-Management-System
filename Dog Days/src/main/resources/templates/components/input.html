@@ -11,9 +11,10 @@
 		
 		<!-- 
 			name: string
-		
+			
 			label: string <optional>
 			icon: string <optional>
+			class: string <optional>
 			
 			formatter: js-function <optional>
 			validate: js-function <default = stdValidator>
@@ -21,10 +22,14 @@
 			
 			type: string <default = text> [text, number, date, phone, email]
 			
-			pattern: RegEx | Decimal-Pattern <optional>
+			pattern: RegEx | Decimal-Pattern (see: http://numeraljs.com/) <optional>
 			
 			min_length: int <default = 0>
 			max_length: int <optional>
+			
+			min_value: int | decimal | date <optional>
+			max_value: int | decimal | date <optional>
+			increment: int | decimal <optional>
 			
 			show_limit: boolean <default = true>
 			always_show_limit: boolean <default = false>
@@ -39,13 +44,83 @@
 		
 		<span class="form-input_label" th:text="${label}" th:if="${label != null}"> </span>
 			
-		<div class="form-input"  th:attr="data-uid=${u_id}" data-error="">
+		<div class="form-input" th:attr="data-uid=${u_id}" data-error="" th:classappend="${class}">
 			<i th:classappend="${icon}" th:if="${icon != null}"> </i>
 			
 			<input data-default="true" type="text" 
 					th:value="${value}" 
-					th:placeholder="${placeholder}"
-					th:replace="${content} ?: _">
+					th:placeholder="${placeholder}">
+			
+			<span class="form-input_counter" 
+				th:classappend="${(always_show_limit ?: false) ? 'lock-counter' : ''}"
+				th:if="${
+					(show_limit == null ? true : show_limit) &&
+					(max_length == null ? false : max_length > 0)
+				}"> </span>
+				
+			<div th:if="${type == 'date'}" class="form-input_datepicker">
+				 <div th:replace="components/jsx :: Calendar(
+				 	id=${name + '_datepicker'}
+				 )"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				Input.setupInput(
+					$$("input"), 
+					new Input.Std(/*[[${name}]]*/, {
+						'type': /*[[${type}]]*/ '',
+						"pattern": /*[[${pattern}]]*/ '',
+						
+						'min-length': /*[[${min_length}]]*/ '',
+						'max-length': /*[[${max_length}]]*/ '',
+
+						'min-value': /*[[${min_value}]]*/ '',
+						'max-value': /*[[${max_value}]]*/ '',
+						'increment': /*[[${increment}]]*/ '',
+						
+						'allow-blank': /*[[${allow_blank}]]*/ '',
+					})
+				);
+			}); /*]]>*/
+		</script>
+	</div>
+	
+	
+	<div th:fragment="form_textarea(name)" 
+		th:with="u_id=${#UID.$()}"
+		th:remove="tag">
+		
+		<!-- 
+			name: string
+			
+			class: string <optional>
+		
+			label: string <optional>
+			
+			validate: js-function <default = stdValidator>
+			allow_blank: boolean <default = true>
+			
+			pattern: RegEx | Decimal-Pattern <optional>
+			
+			min_length: int <default = 0>
+			max_length: int <optional>
+			
+			show_limit: boolean <default = true>
+			always_show_limit: boolean <default = false>
+			
+			value: string <optional>
+			placeholder: string <optional>
+			
+			readonly: boolean <default = false>
+		 -->
+		<span class="form-input_label" th:text="${label}" th:if="${label != null}"> </span>
+			
+		<div class="form-textarea" th:attr="data-uid=${u_id}" data-error="" th:classappend="${class}">
+			<textarea data-default="true"
+					th:text="${value}" 
+					th:placeholder="${placeholder}"></textarea>
 			
 			<span class="form-input_counter" 
 				th:classappend="${(always_show_limit ?: false) ? 'lock-counter' : ''}"
@@ -58,11 +133,64 @@
 		<script type="text/javascript" th:inline="javascript">
 			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
 				Input.setupInput(
-					$$("input[data-default]").attr("data-default", null), 
+					$$("textarea"), 
 					new Input.Std(/*[[${name}]]*/, {
 						'min-length': /*[[${min_length}]]*/ '',
 						'max-length': /*[[${max_length}]]*/ '',
 						
+						'allow-blank': /*[[${allow_blank}]]*/ '',
+					})
+				);
+			}); /*]]>*/
+		</script>
+	</div>
+	
+	<div th:fragment="form_select(name)"
+		th:with="u_id=${#UID.$()}"
+		th:remove="tag">
+		
+		 <!-- 
+			name: string
+				
+			class: string <optional>
+		
+			label: string <optional>
+			icon: string <optional>
+			
+			allow_blank: boolean <default = true>
+			
+			value: string <optional>
+			placeholder: string <optional>
+			
+			options: HTML | string[]
+			
+			readonly: boolean <default = false>
+		-->
+		 
+		<span class="form-input_label" th:text="${label}" th:if="${label != null}"> </span>
+		
+		<div class="form-input" th:attr="data-uid=${u_id}" data-error="" th:classappend="${class}">
+			<i th:classappend="${icon}" th:if="${icon != null}"> </i>
+		
+			<select>
+				<option th:if="${placeholder != null}" th:text='${placeholder}' value='' selected="selected"></option>
+				<th:block th:replace="${options}"></th:block>
+			</select>
+			
+			<i class="fa fa-chevron-down"> </i>
+		</div>
+		 
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				var $ele = $$("select");
+				
+				// set value if available
+				var value = /*[[${value}]]*/ '';
+				value && $ele.val(value);
+				
+				Input.setupInput(
+					$ele, 
+					new Input.Std(/*[[${name}]]*/, {
 						'allow-blank': /*[[${allow_blank}]]*/ '',
 					})
 				);
@@ -110,13 +238,36 @@
 		 
 		 <script id="group-setup" type="text/javascript" th:inline="javascript">
 		 	var script = $("#group-setup");
+		 	script.parent().attr("data-uid", /*[[${u_id}]]*/'');
+		 	script.remove();
+		 
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				Input.setupInput(
+					$$(""), 
+					new Input.Group(/*[[${name}]]*/)
+				);
+			}); /*]]>*/
+		</script>
+	</div>
+	
+	<div th:fragment="form_buttonGroup(name)" th:with="u_id=${#UID.$()}" th:remove="tag">
+		 <!-- 
+			name: string
+			options: HTML
+			
+			allow_multiple: boolean <default = false>
+			require: boolean <default = true>
+		 -->
+		 
+		 <script id="group-setup" type="text/javascript" th:inline="javascript">
+		 	var script = $("#group-setup");
 		 	script.parent().attr("data-uid", /*[[${u_id}]]*/'').addClass("form-input_group");
 		 	script.remove();
 		 
 			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
 				Input.setupInput(
 					$$(""), 
-					new Input.Group(/*[[${name}]]*/, {
+					new Input.ButtonGroup(/*[[${name}]]*/, {
 						"allow-multiple": /*[[${allow_multiple}]]*/ '',
 						"require": /*[[${require}]]*/ '',
 					})
@@ -137,8 +288,7 @@
 			
 			allow_blank: boolean <default = true>
 			
-			type: string [...]
-			type_tags: string-array
+			url: string <optional>
 			
 			placeholder: string <optional>
 			
@@ -150,12 +300,13 @@
 		 <div th:attr="data-uid=${u_id}">
 			<th:block th:replace="components/jsx :: LookupFormInput(
 									id=${name}, 
-									icon='fa fa-user', 
+									icon=${icon}, 
 									readonly=${readonly})"></th:block>
 						
 			<script type="text/javascript" th:inline="javascript">
 				/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
-					$jsx(/*[[${name}]]*/).requestData('api/shipping/list/to', {});
+					var requestURL = /*[[${url}]]*/ '';
+					requestURL && $jsx(/*[[${name}]]*/).requestData(requestURL, {});
 					
 					Input.setupInput(
 						$$("#" + /*[[${name}]]*/), 

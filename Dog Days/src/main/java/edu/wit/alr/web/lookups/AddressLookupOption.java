@@ -7,7 +7,12 @@ public class AddressLookupOption extends LookupOption {
 	protected String city;
 	protected String state;
 	protected String postalCode;
+	
+	protected int id;
 
+	// no-args constructor
+	AddressLookupOption() { }
+	
 	public AddressLookupOption(Address address) {
 		this(address, "Address");
 	}
@@ -25,8 +30,12 @@ public class AddressLookupOption extends LookupOption {
 		this.streetAddress = address.getStreetAddress();
 		this.city = address.getCity();                  
 		this.state = address.getState();                
-		this.postalCode = address.getPostalCode();      
+		this.postalCode = address.getPostalCode();   
+		
+		this.id = address.getID();
 	} 
+	
+	public int getID() { return id; }
 	
 	public static String formatSearchString(Address address, boolean display) {
 		if(address == null) return "";

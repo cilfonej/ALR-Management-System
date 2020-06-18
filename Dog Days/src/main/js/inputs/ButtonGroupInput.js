@@ -1,73 +1,52 @@
 import Input from "./InputBase";
+import GroupInput from "./GroupInput";
 
 var DEFAULT_PARAMS = {
 	"allow-multiple": false,
 	"require": true
 };
 
-export default class ButtonGroupInput extends Input {
+export default class ButtonGroupInput extends GroupInput {
 	constructor(name, params) {
-		super(name);
-		
-		// clone DEFAULT_PARAMS and merge with given params
-		var base_params = Object.assign({}, DEFAULT_PARAMS);
-		// remove all 'null' entries from params
-		$.each(params, (key, value) => (value === null && delete params[key], true));
-		this.params = Object.assign(base_params, params);
+		super(name, params, DEFAULT_PARAMS);
 	}
 	
-	setupElement(element) {
-		var $inputs;
-		var param = this.params || DEFAULT_PARAMS;
+	setupChildren($inputs) {
+		var param = this.params;
 		
-		var group = this;
-		
-		// run after DOM has loaded
-		$(function() {
-			UID.exe(element, function() {
-				$inputs = $$("[data-toggle-init][data-form-input]");
-				// remove the input-flag from all children
-				$inputs.attr("[data-form-input]", null);
-				
-				var values = [];
-				// ensure only one input per value
-				$inputs.each((index, ele) => {
-					var val = $(ele).val();
-					
-					if(values.includes(val)) {
-						console.warn("Duplicate value in group [" + 
-								$(group.ele).attr("data-form-input") + "]: " + val);
-					} else {
-						values.push(val);
-					}
-				});
-				
-				// setup single-selection on child-inputs
-				if(!param["allow-multiple"]) {
-					var option_selected = false;
-					var onSelect = (input, val) => {
-						// un-select all inputs in group
-						$inputs.prop("checked", false);
-						
-						// force the selected element to stay selected
-						$(input.ele).prop("checked", true);
-					};
-					
-					$inputs.each((index, ele) => {
-						var input = ele.input;
-						input.addListener(onSelect);
-
-						// force only one option to be selected
-						input.getValue() && (option_selected = true) || $(ele).prop("checked", false);
-						
-					});
-				}
-			});
+		var values = [];
+		// ensure only one input per value
+		$inputs.each((index, ele) => {
+			var val = $(ele).val();
 			
-			group.wrapper = element;
-			// record the list of input for later use
-			group.children = $inputs;
+			if(values.includes(val)) {
+				console.warn("Duplicate value in group [" + 
+						$(group.ele).attr("data-form-input") + "]: " + val);
+			} else {
+				values.push(val);
+			}
 		});
+		
+		// setup single-selection on child-inputs
+		if(!param["allow-multiple"]) {
+			var option_selected = false;
+			var onSelect = (input, val) => {
+				// un-select all inputs in group
+				$inputs.prop("checked", false);
+				
+				// force the selected element to stay selected
+				$(input.ele).prop("checked", true);
+			};
+			
+			$inputs.each((index, ele) => {
+				var input = ele.input;
+				input.addListener(onSelect);
+
+				// force only one option to be selected
+				input.getValue() && (option_selected = true) || $(ele).prop("checked", false);
+				
+			});
+		}
 	}
 	
 	getValue() {
@@ -94,11 +73,6 @@ export default class ButtonGroupInput extends Input {
 	setError(msg) {
 		if(msg) $(this.wrapper).addClass("input-error").attr("data-error", msg);
 		else $(this.wrapper).removeClass("input-error").attr("data-error", msg);
-	}
-	
-	clear() {
-		this.children.prop("checked", false);
-		this.setError(null);
 	}
 }
 

@@ -25,9 +25,10 @@
 			    	var jsx = window.jsx[u_id] || (window.jsx[u_id] = {});
 			    	
 			    	var id = /*[[${id}]]*/;
+			    	var readonly = /*[[${readonly}]]*/;
 					
-					var onEvent = event => jsx[id].__listeners.forEach((name, func) => func(event));
-				    jsx[id] = ReactComponents.insertCalendar($$("#" + id)[0], onEvent);
+					var onEvent = event => jsx[id].__listeners.forEach((func, name) => func(event));
+				    jsx[id] = ReactComponents.insertCalendar($$("#" + id)[0], readonly, onEvent);
 				    
 				    jsx[id].__listeners = new Map();
 				    jsx[id].addEventListener = (name, func) => jsx[id].__listeners.set(name, func);

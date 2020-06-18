@@ -1,4 +1,4 @@
-package edu.wit.alr.web;
+package edu.wit.alr.web.contollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
