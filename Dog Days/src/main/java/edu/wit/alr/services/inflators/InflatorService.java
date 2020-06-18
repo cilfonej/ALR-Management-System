@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import edu.wit.alr.database.model.Address;
 import edu.wit.alr.database.model.Dog;
 import edu.wit.alr.database.model.Person;
+import edu.wit.alr.database.model.roles.Role;
 import edu.wit.alr.services.inflators.AddressInflator.AddressData;
 import edu.wit.alr.services.inflators.DogInflator.DogData;
 import edu.wit.alr.services.inflators.PersonInflator.PersonData;
@@ -27,6 +28,10 @@ public class InflatorService {
 	
 	public Person inflatePerson(PersonData data) {
 		return personInflator.inflate(data);
+	}
+	
+	public <T extends Role> T inflatePerson(PersonData data, Class<T> role) {
+		return personInflator.inflate(data, role);
 	}
 
 // ===================================== Generic 'inflate' Method ===================================== \\
