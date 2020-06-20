@@ -9,19 +9,19 @@
         <div id="form" th:remove="tag">
 			
 			<!--  TODO NEED URL FOR DOG LOOK UP -->
-			<div th:replace="components/input :: form_lookup(label='Choose Dog', icon='fas fa-dog', name='chooseDog', url='/forms/autofill_dogs')"></div>
+			<div th:replace="components/input :: form_lookup(label='Choose Dog', icon='fas fa-dog', name='chooseDog', url='/forms/autofill_dogs', allow_blank=false)"></div>
 			<!--  TODO: NEED URL FOR PERSON LOOK UP -->
 			<div th:replace="components/input :: form_lookup(label='Who\'s picking up this dog?', icon='fas fa-user-alt', name='pickupPerson', url='/forms/autofill_person')"></div>
-			<div th:replace="components/input :: form_input(label='Date of transportation', type='date', icon='fas fa-calendar-alt', name='pickupDate')"></div>
+			<div th:replace="components/input :: form_input(label='Date of transportation', type='date', icon='fas fa-calendar-alt', name='pickupDate', allow_blank=false)"></div>
 			
 			<span class="form-input_label">Address</span>
 			<div>
-				<div th:replace="components/input :: form_group('address')"></div>
-				<div th:replace="components/input :: form_input(placeholder='Street', icon='fas fa-home', name='street')"></div>
+				<div th:replace="components/input :: form_group('address', allow_blank=false)"></div>
+				<div th:replace="components/input :: form_input(placeholder='Street', icon='fas fa-home', name='street', allow_blank=false)"></div>
 				
 				<div class="city-state">
-					<div th:replace="components/input :: form_input(placeholder='City', name='city')"></div>
-					<div th:replace="components/input :: form_input(placeholder='State', name='state')"></div>
+					<div th:replace="components/input :: form_input(placeholder='City', name='city', allow_blank=false)"></div>
+					<div th:replace="components/input :: form_input(placeholder='State', name='state', allow_blank=false)"></div>
 				</div>
 				
 				<div class="zip-country">
