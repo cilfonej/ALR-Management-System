@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(dog)" th:remove="tag">
+		<th:block th:replace="${dog != null} ? ~{:: card_content(${dog})} : ~{:: card_blank}"></th:block>
+	</div>
+
+	<div th:fragment="card_content(dog)"  class="card reservation-card" 
+		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		
+		<header class="card-header">
+			<h2> Transport Reservation </h2>
+		</header>
+		
+		<div class="reservation-card_info">
+			<span> Date: </span>
+			<span> 10/15/2020 </span>
+   
+			<span> To: </span>
+			<div class="reservation-card_location">
+				<span> Vermont </span>
+				<span> 10 Parkside Way, Fairmont </span>
+			</div>
+
+			<span class="reservation-card_person-label"> Pickup: </span>
+			<div th:replace="components/templates :: person_link(null)"></div>
+		</div>
+	</div>
+	
+	<div th:fragment="card_blank" class="card reservation-card blank-card" 
+		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		<header class="card-header">
+			<h2> Transport Reservation </h2>
+		</header>
+	
+		<div class="card-blank_body">
+			<div class="card-blank_inner">
+				<i class="fa fa-plus"></i>
+				<span class="card-blank_message"> Add reservation for Dog </span>
+			</div>
+		</div>
+    </div>
+</body>
+</html>

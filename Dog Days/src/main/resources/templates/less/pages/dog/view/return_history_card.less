@@ -1,0 +1,57 @@
+@import "../../../card.less";
+
+.return-hist-card {
+	width: 350px;
+	
+	flex-shrink: 1;
+	flex-grow: 1;
+	/* min-width: 300px; */
+	/* max-width: 400px; */
+	
+	.return-item {
+		margin: @card-padding;
+		
+		.return-item_person {
+			margin-bottom: @card-padding;
+		}
+		
+		.return-item_date {
+			float: right;
+			color: @value-text_color;
+		}
+		
+		.returm-item_details {
+			font-size: .9rem;
+			
+			// label
+			span:first-child {
+				font-weight: bold;
+			}
+			
+			.return-item_descript {
+				border-radius: @card-border_radius;
+				
+				padding: 8px;
+				margin-top: 5px;
+				
+				font-size: .9rem;
+				background: @light_gray95;
+				
+				div {
+					height: 3.1rem;
+					overflow: hidden;
+				}
+			}
+			
+			.return-info_more {
+				float: right;
+				
+				color: @link_color;
+				border-bottom: 1px solid;
+				
+				cursor: pointer;
+				margin-bottom: @card-padding;
+			}
+		}
+	}
+}

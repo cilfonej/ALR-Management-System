@@ -15,11 +15,6 @@
     
 	<script type="text/javascript" src="/js/UID.js"></script>
     
-    <!--/*/ <th:block th:include="index/drug_history :: head"></th:block> /*/-->
-    <!--/*/ <th:block th:include="index/dog_info_card :: head"></th:block> /*/-->
-    <!--/*/ <th:block th:include="index/foster_info_card :: head"></th:block> /*/-->
-    
-    <!--/*/ <th:block th:include="shipment/shipment :: head"></th:block> /*/-->
     
     <!--/*/ <th:block th:include="components/jsx :: head"></th:block> /*/-->
     <!--/*/ <th:block th:include="components/tooltips :: head"></th:block> /*/-->
@@ -37,43 +32,10 @@
 	
 		<section class="page-content_wrapper">
 			<div class="page_content">
-				<div class="index-row_wrapper">
-					<div th:replace="index/dog_info_card :: dog_info"></div>
-					<div th:replace="index/foster_info_card :: foster_info"></div>
-				</div>
-				
-				<div class="index-row_wrapper">
-					<div th:replace="index/drug_history :: drug_history(null, ${history})"> </div>
-					<div th:replace="components/jsx :: Calendar('cal')"> </div>
-				</div>
+				<div th:replace="pages/dog/view/view_dog :: page(${dog})"></div>
 			</div>
 			
 			<div th:replace="components/tab_sidebar :: sidebar"> </div>
-			<!-- 
-			
-			<div class="tab-sidebar">
-				<div class="tab-sidebar_tab tab-help"
-					data-tippy-content="Help" 
-					data-tippy-arrow="false"
-					data-tippy-placement="left"
-					data-tippy-group="tab-sidebar">
-					
-					<i class="fa fa-question-circle"></i>
-				</div>
-			
-				<div class="tab-sidebar_tab" 
-					data-tippy-content="Shipment" 
-					data-tippy-arrow="false"
-					data-tippy-placement="left"
-					data-tippy-group="tab-sidebar">
-					
-					<i class="fa fa-truck"></i>
-				</div>
-				
-				<div style="flex-grow: 1"></div>
-			</div>
-			
-			<div th:replace="shipment/shipment :: sidebar(${shipment})"> </div> -->
 		</section>
     </div>
 </body>

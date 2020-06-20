@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(dog)" class="card dog-card" 
+		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		
+		<div class="dog-card_top">
+			<div class="dog-card_image">
+	    		<i class="dog-card_image-default fa fa-dog"></i>
+			</div>
+		    
+		    <div class="dog-card_primary">
+				<div>
+					<span class="card-primary_text">Felix</span>
+					<span class="dog-card_id">#130773</span></div>
+				<div>
+			</div>
+				
+			</div>
+		</div>
+		
+		<div class="card-sub_layout">
+			<div class="card-sub_section">
+			    <span class="card-sub_heading"> Born </span>
+				<span class="card-sub_item extra-gap">
+					September 31, 2020
+				</span>
+			</div>
+			
+			<div class="card-sub_section">
+			    <span class="card-sub_heading"> Physical Info </span>
+				<div class="card-sub_item extra-gap">
+					<div>
+						Weight:    
+						<span class="dog-card_weight">97.23</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="card-sub_section">
+			    <span class="card-sub_heading"> Last Medication Date </span>
+	   			<div class="dog-card_medication">
+				    <span>Heartworm:</span>
+				    <span>Sept 12, 2019</span>
+				    <span>Flee &amp; Tick:</span>
+				    <span>10/12/2020</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
