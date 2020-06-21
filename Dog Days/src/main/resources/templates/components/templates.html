@@ -21,15 +21,13 @@
 		</span>
 	</div>
 	
-	<div th:fragment="person_link(person)" class="person-link">
+	<div th:fragment="person_link(person)" class="person-link" th:if="${person != null}">
 		<div> 
 			<div class="person-link_image">
 				<i class="person-link_image-default fa fa-user"></i>
 			</div>
 			
-			<span class="person-link_name">
-				John Frankforth
-			</span>
+			<span class="person-link_name" th:text="${person.name}"></span>
 	    </div>
 	</div>
 </body>

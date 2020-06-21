@@ -86,6 +86,10 @@ public class Dog {
 		return (int) getBirthday().until(LocalDate.now(), ChronoUnit.YEARS);
 	}
 	
+	public Integer getDOB_Year() { return dob_year; }
+	public Integer getDOB_Month() { return dob_month; }
+	public Integer getDOB_Day() { return dob_day; }
+	
 	public int getID() { return id; }
 	public String getName() { return name; }
 	

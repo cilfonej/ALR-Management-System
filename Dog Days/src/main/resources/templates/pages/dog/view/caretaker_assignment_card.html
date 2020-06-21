@@ -4,12 +4,13 @@
 </head>
 
 <body>
-	<div th:fragment="card(dog)" th:remove="tag">
-		<th:block th:replace="${dog != null} ? ~{:: card_content(${dog})} : ~{:: card_blank}"></th:block>
+	<div th:fragment="card(caretaker)" th:remove="tag">
+		<th:block th:replace="${caretaker != null} ? ~{:: card_content(${caretaker})} : ~{:: card_blank}"></th:block>
 	</div>
 
-	<div th:fragment="card_content(dog)" class="card caretaker-card" 
+	<div th:fragment="card_content(caretaker)" class="card caretaker-card" 
 		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		
 		<header class="card-header">
 			<h2> Caretaker </h2>
 		</header>
@@ -22,15 +23,16 @@
 		        
 				<div class="caretaker-card_primary">
 					<div>
-						<span class="card-primary_text"> Ann Cilfone </span>
+						<span class="card-primary_text" th:text="${caretaker.name}"></span>
 						<span class="caretaker-card_type">(Foster)</span>
 					</div>
 					
 					<div class="caretaker-card_contact">
 						<span> Phone: </span>
-						<span> (860) 807-2134 </span>
+						<span th:text="${caretaker.primaryPhone}"></span>
+						
 						<span> Email: </span>
-						<span> ann.cilfone@goo.ru.co </span>
+						<span th:text="${caretaker.email}"></span>
 					</div>
 				</div>
 			</div>
@@ -38,9 +40,10 @@
 			<div class="card-sub_layout">
 				<div class="card-sub_section">
 					<span class="card-sub_heading"> Home Address </span>
-					<span class="card-sub_item"> 19 Summer St. </span>
-					<span class="card-sub_item"> Manchester, VT </span>
-					<span class="card-sub_item"> 72840 </span>
+					
+					<span class="card-sub_item" th:text="${caretaker.homeAddress.streetAddress}"></span>
+					<span class="card-sub_item" th:text="${#Addresses.formatStateLine(caretaker.homeAddress)}"></span>
+					<span class="card-sub_item" th:text="${#Addresses.formatPostalLine(caretaker.homeAddress)}"></span>
 				</div>
 				
 				<div class="card-sub_section">

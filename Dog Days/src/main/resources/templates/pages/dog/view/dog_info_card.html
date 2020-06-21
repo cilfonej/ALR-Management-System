@@ -14,10 +14,12 @@
 		    
 		    <div class="dog-card_primary">
 				<div>
-					<span class="card-primary_text">Felix</span>
-					<span class="dog-card_id">#130773</span></div>
+					<span class="card-primary_text" th:text="${dog.name}"> </span>
+					<span class="dog-card_id" th:text="${'#' + dog.ID}"></span>
+				</div>
+				
 				<div>
-			</div>
+				</div>
 				
 			</div>
 		</div>
@@ -26,7 +28,23 @@
 			<div class="card-sub_section">
 			    <span class="card-sub_heading"> Born </span>
 				<span class="card-sub_item extra-gap">
-					September 31, 2020
+					<th:block th:switch="${dog.DOB_Month}" th:if="${dog.DOB_Month != null}">
+						<th:block th:case="1"> January </th:block>
+						<th:block th:case="2"> February </th:block>
+						<th:block th:case="3"> March </th:block>
+						<th:block th:case="4"> April </th:block>
+						<th:block th:case="5"> May </th:block>
+						<th:block th:case="6"> June </th:block>
+						<th:block th:case="7"> July </th:block>
+						<th:block th:case="8"> August </th:block>
+						<th:block th:case="9"> September </th:block>
+						<th:block th:case="10"> October </th:block>
+						<th:block th:case="11"> November </th:block>
+						<th:block th:case="12"> December </th:block>
+					</th:block>
+					
+					<th:block th:text="${dog.DOB_Day + ','}" th:if="${dog.DOB_Day != null}"></th:block>
+					<th:block th:text="${dog.DOB_Year}"></th:block>
 				</span>
 			</div>
 			
@@ -35,7 +53,7 @@
 				<div class="card-sub_item extra-gap">
 					<div>
 						Weight:    
-						<span class="dog-card_weight">97.23</span>
+						<span class="dog-card_weight" th:text="${dog.weight}"></span>
 					</div>
 				</div>
 			</div>
@@ -43,10 +61,11 @@
 			<div class="card-sub_section">
 			    <span class="card-sub_heading"> Last Medication Date </span>
 	   			<div class="dog-card_medication">
-				    <span>Heartworm:</span>
-				    <span>Sept 12, 2019</span>
-				    <span>Flee &amp; Tick:</span>
-				    <span>10/12/2020</span>
+				    <span> Heartworm: </span>
+				    <span th:text="${#temporals.format(dog.birthday, 'MMM d, yyyy')}"></span>
+				    
+				    <span> Flee &amp; Tick: </span>
+				    <span th:text="${#temporals.format(dog.birthday, 'MMM d, yyyy')}"></span>
 				</div>
 			</div>
 		</div>

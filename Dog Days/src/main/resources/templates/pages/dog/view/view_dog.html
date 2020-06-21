@@ -8,8 +8,8 @@
 	<!--  th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}" -->
 		
 		<div th:replace="pages/dog/view/dog_info_card :: card(${dog})"></div>
-		<div th:replace="pages/dog/view/caretaker_assignment_card :: card(${dog})"></div>
-		<div th:replace="pages/dog/view/transport_reservation_card :: card(${dog})"></div>
+		<div th:replace="pages/dog/view/caretaker_assignment_card :: card(${dog?.caretaker})"></div>
+		<div th:replace="pages/dog/view/transport_reservation_card :: card(${reservation})"></div>
 		<div th:replace="pages/dog/view/return_history_card :: card(${dog})"></div>
 			
 	</div>
