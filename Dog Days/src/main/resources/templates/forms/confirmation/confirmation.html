@@ -6,9 +6,13 @@
 	</head>
 
 	<body>
+		<ul th:fragment="breadcrums">
+		    <li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+		    <li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
+		</ul>
 		<div th:fragment="form" th:replace="forms/form :: form(url='/forms/confirmation', title='Confirmation', body=~{:: #form})">
 			<div id="form" th:remove="tag">
-				
+				<div th:replace="common/header::title('Confirmation', ~{:: breadcrums})"></div>
 				<!-- TODO: Put dog and person card here -->
 				<div th:replace="components/input :: form_input(label='Dog and Person card here' , type='' , name='dog-guy' , value='FILLER')"></div>
 				
