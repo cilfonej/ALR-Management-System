@@ -33,10 +33,6 @@
 	
 	<nav th:fragment="breadcrums" class="breadcrums">
 		<ul>
-			<li th:replace=":: breadcrum(name='Home', icon='fa-home')"></li>
-			<li th:replace=":: breadcrum(name='Dogs', icon='fa-dog')"></li>
-			<li th:replace=":: breadcrum(name='Ella', extra='#628942')"></li>
-		
 			<li th:fragment="breadcrum(name)" th:if="${name != null}">
 				<i class="fa" th:classappend="${icon}" th:if="${icon != null}"></i>
 				<th:block th:text="${name}"></th:block>
@@ -44,5 +40,15 @@
 			</li>
 		</ul>
 	</nav>
+	
+	<div th:fragment="title(title, breadcrums)" id="page-title">
+		<th:block th:replace="${breadcrums ?: _}"> </th:block>
+	
+		<script type="text/javascript" th:inline="javascript">
+			document.title = /*[[${title}]]*/ "";
+			$("#page-title").children("ul").children().appendTo(".breadcrums ul");
+			$("#page-title").remove();
+		</script>
+	</div>
 </body>
 </html>

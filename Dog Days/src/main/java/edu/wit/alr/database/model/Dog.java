@@ -25,6 +25,16 @@ public class Dog {
 		Shelter, Transport, Foster, Adopted;
 	};
 	
+	public static enum Gender {
+		Male, Female, Unknown;
+		
+		public static Gender parse(String name) {
+			if(name.equalsIgnoreCase("male")) return Male;
+			if(name.equalsIgnoreCase("female")) return Female;
+			return Unknown;
+		}
+	};
+	
 	@Id
 	@GenericGenerator(name = "dog_id_gen", strategy = "edu.wit.alr.database.util.IdGenerator")
 	@GeneratedValue(generator = "dog_id_gen")  
@@ -33,6 +43,10 @@ public class Dog {
 	
 	@Column(length = 45, nullable = false)
 	private String name;
+	
+	@Enumerated(EnumType.STRING)
+	@Column
+	private Gender gender;
 	
 	@Column
 	private Integer dob_year;
@@ -92,7 +106,8 @@ public class Dog {
 	
 	public int getID() { return id; }
 	public String getName() { return name; }
-	
+
+	public Gender getGender() { return gender; }
 	public double getWeight() { return weight; }
 	public LocationStatus getLocation() { return location; }
 	
@@ -106,6 +121,10 @@ public class Dog {
 		this.dob_year = year; 
 		this.dob_month = month; 
 		this.dob_day = day; 
+	}
+	
+	public void setGender(Gender gender) { 
+		this.gender = gender;
 	}
 	
 	public void setName(String name) { 

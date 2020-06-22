@@ -15,6 +15,7 @@
     
 	<script type="text/javascript" src="/js/UID.js"></script>
     
+    <!--/*/ <th:block th:include="forms/form :: head"></th:block> /*/-->
     
     <!--/*/ <th:block th:include="components/jsx :: head"></th:block> /*/-->
     <!--/*/ <th:block th:include="components/tooltips :: head"></th:block> /*/-->
@@ -31,8 +32,7 @@
 		<div th:replace="common/header :: breadcrums"> </div>
 	
 		<section class="page-content_wrapper">
-			<div class="page_content">
-				<div th:replace="pages/dog/view/view_dog :: page(${dog})"></div>
+			<div class="page_content" th:utext="${content}">
 			</div>
 			
 			<div th:replace="components/tab_sidebar :: sidebar"> </div>
