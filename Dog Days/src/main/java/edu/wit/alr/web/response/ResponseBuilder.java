@@ -13,14 +13,14 @@ import org.thymeleaf.context.Context;
 
 @Service
 public class ResponseBuilder {
-	private static final Pattern TEMPLATE_PATTERN = Pattern.compile("(.+)\\s*::\\s*(\\w+)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern TEMPLATE_PATTERN = Pattern.compile("(.+?)\\s*::\\s*(\\w+)", Pattern.CASE_INSENSITIVE);
 	
 	
 	@Autowired private TemplateEngine engine;
 	
 	
-	public Response redirect(String file, String template, Map<String, Object> variables) {
-		return redirect(file, template, Locale.getDefault(), variables);
+	public Response redirect(String url, String template, Map<String, Object> variables) {
+		return redirect(url, template, Locale.getDefault(), variables);
 	}
 	
 	public Response redirect(String url, String template, Locale locale, Map<String, Object> variables) {
