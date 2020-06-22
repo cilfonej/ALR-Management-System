@@ -1,5 +1,16 @@
 var FORMATS = ["M-D-YYYY", "D-MMM-YYYY", "D-MMMM-YYYY", "YYYY-MM-DD", "MMM-D-YYYY", "MMMM-D-YYYY"];
 
+function sanitizeValue(value) {
+	value = value.trim();
+	value = value.replace(/[, \.-/]/gi, '-');
+	
+	// run twice to remove double-spaces from round 1
+	value = value.replace(/(--)/gi, '-');
+	value = value.replace(/(--)/gi, '-');
+	
+	return value;
+}
+
 export default {
 	setupInput: function(input) {
 		var name = input.getField() + '_datepicker';
@@ -57,6 +68,8 @@ export default {
 	
 	getValue: function(input) {
 		var value = $(input.ele).val();
+		value = sanitizeValue(value);
+		
 		return moment(value, FORMATS, true).toDate();
 	},
 	
@@ -66,13 +79,7 @@ export default {
 	
 	validate: function(input) {
 		var value = $(input.ele).val();
-		
-		value = value.trim();
-		value = value.replace(/[, \.-/]/gi, '-');
-		
-		// run twice to remove double-spaces from round 1
-		value = value.replace(/(--)/gi, '-');
-		value = value.replace(/(--)/gi, '-');
+		value = sanitizeValue(value);
 		
 		var date = moment(value, FORMATS, true);
 		

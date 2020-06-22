@@ -27,9 +27,18 @@ var Request = (function() {
 		var request_param = {...request, ...config};
 		
 		$.ajax(request_param)
-			.done((data, status, xhr) => done && done.call(xhr, data))
+			.done((data, status, xhr) => handleStandardResponse(xhr, data) || done && done.call(xhr, data))
 			.fail((xhr, status, errorMsg) => error && error.call(xhr, errorMsg, xhr.status))
 			.always((xhr, status) => final && final.call(null));
+	}
+	
+	function handleStandardResponse(xhr, data) {
+		switch(data.action) {
+			case "redirect":
+				history.pushState(null, "", data.url);
+				$(".page_content").html(data.pageHTML);
+			return true;
+		}
 	}
 	
 //	======================================== Export ======================================== \\
