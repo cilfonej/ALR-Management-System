@@ -36,8 +36,7 @@
 		<div th:replace="common/header :: breadcrums"> </div>
 	
 		<section class="page-content_wrapper">
-			<div class="page_content">
-			
+			<div class="page_content" th:utext="${content}">
 			</div>
 			
 			<div th:replace="components/tab_sidebar :: sidebar"> </div>

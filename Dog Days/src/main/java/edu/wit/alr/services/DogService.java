@@ -41,4 +41,8 @@ public class DogService {
 		
 		return dog;
 	}
+	
+	public Dog findDogByID(int id) {
+		return repository.findById(id).orElse(null);
+	}
 }

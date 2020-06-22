@@ -19,11 +19,11 @@ public class ResponseBuilder {
 	@Autowired private TemplateEngine engine;
 	
 	
-	public Response redirect(String url, String template, Map<String, Object> variables) {
+	public PageResponse redirect(String url, String template, Map<String, Object> variables) {
 		return redirect(url, template, Locale.getDefault(), variables);
 	}
 	
-	public Response redirect(String url, String template, Locale locale, Map<String, Object> variables) {
+	public PageResponse redirect(String url, String template, Locale locale, Map<String, Object> variables) {
 		Matcher match = TEMPLATE_PATTERN.matcher(template);
 		if(!match.find()) throw new IllegalArgumentException("Template must be of the format: <file_name> :: <fragment>");
 		
@@ -32,5 +32,9 @@ public class ResponseBuilder {
 		
 		String html = engine.process(file, Set.of(fragment), new Context(locale, variables));
 		return new PageResponse(url, html);
+	}
+
+	public String buildIndependentPage(PageResponse page) {
+		return engine.process("index", new Context(Locale.getDefault(), Map.of("content", page.getPageHTML())));
 	}
 }
