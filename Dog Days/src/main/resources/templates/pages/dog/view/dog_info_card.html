@@ -18,7 +18,11 @@
 					<span class="dog-card_id" th:text="${'#' + dog.ID}"></span>
 				</div>
 				
-				<div>
+				<div class="dog-card_sub-primary">
+					<div class="dog-card_coordinator">
+						<span>  Coordinator: </span>
+						<div th:replace="components/templates :: person_link(${dog.addoptionCoordinator})"></div>
+					</div>
 				</div>
 				
 			</div>
@@ -27,7 +31,7 @@
 		<div class="card-sub_layout">
 			<div class="card-sub_section">
 			    <span class="card-sub_heading"> Born </span>
-				<span class="card-sub_item extra-gap">
+				<span class="card-sub_item extra-gap dog-card_born">
 					<th:block th:switch="${dog.DOB_Month}" th:if="${dog.DOB_Month != null}">
 						<th:block th:case="1"> January </th:block>
 						<th:block th:case="2"> February </th:block>
@@ -53,7 +57,8 @@
 				<div class="card-sub_item extra-gap">
 					<div style="display: flex">
 						Weight:    
-						<span class="dog-card_weight" th:text="${dog.weight}"></span>
+						<span class="dog-card_weight" th:text="${dog.weight}" th:if="${dog.weight > 0}"></span>
+						<span th:else="${dog.weight > 0}" style="width: 3rem"></span>
 					</div>
 				</div>
 			</div>
