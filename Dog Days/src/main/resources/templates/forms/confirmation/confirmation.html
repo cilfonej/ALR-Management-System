@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <link rel="stylesheet" href="/css/forms/confirmation/confirmation.css" />
+	</head>
+
+	<body>
+		<ul th:fragment="breadcrums">
+		    <li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+		    <li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
+		</ul>
+		<div th:fragment="form" th:replace="forms/form :: form(url='/forms/confirmation', title='Confirmation', body=~{:: #form})">
+			<div id="form" th:remove="tag">
+				<div th:replace="common/header::title('Confirmation', ~{:: breadcrums})"></div>
+				<!-- TODO: Put dog and person card here -->
+				<div th:replace="components/input :: form_input(label='Dog and Person card here' , type='' , name='dog-guy' , value='FILLER')"></div>
+				
+				<div th:replace="components/input :: form_input(label='Weight' , type='decimal' , icon='fas fa-weight' , name='weightInfo', allow_blank=false)"></div>
+				<div th:replace="components/input :: form_input(label='Last Medication Date' , type='date' , icon='fas fa-calendar-alt' , name='medDate', allow_blank=false)"></div>
+				<span class="form-input_label"> Birthday </span>
+			<div class="form-birthday_wrapper">
+				
+				<select th:replace="components/input :: form_select(
+					name='birthMonth',
+					placeholder='Month',
+					options=~{:: #month_options}					
+				)"> 
+					<th:block id="month_options">
+						<option value="01"> January </option>
+						<option value="02"> February </option>
+						<option value="03"> March </option>
+						<option value="04"> April </option>
+						<option value="05"> May </option>
+						<option value="06"> June </option>
+						<option value="07"> July </option>
+						<option value="08"> August </option>
+						<option value="09"> September </option>
+						<option value="10"> October </option>
+						<option value="11"> November </option>
+						<option value="12"> December </option>
+					</th:block>
+				</select>
+				
+				<div th:replace="components/input :: form_input(
+					name='birthDay',
+					
+					type='number',
+					min_value=1, max_value=31,
+					
+					placeholder='Day',
+					show_limit=false
+				)"> </div>
+				
+				<div th:replace="components/input :: form_input(
+					name='birthYear',
+					allow_blank=false,
+					
+					type='number',
+					
+					placeholder='Year',
+					show_limit=false
+				)"> </div>
+			</div>
+				
+			</div>
+		</div>
+	</body>
+
+</html>

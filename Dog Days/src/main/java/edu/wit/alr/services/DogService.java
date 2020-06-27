@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.wit.alr.database.model.Dog;
+
 import edu.wit.alr.database.model.Dog.Gender;
 import edu.wit.alr.database.model.roles.ApplicationCoordinator;
 import edu.wit.alr.database.repository.DogRepository;
@@ -44,5 +45,15 @@ public class DogService {
 	
 	public Dog findDogByID(int id) {
 		return repository.findById(id).orElse(null);
+	}
+	
+	public void updateInfo(Dog dog, double weight, LocalDate medDate, Integer birthMonth, Integer birthDay, Integer birthYear) {
+		
+		dog.setWeight(weight);
+		//TODO make / set medication date in Dog.java
+		//dog.setMedDate(medDate);
+		dog.setBirthday(birthYear, birthMonth, birthDay);
+		
+		repository.save(dog);	
 	}
 }

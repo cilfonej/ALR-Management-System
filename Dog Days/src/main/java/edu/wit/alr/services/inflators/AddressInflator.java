@@ -48,7 +48,7 @@ public class AddressInflator implements Inflator<Address, AddressData> {
 		}
 		
 		if(data.streetName != null) {
-			return new Address(data.streetName, data.city, data.city, data.zipcode, data.country);
+			return new Address(data.streetName, data.city, data.state, data.zipcode, data.country);
 		}
 		
 		throw new InflationException("Cannot inflate Address! No 'streetName' or 'id' was provided");
