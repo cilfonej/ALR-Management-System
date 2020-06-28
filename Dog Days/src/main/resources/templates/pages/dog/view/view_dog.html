@@ -20,6 +20,12 @@
 		<div th:replace="pages/dog/view/transport_reservation_card :: card(${reservation})"></div>
 		<div th:replace="pages/dog/view/return_history_card :: card(${dog})"></div>
 			
+			
+		<div th:replace="components/modal :: modal('test', 'Test', ~{:: content})"></div>
+	</div>
+	
+	<div th:fragment="content">
+		<p> Hi Mom </p>
 	</div>
 </body>
 </html>
