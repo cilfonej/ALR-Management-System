@@ -10,7 +10,7 @@
 		<li th:replace="common/header :: breadcrum(name=${dog.name}, extra=${'#' + dog.ID})"></li>
 	</ul>	
 
-	<div th:fragment="page(dog)" class="">
+	<div th:fragment="page(dog)" class="view-dog_wrapper">
 	<!--  th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}" -->
 		<div th:replace="common/header :: title('ALR - ' + ${dog.name}, ~{:: breadcrums(${dog})})">	</div>
 		
