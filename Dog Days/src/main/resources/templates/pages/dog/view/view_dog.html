@@ -21,11 +21,11 @@
 		<div th:replace="pages/dog/view/return_history_card :: card(${dog})"></div>
 			
 			
-		<div th:replace="components/modal :: modal('test', 'Test', ~{:: content})"></div>
+		<div th:replace="components/modal :: modal('edit-dog', 'Edit Dog Info', ~{:: edit(${dog})})"></div>
 	</div>
 	
-	<div th:fragment="content">
-		<p> Hi Mom </p>
+	<div th:fragment="edit(dog)">
+		<div th:replace="pages/dog/view/edit_dog :: form(${dog})"></div>
 	</div>
 </body>
 </html>

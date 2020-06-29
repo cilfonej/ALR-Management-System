@@ -28,7 +28,7 @@
 	<div th:fragment="modal(id, title, content)" th:id="${id}" aria-hidden="true" class="modal modal-sidefade"
 		 th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
 		 
-		<div class="modal__overlay" tabindex="-1" data-micromodal-close>
+		<div class="modal__overlay" tabindex="-1" > <!-- data-micromodal-close -->
 			<div class="modal__container" role="dialog" aria-modal="true" th:aria-labelledby="${id + '-title'}">
 				<header class="modal__header">
 					<h2 th:id="${id + '-title'}" th:text="${title}"></h2>
