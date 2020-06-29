@@ -5,6 +5,24 @@
 </head>
 
 <body>
+	<div th:fragment="revert(fields, values)" th:with="u_id=${#UID.$()}" th:remove="tag">
+		<a class="icon-button icon-button_box-plain" 
+			data-tippy-content="Restore Default" 
+			th:attr="data-uid=${u_id}">
+			
+			<i class="fa fa-history"></i>
+		</a>
+		
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				new Input.RevertButton(
+					$$(""), 
+					/*[[${fields}]]*/, 
+					/*[[${values}]]*/);
+			}); /*]]>*/
+		</script>
+	</div>
+
 	<div th:fragment="form_input(name)" 
 		th:with="u_id=${#UID.$()}"
 		th:remove="tag">

@@ -203,9 +203,8 @@ export default class LookupInput extends React.Component {
 		this.setState({
 			"filter": '',
 			"options": this.state.all_options
-		});
 		
-		this.setValue(null);
+		}, () => this.setValue(null));
 	}
 	
 	// clears error-message
@@ -217,6 +216,32 @@ export default class LookupInput extends React.Component {
 	
 // =============================== ================== =============================== \\
 // =============================== External Functions =============================== \\
+	
+	setSelectedValue(val) {
+		// clear on-load value
+		this.setState({ onLoadSelect: null });
+		
+		// if options haven't loaded yet
+		if(!this.state.all_options) {
+			this.setState({
+				onLoadSelect: val
+			});
+			
+			return;
+		}
+		
+		for(var group of this.state.all_options) {
+			for(var opt of group.options) {
+				if(opt.key == val) {
+					this.setValue(opt);
+					return true;
+				}
+			}
+		}
+		
+		this.clear();
+		return false;
+	}
 	
 	getValue() {
 		return this.state.value;
@@ -304,6 +329,11 @@ export default class LookupInput extends React.Component {
 					"all_options": data,
 					"options": options
 				});
+				
+				// if there is a value to select
+				if(typeof this.state.onLoadSelect !== 'undefined' && this.state.onLoadSelect != null) {
+					this.setSelectedValue(this.state.onLoadSelect);
+				}
 			}
 			// TODO: on data-query FAIL
 		}).fail((xhr, status, message) => {});
@@ -330,13 +360,10 @@ export default class LookupInput extends React.Component {
 		
 		// escape
 		if(e.keyCode === 27) {
-			if(this.state.open) {
-				this.clearSearch();
-				
-			} else {
-				this.clearSearch();
-				this.close();
-			}
+			this.clear();
+			
+			e.stopPropagation();
+			e.nativeEvent.stopImmediatePropagation();
 		
 		// enter
 		} else if(e.keyCode === 13) {

@@ -9,6 +9,15 @@ export default class LookupInput extends Input {
 		jsx.addEventListener("input_change", value => super.fireChangeEvent(value));
 	}
 	
+	setupRevertButton(button) {
+		var skip = true; // flag used to skip the first event from JSX (due to setting to default)
+		this.jsx.addEventListener("revert_button", value => skip && !(skip = false) || button.onInputChange());
+	}
+	
+	setValue(val) {
+		this.jsx.setSelectedValue(val);
+	}
+	
 	getValue() {
 		return {
 			"option": this.jsx.getValue()

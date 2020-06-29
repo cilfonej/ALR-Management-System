@@ -27,6 +27,15 @@
 		z-index: 1;
 	}
 	
+	&.disabled, &[disable], &[disabled] {
+		opacity: .3;
+		cursor: default;
+		
+		&:hover, &:active {
+			background-color: @light_gray97 !important;
+		}
+	}
+	
 	&.icon-button_inline {
 		display: inline-flex;
 	}
@@ -79,5 +88,14 @@
 		&:active {
 			background-color: @gray85;
 		}
+	}
+	
+	&.icon-button_box-plain {
+		&:extend(.icon-button.icon-button_box all);
+		
+		box-shadow: none;
+		border: none;
+		
+		background-color: @light_gray95;
 	}
 }

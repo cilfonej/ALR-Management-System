@@ -66,6 +66,15 @@ export default {
 		});
 	},
 	
+	setupRevertButton: function(input, button) {
+		var name = input.getField() + '_datepicker';
+		
+		// detect calendar value change
+		$jsx(name).addEventListener("revert_button", function(e) {
+			button.onInputChange();
+		});
+	},
+	
 	getValue: function(input) {
 		var value = $(input.ele).val();
 		value = sanitizeValue(value);
