@@ -28,6 +28,7 @@ import edu.wit.alr.services.inflators.InflatorService;
 import edu.wit.alr.services.inflators.PersonInflator.PersonData;
 import edu.wit.alr.web.lookups.DogLookupOption;
 import edu.wit.alr.web.lookups.LookupOption.LookupGroup;
+import edu.wit.alr.web.response.ResponseBuilder;
 import edu.wit.alr.web.lookups.PersonLookupOption;
 
 @Controller
@@ -45,6 +46,9 @@ public class TransportController {
 	
 	@Autowired
 	private PersonRepository personRepo;
+	
+	@Autowired
+	private ResponseBuilder builderService;
 	
 	public static class TransportData {
 		public AddressData address;
@@ -97,6 +101,11 @@ public class TransportController {
 		peopleList.add(foster);
 		
 		return peopleList;
+	}
+	
+	@GetMapping("/transport")
+	public @ResponseBody String confirmationUrl() {
+		return builderService.buildIndependentPage(builderService.redirect("/forms/transport", "forms/transport/transport::form", null));
 	}
 }
 

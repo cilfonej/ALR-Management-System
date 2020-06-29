@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <link rel="stylesheet" href="/css/forms/transport/transportView.css" />
+	</head>
+    <body>
+    
+    	<ul th:fragment="breadcrums">
+		    <li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+		    <li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
+		</ul>
+
+		<div th:fragment="transportView">				
+	        <div th:each="stateData : ${state_map}">
+	        	<div th:replace = "::sections(${stateData.key}, ${stateData.value})"></div>
+	        </div>
+        </div>	 
+        
+        <div th:fragment="sections(state, citylist)">
+        <!-- TODO: STATE abbreivation to full name -->
+        	<span th:text="${state}" class="transportview-state">STATE</span>
+	        <div class="transportview-all">
+	            
+	            <div th:each="cityCard : ${citylist}" class ="transportview-cityCard">
+	                <span th:text="${cityCard.key}" class="transportview-cityState">city/street</span>
+	                <table>
+	                    <tr th:each="row : ${cityCard.value}">
+	                        <td th:text="${row.dog.name + ' #' + row.dog.ID}">Dog</td>
+	                        <td th:text="${row.pickupPerson.name}">Person Picking Up</td>
+	                    </tr>
+	                </table>
+	            </div>   
+	        </div>
+        </div>     
+    </body>  
+</html>
