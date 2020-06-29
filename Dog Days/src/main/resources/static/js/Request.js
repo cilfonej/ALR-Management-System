@@ -38,6 +38,10 @@ var Request = (function() {
 				history.pushState(null, "", data.url);
 				$(".page_content").html(data.pageHTML);
 			return true;
+			
+			case "replace":
+				$(data.query).replaceWith(data.replacementHTML);
+			return true;
 		}
 	}
 	

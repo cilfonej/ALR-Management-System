@@ -42,6 +42,28 @@ public class DogService {
 		return dog;
 	}
 	
+
+	public Dog updateDog(Dog dog, String name, Gender gender, Double weight,
+			Integer yearBorn, Integer monthBorn, Integer dayBorn, LocalDate heartDate, LocalDate ftDate,
+			ApplicationCoordinator coordinator, String recruiter, String description) {
+		
+		dog.setName(name);
+		
+		dog.setGender(gender);
+		dog.setWeight(weight);
+		
+		dog.setBirthday(yearBorn, monthBorn, dayBorn);
+		// TODO: prevention dates
+		
+		dog.setAddoptionCoordinator(coordinator);
+
+		repository.save(dog);
+		
+		// TODO: detect changes in data and tack appropriate actions 
+		
+		return dog;
+	}
+	
 	public Dog findDogByID(int id) {
 		return repository.findById(id).orElse(null);
 	}

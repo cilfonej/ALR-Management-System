@@ -4,7 +4,7 @@
 </head>
 
 <body>
-	<div th:fragment="card(dog)" class="card dog-card" 
+	<div th:fragment="card(dog)" class="card dog-card"
 		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
 		
 		<div class="dog-card_top">
@@ -26,6 +26,12 @@
 				</div>
 				
 			</div>
+			
+			<a class="dog-card_edit icon-button icon-button_ghost" 
+				data-tippy-content="Edit" data-micromodal-trigger="edit-dog"
+				onclick="MicroModal.show('edit-dog')"> <!-- TODO: remove if they ever fix dynamic content -->
+				<i class="fa fa-pen"></i>
+			</a>
 		</div>
 		
 		<div class="card-sub_layout">
@@ -56,13 +62,13 @@
 			    <span class="card-sub_heading"> Physical Info </span>
 			    <div class="card-sub_item extra-gap">
 					<div style="display: flex">
-						Gender:    
+						Gender:&nbsp;
 						<span th:text="${dog.gender}"></span>
 					</div>
 				</div>
 				<div class="card-sub_item extra-gap">
 					<div style="display: flex">
-						Weight:    
+						Weight:&nbsp;
 						<span class="dog-card_weight" th:text="${dog.weight}" th:if="${dog.weight > 0}"></span>
 						<span th:else="${dog.weight > 0}" style="width: 3rem"></span>
 					</div>
@@ -80,6 +86,12 @@
 				</div>
 			</div>
 		</div>
+		
+		<div th:replace="components/modal :: modal('edit-dog', 'Edit Dog Info', ~{:: edit(${dog})})"></div>
+	</div>
+	
+	<div th:fragment="edit(dog)">
+		<div th:replace="pages/dog/view/edit_dog :: form(${dog})"></div>
 	</div>
 </body>
 </html>

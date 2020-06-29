@@ -37,7 +37,7 @@
 	 </div>
 	 
 	 <div th:fragment="edit_form(url, body)" 
-		 class="edit-form" th:classappend="${class}"
+		 class="form edit-form" th:classappend="${class}"
 		 th:with="u_id=${#UID.$()}"
 		 th:attr="data-uid=${u_id}, data-form=${url}">
 		 

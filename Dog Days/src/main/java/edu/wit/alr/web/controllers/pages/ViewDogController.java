@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import edu.wit.alr.database.model.Dog;
 import edu.wit.alr.services.DogService;
 import edu.wit.alr.web.response.PageResponse;
+import edu.wit.alr.web.response.ReplaceResponse;
 import edu.wit.alr.web.response.ResponseBuilder;
 
 @Controller
@@ -33,16 +34,20 @@ public class ViewDogController {
 		return builder.buildIndependentPage(loadPage(id));
 	}
 	
-	public @ResponseBody PageResponse loadPage(int dog_id) {
+	public PageResponse loadPage(int dog_id) {
 		return loadPage(dogService.findDogByID(dog_id));
 	}
 	
-	public @ResponseBody PageResponse loadPage(Dog dog) {
+	public PageResponse loadPage(Dog dog) {
 		if(dog == null) ; // TODO: build error page
 		return builder.redirect("/view/dogs/" + dog.getID(), "pages/dog/view/view_dog :: page", Map.of("dog", dog));
 	}
 	
-	public @ResponseBody PageResponse listPage() {
+	public PageResponse listPage() {
 		return builder.redirect("/view/dogs", "pages/dog/list/list_dogs :: page", null);
+	}
+	
+	public ReplaceResponse updateDogInfo(Dog dog) {
+		return builder.replacement(".dog-card", "pages/dog/view/dog_info_card :: card", Map.of("dog", dog));
 	}
 }

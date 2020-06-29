@@ -56,7 +56,7 @@ public class Dog {
 	private Integer dob_day;
 	
 	@Column(scale = 4, precision = 2)
-	private double weight;
+	private Double weight;
 	
 	// TODO: last/next mediation date
 	// Date-per-drug
@@ -108,7 +108,7 @@ public class Dog {
 	public String getName() { return name; }
 
 	public Gender getGender() { return gender; }
-	public double getWeight() { return weight; }
+	public Double getWeight() { return weight; }
 	public LocationStatus getLocation() { return location; }
 	
 	public String getDescription() { return description; }
@@ -131,7 +131,7 @@ public class Dog {
 		this.name = name; 
 	}
 	
-	public void setWeight(double weight) { 
+	public void setWeight(Double weight) { 
 		this.weight = weight; 
 	}
 	

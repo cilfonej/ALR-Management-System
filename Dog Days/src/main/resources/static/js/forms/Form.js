@@ -29,6 +29,9 @@ var Form = (function() {
 				form_data[input.getField()] = input.getValue();
 			}
 			
+			// TODO: Add form-object, allow for extra methods (onClose, beforeSubmit, ect.) and remove this line \/
+			MicroModal.close();
+			
 			Request.send(url, form_data);
 			
 		} else {
