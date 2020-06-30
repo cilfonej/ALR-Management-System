@@ -5,21 +5,50 @@
     <script type="text/javascript" src="/webjars/micromodal/dist/micromodal.min.js"></script>
     
     <script type="text/javascript">
-		MicroModal.init({
-			// onShow: modal => {},
-			// onClose: modal => {},
+		$(function() {
+			MicroModal.init({
+				// onShow: modal => {},
+				// onClose: modal => {},
+				
+				// openTrigger: 'data-custom-open',
+				// closeTrigger: 'data-custom-close',
+				
+				openTrigger: '_', // NOTE: used to disable default detection, as the method does not work
+				
+				openClass: 'is-open',
+				disableScroll: true,
+				disableFocus: false,
+				
+				awaitOpenAnimation: true,
+				awaitCloseAnimation: true,
+				
+				debugMode: true
+			});
 			
-			// openTrigger: 'data-custom-open',
-			// closeTrigger: 'data-custom-close',
+			// setup Observers to detect when new nodes are added to the DOM and init MicroModal
+			AttrHandler.addAttribListener("data-micromodal-close", node => {
+				// if new node has 'micromodal-close' initalize modal-close on it
+				$(node).on("click", () => MicroModal.close());
+			});  
 			
-			openClass: 'is-open',
-			disableScroll: true,
-			disableFocus: false,
+			AttrHandler.addAttribListener("data-micromodal-trigger", node => {
+				// if new node has 'micromodal-trigger' initalize modal-trigger on it
+				var modalName = node.getAttribute("data-micromodal-trigger");
+				if(!modalName) { console.warn("Blank modal-name on Node"); return; }
+				
+				$(node).on("click", () => MicroModal.show(modalName));
+			});  
 			
-			awaitOpenAnimation: true,
-			awaitCloseAnimation: true,
+			// NOTE: fix for default-detection not working
+			// 		 auto-detect all elements with open attribute
 			
-			debugMode: true
+			$("[data-micromodal-trigger]").each((index, ele) => {
+				// if new node has 'micromodal-trigger' initalize modal-trigger on it
+				var modalName = ele.getAttribute("data-micromodal-trigger");
+				if(!modalName) { console.warn("Blank modal-name on Node"); return; }
+				
+				$(ele).on("click", () => MicroModal.show(modalName));
+			})
 		});
     </script>
 </head>
