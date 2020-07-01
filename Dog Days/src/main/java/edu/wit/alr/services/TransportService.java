@@ -29,6 +29,7 @@ public class TransportService {
 	}
 	
 	public TransportReservation findReservationForDog(Dog dog) {
-		return repository.findByDog(dog).orElse(null);
+		//TODO FIX ME NOT CHEATING
+		return repository.findAllByDog(dog).iterator().next();
 	}
 }
