@@ -91,7 +91,7 @@ public class Dog {
 		return dob_year == null ? null : 
 			LocalDate.of(
 				dob_year, 
-				dob_month == null ? 6 : dob_month, 
+				dob_month == null ? 7 : dob_month, 
 				dob_day == null ? 15 : dob_day
 			); 
 	}

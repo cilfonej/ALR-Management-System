@@ -67,6 +67,17 @@
 		&:hover::after {
 			background-color: @light_gray92;
 		}
+		
+		&.fade-icon {
+			i {
+				opacity: .5;
+				transition: opacity .15s ease-out;
+			}
+			
+			&:hover i {
+				opacity: 1;	
+			}
+		}
 	}
 	
 	&.icon-button_box {
