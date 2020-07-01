@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.wit.alr.database.model.Dog;
-
 import edu.wit.alr.database.model.Dog.Gender;
 import edu.wit.alr.database.model.roles.ApplicationCoordinator;
 import edu.wit.alr.database.model.roles.Caretaker;
@@ -80,8 +79,15 @@ public class DogService {
 		repository.save(dog);	
 	}
 	
+<<<<<<< Upstream, based on origin/master
 	public void updateCaretaker(Dog dog, Caretaker caretaker) {
 		dog.setCaretaker(caretaker);
 		repository.save(dog);
 	} 
+=======
+	public void changeCaretaker(Dog dog, Caretaker caretaker) {
+		dog.setCaretaker(caretaker);
+		repository.save(dog);
+	}
+>>>>>>> 288ae6f adding returned dogs done :(
 }

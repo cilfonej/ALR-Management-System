@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <link rel="stylesheet" href="/css/forms/return_dog/return_dog.css" />
+	</head>
+	
+	
+	
+	<body>
+		<ul th:fragment="breadcrums">
+		    <li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+		    <li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
+		</ul>
+		<div th:fragment="form" th:replace="forms/form :: form(url='/forms/return_dog', title='Returning Dog', body=~{:: #form})">
+	      	<div id="form" th:remove="tag">
+				<div th:replace="common/header::title('Returning Dog', ~{:: breadcrums})"></div>
+				<div th:replace="components/input :: form_lookup(label='Which dog is getting returned?', icon='fas fa-dog', name='returnDog', url='/forms/return_dog/autofill_dogs', allow_blank=false)"></div>
+				<div th:replace="components/input :: form_lookup(label='Who\'s returning this dog?', icon='fas fa-user-alt', name='returnPerson', url='/forms/return_dog/autofill_adopter', allow_blank=false)"></div>
+				<div th:replace="components/input :: form_textarea(label='Why was this dog returned?', name='reason', allow_blank=false)"></div>
+				<div th:replace="components/input :: form_lookup(label='Who will be taking care of this dog?', icon='fas fa-user-alt', name='newPerson', url='/forms/return_dog/autofill_foster', allow_blank=false)"></div>
+			</div>
+		</div>
+	</body>
+
+
+</html>
