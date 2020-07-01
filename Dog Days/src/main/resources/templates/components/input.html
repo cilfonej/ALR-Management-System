@@ -327,10 +327,15 @@
 					var requestURL = /*[[${url}]]*/ '';
 					requestURL && $jsx(/*[[${name}]]*/).requestData(requestURL, {});
 					
+					var jsx = $jsx(/*[[${name}]]*/);
+					
 					Input.setupInput(
 						$$("#" + /*[[${name}]]*/), 
-						new Input.Lookup(/*[[${name}]]*/, $jsx(/*[[${name}]]*/))
+						new Input.Lookup(/*[[${name}]]*/, jsx)
 					);
+					
+					var value = /*[[${value}]]*/ null;
+					value && jsx.setSelectedValue(value);
 				}); /*]]>*/
 			</script>
 		</div>

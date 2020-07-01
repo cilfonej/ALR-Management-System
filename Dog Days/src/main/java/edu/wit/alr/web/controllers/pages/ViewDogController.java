@@ -1,5 +1,6 @@
 package edu.wit.alr.web.controllers.pages;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.wit.alr.database.model.Dog;
 import edu.wit.alr.services.DogService;
+import edu.wit.alr.services.TransportService;
 import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.ReplaceResponse;
 import edu.wit.alr.web.response.ResponseBuilder;
@@ -22,6 +24,7 @@ public class ViewDogController {
 	@Autowired private ResponseBuilder builder;
 	
 	@Autowired private DogService dogService;
+	@Autowired private TransportService transportService;
 	
 	@GetMapping("")
 	protected @ResponseBody String list_direct() {
@@ -40,7 +43,12 @@ public class ViewDogController {
 	
 	public PageResponse loadPage(Dog dog) {
 		if(dog == null) ; // TODO: build error page
-		return builder.redirect("/view/dogs/" + dog.getID(), "pages/dog/view/view_dog :: page", Map.of("dog", dog));
+		
+		Map<String, Object> vars = new HashMap<>();
+		vars.put("reservation", transportService.findReservationForDog(dog));
+		vars.put("dog", dog);
+		
+		return builder.redirect("/view/dogs/" + dog.getID(), "pages/dog/view/view_dog :: page", vars);
 	}
 	
 	public PageResponse listPage() {

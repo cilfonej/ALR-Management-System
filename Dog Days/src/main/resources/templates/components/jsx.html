@@ -83,19 +83,12 @@
 
 				    var icon = /*[[${icon}]]*/;
 				    var type = /*[[${type}]]*/;
-
-				    var value = /*[[${value}]]*/;
-				    var text = /*[[${text}]]*/;
-				    var default_data = { 
-				    		value: value, 
-				    		filter: text 
-				    	};
 				    
 				    var readonly = /*[[${readonly}]]*/ false;
 
 					var onEvent = event => jsx[id].__listeners.forEach((func, name) => func(event));
 				    jsx[id] = ReactComponents.insertLookupFormInput($$("#" + id)[0], 
-							readonly, default_data, icon, type, onEvent);
+							readonly, {}, icon, type, onEvent);
 
 				    jsx[id].__listeners = new Map();
 				    jsx[id].addEventListener = (name, func) => jsx[id].__listeners.set(name, func);
