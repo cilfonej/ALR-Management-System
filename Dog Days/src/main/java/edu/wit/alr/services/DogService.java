@@ -9,6 +9,7 @@ import edu.wit.alr.database.model.Dog;
 
 import edu.wit.alr.database.model.Dog.Gender;
 import edu.wit.alr.database.model.roles.ApplicationCoordinator;
+import edu.wit.alr.database.model.roles.Caretaker;
 import edu.wit.alr.database.repository.DogRepository;
 
 @Service
@@ -78,4 +79,9 @@ public class DogService {
 		
 		repository.save(dog);	
 	}
+	
+	public void updateCaretaker(Dog dog, Caretaker caretaker) {
+		dog.setCaretaker(caretaker);
+		repository.save(dog);
+	} 
 }

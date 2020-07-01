@@ -48,6 +48,16 @@ public class ViewDogController {
 	}
 	
 	public ReplaceResponse updateDogInfo(Dog dog) {
-		return builder.replacement(".dog-card", "pages/dog/view/dog_info_card :: card", Map.of("dog", dog));
+		return builder.replacement(
+				".dog-card", 
+				"pages/dog/view/dog_info_card :: card", 
+				Map.of("dog", dog));
+	}
+	
+	public ReplaceResponse updateCaretakerCard(Dog dog) {
+		return builder.replacement(
+				".caretaker-card", 
+				"pages/dog/view/caretaker_assignment_card :: card", 
+				Map.of("dog", dog));
 	}
 }

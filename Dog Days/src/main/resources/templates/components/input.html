@@ -303,6 +303,7 @@
 		 
 			label: string <optional>
 			icon: string <default = [based on type]>
+			class: string <optional>
 			
 			allow_blank: boolean <default = true>
 			
@@ -315,7 +316,7 @@
 		 
 		<span class="form-input_label" th:text="${label}" th:if="${label != null}"> </span>
 		 
-		 <div th:attr="data-uid=${u_id}">
+		 <div th:attr="data-uid=${u_id}" th:classappend="${class}">
 			<th:block th:replace="components/jsx :: LookupFormInput(
 									id=${name}, 
 									icon=${icon}, 
