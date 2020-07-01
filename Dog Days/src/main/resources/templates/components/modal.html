@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/components/modal.css" />
+    <script type="text/javascript" src="/webjars/micromodal/dist/micromodal.min.js"></script>
+    
+    <script type="text/javascript">
+		$(function() {
+			MicroModal.init({
+				// onShow: modal => {},
+				// onClose: modal => {},
+				
+				// openTrigger: 'data-custom-open',
+				// closeTrigger: 'data-custom-close',
+				
+				openTrigger: '_', // NOTE: used to disable default detection, as the method does not work
+				
+				openClass: 'is-open',
+				disableScroll: true,
+				disableFocus: false,
+				
+				awaitOpenAnimation: true,
+				awaitCloseAnimation: true,
+				
+				debugMode: true
+			});
+			
+			// setup Observers to detect when new nodes are added to the DOM and init MicroModal
+			AttrHandler.addAttribListener("data-micromodal-close", node => {
+				// if new node has 'micromodal-close' initalize modal-close on it
+				$(node).on("click", () => MicroModal.close());
+			});  
+			
+			AttrHandler.addAttribListener("data-micromodal-trigger", node => {
+				// if new node has 'micromodal-trigger' initalize modal-trigger on it
+				var modalName = node.getAttribute("data-micromodal-trigger");
+				if(!modalName) { console.warn("Blank modal-name on Node"); return; }
+				
+				$(node).on("click", () => MicroModal.show(modalName));
+			});  
+			
+			// NOTE: fix for default-detection not working
+			// 		 auto-detect all elements with open attribute
+			
+			$("[data-micromodal-trigger]").each((index, ele) => {
+				// if new node has 'micromodal-trigger' initalize modal-trigger on it
+				var modalName = ele.getAttribute("data-micromodal-trigger");
+				if(!modalName) { console.warn("Blank modal-name on Node"); return; }
+				
+				$(ele).on("click", () => MicroModal.show(modalName));
+			})
+		});
+    </script>
+</head>
+
+<body>
+	<div th:fragment="modal(id, title, content)" th:id="${id}" aria-hidden="true" class="modal modal-sidefade"
+		 th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		 
+		<div class="modal__overlay" tabindex="-1" > <!-- data-micromodal-close -->
+			<div class="modal__container" role="dialog" aria-modal="true" th:aria-labelledby="${id + '-title'}">
+				<header class="modal__header">
+					<h2 th:id="${id + '-title'}" th:text="${title}"></h2>
+					<i class="fa fa-times" data-micromodal-close></i>
+				</header>
+				
+				<main class="modal__content" th:id="${id + '-content'}">
+					<th:block th:replace="${content}"></th:block>
+				</main>
+				
+				<footer class="modal__footer">
+					<!-- <button class="modal__btn modal__btn-primary">Continue</button>
+					<button class="modal__btn" data-micromodal-close>Close</button> -->
+				</footer>
+			</div>
+		</div>
+		
+		<script th:id="${id + '-setup'}" type="text/javascript" th:inline="javascript">
+		 	$(/*[[${id + '-setup'}]]*/ '').remove();
+		 	
+		</script>
+	</div>
+</body>
+</html>

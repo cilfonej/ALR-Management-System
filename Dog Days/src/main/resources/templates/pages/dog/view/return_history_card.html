@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(dog)" class="card return-hist-card" 
+		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		
+		<header class="card-header">
+			<h2> Return History </h2>
+			<a class="icon-button icon-button_ghost fade-icon" 
+				data-tippy-content="New Return">
+				<i class="fa fa-plus"></i>
+			</a>
+		</header>
+		
+		<div>
+			<div class="return-item">
+				<div class="return-item_person">
+		            <span> Ashly Middleton </span>
+					<span class="return-item_date"> 3/15/2018 </span>
+				</div>
+				<div class="returm-item_details"> 
+					<span> Reason: </span> 
+					<span> Bad with Kids </span> 
+					
+			        <div class="return-item_descript">
+						<div>
+							Felix had a hard time adjusting to kids. When a child would approch him, 
+							he would growel and show his teeth. I would recommed placing him in a houshold 
+							without young children.
+						</div>
+					</div>
+					
+					<a class="return-info_more">
+						read more...
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

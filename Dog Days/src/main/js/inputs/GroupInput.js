@@ -23,9 +23,13 @@ export default class GroupInput extends Input {
 				$inputs = $$("[data-form-input]");
 				// remove the input-flag from all children
 				$inputs.attr("data-form-input", null);
+				$inputs.attr("data-group-input", $inputs[0].input.getField());
 				
 				if(typeof _this.setupChildren === 'function')
 					_this.setupChildren($inputs);
+				
+				if(_this.rev_button && typeof _this.setupRevertChildren === 'function')
+					_this.setupRevertChildren($inputs, _this.rev_button);
 			});
 
 			// record the list of input for later use
@@ -33,6 +37,14 @@ export default class GroupInput extends Input {
 			_this.wrapper = element;
 		});
 	}
+	
+	setupRevertButton(button) {
+		// setup cannot happen yet, must wait till children/DOM is loaded
+		this.rev_button = button;
+	}
+	
+	// cannot set an value of a group, by default
+	setValue(val) { }
 	
 	getValue() {
 		var data = {};

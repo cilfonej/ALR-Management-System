@@ -2,12 +2,14 @@
 
 @card-border_radius: 3px; 
 
-@card-barground_color: white;
+@card-background_color: white;
 @card-header_color: @light_gray97;
+
+@card-sub_spacing: 3px;
+@card-section_gap: 15px;
 
 .card {
 	position: relative;
-    width: 280px; 
 	
     display: flex;
     align-content: start;
@@ -24,7 +26,7 @@
     margin-right: @card-margin;
     margin-bottom: @card-margin;
     
-    background: @card-barground_color;
+    background: @card-background_color;
     
     .card-header {
     	display: flex;
@@ -33,6 +35,7 @@
 	    
 	    padding: @card-padding;
 	    
+	    line-height: 1.5rem;
 	    font-size: @font_size-header;
 	    color: @text_color;
 	    
@@ -50,4 +53,90 @@
 		    font-weight: normal;
 	    }
     }
+    
+    .card-primary_text {
+		font-weight: bold;
+		font-size: 1.15rem;
+    }
+    
+    .card-sub_layout {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: start;
+		
+		margin-top: -@card-padding;
+		padding: @card-section_gap - @card-padding;
+    
+	    .card-sub_section {
+		    display: flex;
+		    flex-wrap: wrap;
+		    
+		    width: min-content;
+		    flex-shrink: 1;
+		    flex-grow: 1;
+
+		    margin: @card-padding;
+		    
+		    font-size: .85rem;
+		    
+		    .card-sub_heading {
+			    width: 100%;
+			    
+			    margin-bottom: @card-sub_spacing;
+			    border-bottom: 1px solid @gray85;
+			    
+			    font-size: .75rem;
+			    font-weight: bold;
+				white-space: nowrap;
+		    }
+		    
+		    .card-sub_item {
+				flex-grow: 1;
+				width: 100%;
+				
+				margin: @card-sub_spacing 0;
+	
+				&.extra-gap {
+					padding-bottom: @card-sub_spacing;
+				}
+		    }
+	    }
+    }
+    
+    &.blank-card {
+		.card-blank_body {
+			display: flex;
+			
+			width: 100%;
+			height: 100%;
+			
+			opacity: .25;
+			box-sizing: border-box;
+			
+			.card-blank_inner {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				width: min-content;
+				
+				margin: auto;
+				padding: 20px 40px;
+				border-radius: 3px;
+				
+				i {
+					font-size: 75px;
+				}
+				
+				.card-blank_message {
+					margin-top: 25px;
+					white-space: nowrap;
+					
+					font-weight: bold;
+					font-size: 1.15rem;
+				}
+			}
+		}
+	}
 }

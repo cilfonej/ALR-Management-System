@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(dog)" th:remove="tag">
+		<a th:replace="${dog?.caretaker != null} ? ~{:: card_content(${dog})} : ~{:: card_blank(${dog})}"></a>
+	</div>
+
+	<div th:fragment="card_content(dog)" class="card caretaker-card" 
+		th:with="u_id=${#UID.$()}, caretaker=${dog?.caretaker}" th:attr="data-uid=${u_id}">
+		
+		<header class="card-header">
+			<h2> Caretaker </h2>
+			
+			<a class="icon-button icon-button_ghost fade-icon" 
+				data-tippy-content="Replace" th:onclick="Request.send('/edit/dog/[(${dog.ID})]/caretaker')">
+				<i class="fa fa-pen"></i>
+			</a>
+		</header>
+			
+		<div>
+			<div class="caretaker-card_top">
+				<div class="caretaker-card_image">
+					<i class="caretaker-card_image-default fa fa-user"></i>
+				</div>
+		        
+				<div class="caretaker-card_primary">
+					<div>
+						<span class="card-primary_text" th:text="${caretaker.name}"></span>
+						<span class="caretaker-card_type" th:text="${'(' + caretaker.class.simpleName + ')'}"></span>
+					</div>
+					
+					<div class="caretaker-card_contact">
+						<span> Phone: </span>
+						<span th:text="${caretaker.primaryPhone}"></span>
+						
+						<span> Email: </span>
+						<span th:text="${caretaker.email}"></span>
+					</div>
+				</div>
+			</div>
+		    
+			<div class="card-sub_layout">
+				<div class="card-sub_section">
+					<span class="card-sub_heading"> Home Address </span>
+					
+					<span class="card-sub_item" th:text="${caretaker.homeAddress.streetAddress}"></span>
+					<span class="card-sub_item" th:text="${#Addresses.formatStateLine(caretaker.homeAddress)}"></span>
+					<span class="card-sub_item" th:text="${#Addresses.formatPostalLine(caretaker.homeAddress)}"></span>
+				</div>
+				
+				<div class="card-sub_section">
+					<span class="card-sub_heading"> ... </span>
+					<span class="card-sub_item"> ... </span>
+				</div>
+		    </div>
+		</div>
+	</div>
+	
+	<div th:fragment="card_blank(dog)" class="card caretaker-card blank-card" 
+		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		<header class="card-header">
+			<h2> Caretaker </h2>
+		</header>
+		
+		<div class="card-blank_body">
+			<div class="card-blank_inner" data-micromodal-trigger="assign-caretaker">
+				<i class="fa fa-plus"></i>
+				<span class="card-blank_message"> Assign caretaker to Dog </span>
+			</div>
+		</div>
+		
+		<div th:replace="components/modal :: modal('assign-caretaker', 'Assign Caretaker', ~{:: edit(${dog})})"></div>
+	</div>
+	
+	<div th:fragment="edit(dog)" th:replace="forms/form :: edit_form(
+		url='/edit/dog/' + ${dog.ID} + '/caretaker',
+		body=~{:: #edit_form})">
+	</div>
+	
+	<div id="edit_form" th:remove="tag">
+		<div th:replace="components/input :: form_lookup(
+			name='caretaker',
+			url='/edit/dog/list/caretakers',
+			
+			label='Caretaker',
+			icon='fa alr-user',
+			class='input-caretaker'
+		)"> </div>
+	</div>
+</body>
+</html>

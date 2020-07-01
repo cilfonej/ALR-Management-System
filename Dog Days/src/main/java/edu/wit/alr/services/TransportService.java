@@ -28,4 +28,7 @@ public class TransportService {
 		repository.save(transport);
 	}
 	
+	public TransportReservation findReservationForDog(Dog dog) {
+		return repository.findByDog(dog).orElse(null);
+	}
 }

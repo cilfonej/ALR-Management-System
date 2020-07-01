@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(dog)" class="card dog-card"
+		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		
+		<div class="dog-card_top">
+			<div class="dog-card_image">
+	    		<i class="dog-card_image-default fa fa-dog"></i>
+			</div>
+		    
+		    <div class="dog-card_primary">
+				<div>
+					<span class="card-primary_text" th:text="${dog.name}"> </span>
+					<span class="dog-card_id" th:text="${'#' + dog.ID}"></span>
+				</div>
+				
+				<div class="dog-card_sub-primary">
+					<div class="dog-card_coordinator">
+						<span>  Coordinator: </span>
+						<div th:replace="components/templates :: person_link(${dog.addoptionCoordinator})"></div>
+					</div>
+				</div>
+				
+			</div>
+			
+			<a class="dog-card_edit icon-button icon-button_ghost fade-icon" 
+				data-tippy-content="Edit" data-micromodal-trigger="edit-dog">
+				<i class="fa fa-pen"></i>
+			</a>
+		</div>
+		
+		<div class="card-sub_layout">
+			<div class="card-sub_section">
+			    <span class="card-sub_heading"> Born </span>
+				<span class="card-sub_item extra-gap dog-card_born">
+					<th:block th:switch="${dog.DOB_Month}" th:if="${dog.DOB_Month != null}">
+						<th:block th:case="1"> January </th:block>
+						<th:block th:case="2"> February </th:block>
+						<th:block th:case="3"> March </th:block>
+						<th:block th:case="4"> April </th:block>
+						<th:block th:case="5"> May </th:block>
+						<th:block th:case="6"> June </th:block>
+						<th:block th:case="7"> July </th:block>
+						<th:block th:case="8"> August </th:block>
+						<th:block th:case="9"> September </th:block>
+						<th:block th:case="10"> October </th:block>
+						<th:block th:case="11"> November </th:block>
+						<th:block th:case="12"> December </th:block>
+					</th:block>
+					
+					<th:block th:text="${dog.DOB_Day + ','}" th:if="${dog.DOB_Day != null}"></th:block>
+					<th:block th:text="${dog.DOB_Year}"></th:block>
+				</span>
+			</div>
+			
+			<div class="card-sub_section">
+			    <span class="card-sub_heading"> Physical Info </span>
+			    <div class="card-sub_item extra-gap">
+					<div style="display: flex">
+						Gender:&nbsp;
+						<span th:text="${dog.gender}"></span>
+					</div>
+				</div>
+				<div class="card-sub_item extra-gap">
+					<div style="display: flex">
+						Weight:&nbsp;
+						<span class="dog-card_weight" th:text="${dog.weight}" th:if="${dog.weight > 0}"></span>
+						<span th:else="${dog.weight > 0}" style="width: 3rem"></span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="card-sub_section">
+			    <span class="card-sub_heading"> Last Medication Date </span>
+	   			<div class="dog-card_medication">
+				    <span> Heartworm: </span>
+				    <span th:text="${#temporals.format(dog.birthday, 'MMM d, yyyy')}"></span>
+				    
+				    <span> Flee &amp; Tick: </span>
+				    <span th:text="${#temporals.format(dog.birthday, 'MMM d, yyyy')}"></span>
+				</div>
+			</div>
+		</div>
+		
+		<div th:replace="components/modal :: modal('edit-dog', 'Edit Dog Info', ~{:: edit(${dog})})"></div>
+	</div>
+	
+	<div th:fragment="edit(dog)">
+		<div th:replace="pages/dog/view/edit_dog :: form(${dog})"></div>
+	</div>
+</body>
+</html>

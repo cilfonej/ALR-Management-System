@@ -1,0 +1,69 @@
+@import "../../../card.less";
+
+@caretaker-image_size: 75px;
+
+.caretaker-card {
+	width: 350px;
+	
+	flex-shrink: 1;
+	flex-grow: 1;
+	/* min-width: 300px; */
+	/* max-width: 400px; */
+	
+	.caretaker-card_top {
+		display: flex;
+		
+		.caretaker-card_image {
+			display: flex;
+			flex-shrink: 0;
+			
+			width: @caretaker-image_size;
+			height: @caretaker-image_size;
+			
+			margin: @card-padding;
+			border-radius: 50%;
+			
+			color: white;
+			background: @theme-color_light;
+			
+			.caretaker-card_image-default {
+				margin: auto;
+				font-size: @caretaker-image_size / 2;
+			}
+		}
+		
+		.caretaker-card_primary {
+			flex-grow: 1;
+			
+			margin: @card-section_gap;
+			margin-left: @card-padding;
+			
+			.caretaker-card_type {
+				color: @gray50;
+				margin-left: @card-padding;
+			}
+			
+			.caretaker-card_contact {
+				display: grid;
+				grid-template-columns: min-content auto;
+				grid-gap: @card-sub_spacing @card-padding;
+				
+				font-size: .85rem;
+				margin-top: @card-padding;
+			}
+			
+			// values
+			& > *:nth-child(2n) {
+				color: @value-text_color;
+			}
+		}
+	}
+	
+	.card-blank_inner {
+		cursor: pointer;
+	}
+	
+	.input-caretaker {
+		min-width: 250px;
+	}
+}

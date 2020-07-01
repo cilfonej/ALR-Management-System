@@ -18,6 +18,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+import edu.wit.alr.web.preprocessor.AddressHelperDialect;
 import edu.wit.alr.web.preprocessor.IdentifyDialect;
 import edu.wit.alr.web.preprocessor.NumberFormatDialect;
 
@@ -57,6 +58,7 @@ public class WebConfig implements WebMvcConfigurer {
         templateEngine.addDialect(new Java8TimeDialect());
         templateEngine.addDialect(new NumberFormatDialect());
         templateEngine.addDialect(new IdentifyDialect());
+        templateEngine.addDialect(new AddressHelperDialect());
         return templateEngine;
     }
 	 

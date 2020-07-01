@@ -1,0 +1,121 @@
+@import "../../../card.less";
+
+@dog-image_size: 90px;
+
+.dog-card {
+	// width: 350px;
+	
+	flex-shrink: 1;
+	flex-grow: 1;
+
+	min-width: 325px;
+    max-width: 375px; // 600px
+	
+	.dog-card_top {
+		display: flex;
+		
+		.dog-card_image {
+			display: flex;
+			flex-shrink: 0;
+			
+			width: @dog-image_size;
+			height: @dog-image_size;
+			
+			margin: @card-section_gap;
+			margin-right: @card-padding / 2;
+
+			background: @theme-color_light;
+			border-radius: 15%;
+			
+			.dog-card_image-default {
+				margin: auto;
+				
+				color: white;
+				font-size: @dog-image_size * 2/3;
+			}
+		}
+		
+		.dog-card_primary {
+			display: flex;
+			flex-direction: column;
+			
+			flex-grow: 1;
+			margin: @card-section_gap;
+			
+			.dog-card_id {
+				color: @value-text_color;
+				font-size: .9rem;
+			}
+			
+			.dog-card_sub-primary {
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+
+				height: 100%;
+				margin-top: @card-padding;
+				
+				.dog-card_coordinator {
+					display: flex;
+					flex-wrap: wrap;
+					align-items: center;
+					
+					& > span {
+						font-size: .8rem;
+						font-weight: bold;
+						
+						margin-right: @card-padding;
+					}
+					
+					.person-link {
+						font-size: .85rem;
+					}
+				}
+			}
+		}
+		
+		.dog-card_edit {
+			position: absolute;
+			top: 0;
+			right: 0;
+			
+			margin: @card-section_gap;
+		}
+	}
+	
+	.dog-card_born {
+		white-space: nowrap;
+		min-width: 4rem;
+	}
+	
+	.dog-card_weight {
+	    color: @value-text_color;
+		margin-left: @card-padding;
+		
+    	&::after {
+		    content: "\202Flbs"
+		}
+	}
+	
+	.dog-card_medication {
+		display: grid;
+		grid-template-columns: auto auto;
+		grid-gap: @card-sub_spacing * 2 @card-padding;
+		
+		margin: @card-sub_spacing 0;
+		
+		// labels
+		span:nth-child(2n) {
+			font-size: .8rem;
+			white-space: nowrap
+		}
+		
+		// values
+		span:nth-child(2n + 1) {
+			color: @value-text_color;
+			
+			text-align: right;
+			white-space: nowrap;
+		}
+	}
+}

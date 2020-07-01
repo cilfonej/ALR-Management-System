@@ -33,8 +33,23 @@ public class ResponseBuilder {
 		String html = engine.process(file, Set.of(fragment), new Context(locale, variables));
 		return new PageResponse(url, html);
 	}
-
+	
 	public String buildIndependentPage(PageResponse page) {
 		return engine.process("index", new Context(Locale.getDefault(), Map.of("content", page.getPageHTML())));
+	}
+	
+	public ReplaceResponse replacement(String query, String template, Map<String, Object> variables) {
+		return replacement(query, template, Locale.getDefault(), variables);
+	}
+	
+	public ReplaceResponse replacement(String query, String template, Locale locale, Map<String, Object> variables) {
+		Matcher match = TEMPLATE_PATTERN.matcher(template);
+		if(!match.find()) throw new IllegalArgumentException("Template must be of the format: <file_name> :: <fragment>");
+		
+		String file = match.group(1);
+		String fragment = match.group(2);
+		
+		String html = engine.process(file, Set.of(fragment), new Context(locale, variables));
+		return new ReplaceResponse(query, html);
 	}
 }

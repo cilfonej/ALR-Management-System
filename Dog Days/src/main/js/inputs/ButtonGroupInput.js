@@ -49,6 +49,37 @@ export default class ButtonGroupInput extends GroupInput {
 		}
 	}
 	
+	setupRevertChildren($inputs, button) {
+		var onSelect = () => button.onInputChange();
+		
+		// on child value change, trigger revert-button state change
+		$inputs.each((index, ele) => {
+			var input = ele.input;
+			input.addListener(onSelect);
+		});
+	}
+	
+	setValue(values) {
+		// convert value to array
+		values = !Array.isArray(values) && [values] || values;
+		
+		// if attempt to set before init is done
+		if(!this.children) {
+			var input = this;
+			// queue the event up for later
+			$(() => input.setValue(values));
+			return;
+		}
+		
+		this.children.each((index, ele) => {
+			var $ele = $(ele);
+			var val = $ele.val();
+			
+			// if values contains this options, then select it, otherwise un-check
+			$ele.prop("checked", values.includes(val));
+		});
+	}
+	
 	getValue() {
 		var result = this.children
 			.map((index, ele) => ele.input.getValue() && $(ele).val() || undefined)
@@ -89,6 +120,14 @@ export class CheckboxInput extends Input {
 		
 		$ele.attr("data-toggle-init", this.getValue());
 		$ele.on("change", e => super.fireChangeEvent(this.getValue()));
+	}
+	
+	setupRevertButton(button) {
+		$ele.on("change", e => button.onInputChange());
+	}
+	
+	setValue(val) {
+		$(this.ele).prop("checked", String(val) == "true");
 	}
 	
 	// for lone check-box value is just its status

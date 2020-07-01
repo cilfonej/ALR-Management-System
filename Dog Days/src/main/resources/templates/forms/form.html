@@ -10,7 +10,8 @@
 </head>
 
 <body>
-	<div th:fragment="form(url, body)" class="form"
+	<div th:fragment="form(url, body)" 
+		 class="form" th:classappend="${class}"
 		 th:with="u_id=${#UID.$()}"
 		 th:attr="data-uid=${u_id}, data-form=${url}">
 		 
@@ -26,6 +27,25 @@
 			<h2 th:text="${title}"> </h2>
 		</header>
 		
+		<div class="form-content">
+			<th:block th:replace="${body}"></th:block>
+		</div>
+		
+		<footer>
+			<button onclick="Form.submit($(this).closest('.form'))"> Submit </button>
+		</footer>
+	 </div>
+	 
+	 <div th:fragment="edit_form(url, body)" 
+		 class="form edit-form" th:classappend="${class}"
+		 th:with="u_id=${#UID.$()}"
+		 th:attr="data-uid=${u_id}, data-form=${url}">
+		 
+		 <!-- 
+		 	url: string 				- server url to post data to
+		 	body: HTML					- form content body
+		  -->
+		 
 		<div class="form-content">
 			<th:block th:replace="${body}"></th:block>
 		</div>

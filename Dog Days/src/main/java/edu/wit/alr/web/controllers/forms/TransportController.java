@@ -2,7 +2,9 @@ package edu.wit.alr.web.controllers.forms;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import edu.wit.alr.database.model.roles.Caretaker;
 import edu.wit.alr.database.model.roles.Foster;
 import edu.wit.alr.database.repository.DogRepository;
 import edu.wit.alr.database.repository.PersonRepository;
+import edu.wit.alr.services.DogService;
 import edu.wit.alr.services.TransportService;
 import edu.wit.alr.services.inflators.AddressInflator.AddressData;
 import edu.wit.alr.services.inflators.DogInflator.DogData;
@@ -29,16 +32,24 @@ import edu.wit.alr.services.inflators.PersonInflator.PersonData;
 import edu.wit.alr.web.lookups.DogLookupOption;
 import edu.wit.alr.web.lookups.LookupOption.LookupGroup;
 import edu.wit.alr.web.lookups.PersonLookupOption;
+import edu.wit.alr.web.response.PageResponse;
+import edu.wit.alr.web.response.ResponseBuilder;
 
 @Controller
-@RequestMapping("/forms")
+@RequestMapping("/register/transport")
 public class TransportController {
 	
 	@Autowired
 	private InflatorService inflatorService;
 	
 	@Autowired
+	private ResponseBuilder builder;
+	
+	@Autowired
 	private TransportService transportService;
+
+	@Autowired
+	private DogService dogService;
 	
 	@Autowired
 	private DogRepository dogRepo;
@@ -53,8 +64,8 @@ public class TransportController {
 		public PersonData pickupPerson; 
 	}
 	
-	@PostMapping("/transport")
-	public @ResponseBody String transportSubmit(@RequestBody TransportData data) {
+	@PostMapping("/submit")
+	public @ResponseBody String submit(@RequestBody TransportData data) {
 		
 		Address address = inflatorService.inflate(data.address); 
 		Dog dog = inflatorService.inflate(data.chooseDog);
@@ -97,6 +108,26 @@ public class TransportController {
 		peopleList.add(foster);
 		
 		return peopleList;
+	}
+	
+	public static class ProtoTransportData {
+		public Integer dog;
+	}
+	
+	@GetMapping("")
+	protected @ResponseBody String loadPage_direct() {
+		return builder.buildIndependentPage(loadPage(null));
+	}
+	
+
+	@PostMapping("")
+	public  @ResponseBody PageResponse loadPage(@RequestBody(required = false) ProtoTransportData data) {
+		Map<String, Object> vars = new HashMap<>();
+		if(data != null) {
+			vars.put("dog", data.dog != null ? dogService.findDogByID(data.dog) : null);
+		}
+		
+		return builder.redirect("/register/transport", "forms/transport/transport :: form", vars);
 	}
 }
 

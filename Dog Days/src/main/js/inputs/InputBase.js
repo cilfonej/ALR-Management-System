@@ -1,6 +1,7 @@
 export default class InputBase {
 	constructor(name) {
 		if(typeof this.getValue !== 'function') throw new TypeError("Method 'getValue' has not ben defined");
+		if(typeof this.setValue !== 'function') throw new TypeError("Method 'setValue' has not ben defined");
 		
 		if(typeof this.validate !== 'function') throw new TypeError("Method 'validate' has not ben defined");
 		if(typeof this.setError !== 'function') throw new TypeError("Method 'setError' has not ben defined");
@@ -10,6 +11,7 @@ export default class InputBase {
 	}
 	
 	setupElement(element) {}
+	setupRevertButton(button) {}
 	
 	getField() {
 		return this.name;

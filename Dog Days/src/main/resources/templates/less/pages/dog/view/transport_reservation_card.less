@@ -1,0 +1,49 @@
+@import "../../../card.less";
+
+.reservation-card {
+	width: 350px;
+	
+	flex-shrink: 1;
+	flex-grow: 1;
+	
+	/* min-width: 300px; */
+	/* max-width: 400px; */
+	
+	.reservation-card_info {
+		display: grid;
+		grid-gap: @card-padding @card-section_gap;
+		grid-template-columns: min-content auto;
+		
+		padding: @card-padding;
+		
+		// label
+		& > *:nth-child(2n + 1) {
+			font-weight: bold;
+			font-size: .9rem;
+		}
+		
+		// value
+		& > *:nth-child(2n) {
+			color: @value-text_color;
+			font-size: .9rem;
+		}
+		
+		.reservation-card_location {
+			display: flex;
+			flex-direction: column;
+			
+			margin-bottom: @card-padding;
+			
+			color: @value-text_color;
+			font-size: .9rem;
+		}
+		
+		.reservation-card_person-label {
+			align-self: center;
+		}
+	}
+	
+	.card-blank_inner {
+		cursor: pointer;
+	}
+}

@@ -52,10 +52,33 @@ export default class StandardInput extends Input {
 		this.onInput(this.ele);
 	}
 	
+	setupRevertButton(button) {
+		var $ele = $(this.ele);
+		$ele.on("input", e => button.onInputChange());
+		
+		// perform special setup based on input-type
+		UID.exe(this.ele, () => {
+			var type = types[this.params['type']]
+			type && type.setupRevertButton && type.setupRevertButton(this, button);
+		});
+	}
+	
+	setValue(val) {
+		// perform special value-assignment based on input-type
+		var type = types[this.params['type']]
+		if(type && type.setValue) type.setValue(this, val);
+		// default-value
+		else $(this.ele).val(val); 
+		
+		// after assigning-value, update and validate the input
+		this.onInput();
+		this.validate();
+	}
+	
 	getValue() { 
 		// perform special value-generation based on input-type
 		var type = types[this.params['type']]
-		if(type && type.validate) return type.getValue(this);
+		if(type && type.getValue) return type.getValue(this);
 		
 		// default-value
 		return $(this.ele).val(); 

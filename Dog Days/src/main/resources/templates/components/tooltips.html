@@ -36,29 +36,15 @@
         	}
         	
         	// setup Observer to detect when new nodes are added to the DOM and init Tippy
-    		var tippyObserver = new MutationObserver(function(changes) {
-    			for(var record of changes) {
-    				if(record.addedNodes) {
-    					for(var node of record.addedNodes) {
-    						if(node.nodeType != Node.ELEMENT_NODE) continue;
-    						
-    						// if new node has 'tippy-content' initalize tippy on it
-    						if(node.hasAttribute("data-tippy-content")) {
-    							tippy(node);
-    							
-    							// if node also has a group
-    							if(node.hasAttribute("data-tippy-group")) {
-    								setupSingleton(node);
-        						}
-    						}
-    					}
-    				}
-    			}
-    		});
-        	
-        	// bind Observer to the root of the DOM
-    		tippyObserver.observe($("body")[0], { childList: true, subtree: true });
-    		
+			AttrHandler.addAttribListener("data-tippy-content", node => {
+				// if new node has 'tippy-content' initalize tippy on it
+				tippy(node);
+				
+				// if node also has a group
+				if(node.hasAttribute("data-tippy-group")) {
+					setupSingleton(node);
+				}
+			});  						
 
     		// find and initiate tippy
     		tippy("[data-tippy-content]");

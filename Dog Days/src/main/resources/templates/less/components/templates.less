@@ -17,3 +17,37 @@
 		margin-bottom: 3px;
 	}
 }
+
+@person-link-image_size: 1.5em;
+
+.person-link {
+	display: flex;
+	align-items: center;
+	
+	.person-link_image {
+		display: inline-flex;
+	
+		width: @person-link-image_size;
+		height: @person-link-image_size;
+		
+		margin-right: .5em;
+		
+		border-radius: 50%;
+		background: @theme-color_light;
+		
+		.person-link_image-default {
+			margin: auto;
+			
+			color: white;
+			font-size: @person-link-image_size / 2;
+		}
+	}
+	
+	.person-link_name {
+		color: @link_color;
+		border-bottom: 1px solid;
+	
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}

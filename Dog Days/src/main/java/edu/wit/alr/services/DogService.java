@@ -9,6 +9,7 @@ import edu.wit.alr.database.model.Dog;
 
 import edu.wit.alr.database.model.Dog.Gender;
 import edu.wit.alr.database.model.roles.ApplicationCoordinator;
+import edu.wit.alr.database.model.roles.Caretaker;
 import edu.wit.alr.database.repository.DogRepository;
 
 @Service
@@ -43,6 +44,28 @@ public class DogService {
 		return dog;
 	}
 	
+
+	public Dog updateDog(Dog dog, String name, Gender gender, Double weight,
+			Integer yearBorn, Integer monthBorn, Integer dayBorn, LocalDate heartDate, LocalDate ftDate,
+			ApplicationCoordinator coordinator, String recruiter, String description) {
+		
+		dog.setName(name);
+		
+		dog.setGender(gender);
+		dog.setWeight(weight);
+		
+		dog.setBirthday(yearBorn, monthBorn, dayBorn);
+		// TODO: prevention dates
+		
+		dog.setAddoptionCoordinator(coordinator);
+
+		repository.save(dog);
+		
+		// TODO: detect changes in data and tack appropriate actions 
+		
+		return dog;
+	}
+	
 	public Dog findDogByID(int id) {
 		return repository.findById(id).orElse(null);
 	}
@@ -56,4 +79,9 @@ public class DogService {
 		
 		repository.save(dog);	
 	}
+	
+	public void updateCaretaker(Dog dog, Caretaker caretaker) {
+		dog.setCaretaker(caretaker);
+		repository.save(dog);
+	} 
 }

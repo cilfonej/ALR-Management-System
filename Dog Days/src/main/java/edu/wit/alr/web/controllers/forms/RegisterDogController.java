@@ -16,21 +16,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 
+import edu.wit.alr.database.model.Dog;
 import edu.wit.alr.database.model.Dog.Gender;
 import edu.wit.alr.database.model.roles.ApplicationCoordinator;
 import edu.wit.alr.database.repository.PersonRepository;
 import edu.wit.alr.services.DogService;
 import edu.wit.alr.services.inflators.InflatorService;
 import edu.wit.alr.services.inflators.PersonInflator.PersonData;
+import edu.wit.alr.web.controllers.pages.ViewDogController;
 import edu.wit.alr.web.lookups.LookupOption.LookupGroup;
 import edu.wit.alr.web.lookups.PersonLookupOption.AdminLookupOption;
+import edu.wit.alr.web.response.PageResponse;
+import edu.wit.alr.web.response.Response;
+import edu.wit.alr.web.response.ResponseBuilder;
 
 @Controller
-@RequestMapping("/forms/redgister/dog")
+@RequestMapping("/register/dog")
 public class RegisterDogController {
 
 	@Autowired private InflatorService inflator;
 	@Autowired private DogService dogs;
+	
+	@Autowired private ResponseBuilder builder;
+	@Autowired private ViewDogController viewDogController;
 	
 	@Autowired
 	// TODO: remove / relocate
@@ -60,16 +68,16 @@ public class RegisterDogController {
 		public LocalDate heart_date;
 	}
 	
-	@PostMapping("")
-	public @ResponseBody String register(@RequestBody RegisterData data) {
+	@PostMapping("submit")
+	public @ResponseBody Response register(@RequestBody RegisterData data) {
 		ApplicationCoordinator coordinator = inflator.inflatePerson(data.coordinator, ApplicationCoordinator.class);
 		
-		dogs.createDog(data.name, Gender.parse(data.gender), data.weight, 
+		Dog dog = dogs.createDog(data.name, Gender.parse(data.gender), data.weight, 
 				data.bday_year, data.bday_month, data.bday_day, data.heart_date, data.ft_date, 
 				coordinator, data.recruiter, data.description);
 		
 		System.out.println(coordinator.getName());
-		return "OK";
+		return viewDogController.loadPage(dog);
 	}
 	
 	@GetMapping("/list/people")
@@ -111,5 +119,14 @@ public class RegisterDogController {
 		groups.add(adminsGroup);
 		
 		return groups;
+	}
+	
+	@GetMapping("")
+	protected @ResponseBody String loadPage_direct() {
+		return builder.buildIndependentPage(loadPage());
+	}
+	
+	public @ResponseBody PageResponse loadPage() {
+		return builder.redirect("/register/dog", "forms/register_dog/register_dog :: form", null);
 	}
 }
