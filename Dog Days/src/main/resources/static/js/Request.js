@@ -35,7 +35,7 @@ var Request = (function() {
 	function handleStandardResponse(xhr, data) {
 		switch(data.action) {
 			case "redirect":
-				history.pushState(null, "", data.url);
+				history.pushState({ url: data.url }, "", data.url);
 				$(".page_content").html(data.pageHTML);
 			return true;
 			
@@ -44,6 +44,15 @@ var Request = (function() {
 			return true;
 		}
 	}
+
+//	======================================== Setup ======================================== \\
+	
+	$(window).on("popstate", function(e) {
+		if(e.originalEvent.state) {
+			// TODO: should probably just re-request page content, and swap it
+			location.reload();
+		}
+	});
 	
 //	======================================== Export ======================================== \\
 	
