@@ -30,7 +30,7 @@ var Form = (function() {
 			}
 			
 			// TODO: Add form-object, allow for extra methods (onClose, beforeSubmit, ect.) and remove this line \/
-			MicroModal.close();
+			try { MicroModal.close(); } catch(ex) {}
 			
 			Request.send(url, form_data);
 			
