@@ -32,10 +32,6 @@ public class MainWebController {
 	public ModelAndView index() {
 		ModelAndView view = new ModelAndView("index");
 		
-		Dog dog = dogRepo.findAll().iterator().next();
-		view.addObject("dog", dog);
-		view.addObject("reservation", reservationRepo.findByDog(dog).orElse(null));
-		
 		return view;
 	}
 }
