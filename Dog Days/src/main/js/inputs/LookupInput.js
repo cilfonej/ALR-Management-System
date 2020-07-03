@@ -14,6 +14,11 @@ export default class LookupInput extends Input {
 		this.jsx.addEventListener("revert_button", value => skip && !(skip = false) || button.onInputChange());
 	}
 	
+	addListener(listener) {
+		var id = Math.floor(Math.random() * 10000);
+		this.jsx.addEventListener("listener_" + id, value => this.fireChangeEvent(this, value));
+	}
+	
 	setValue(val) {
 		this.jsx.setSelectedValue(val);
 	}

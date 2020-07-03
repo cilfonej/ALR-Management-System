@@ -21,8 +21,10 @@
 		display: grid;
 		grid-template-columns: 125px auto;
 		
-		grid-row-gap: 10px;
-		grid-column-gap: 10px;
+		grid-row-gap: @card-padding;
+		grid-column-gap: @card-padding;
+		
+		align-items: flex-start;
     }
 }
 
@@ -34,6 +36,5 @@
 
 	.form-content {
 		grid-template-columns: 125px auto min-content;
-		grid-row-gap: @card-section_gap;
 	}
 }
