@@ -1,4 +1,27 @@
+import 'regenerator-runtime/runtime'; // resolves "regeneratorRuntime is not defined"
 import Input from "./InputBase";
+
+var groupsQueue = [];
+// rough way to alter the order that groups load
+async function setupGroups() {
+	while(groupsQueue.length) {
+		var group = groupsQueue.shift();
+		
+		// check if the group has finished loading
+		if(await !group.next().done) {
+			// if not, add it to the back of the queue
+			groupsQueue.push(group);
+		}
+	}
+}
+
+// after DOM loads, evaluate the groups
+function scheduleGroupLoad(generator) {
+	// if the queue is empty, schedule a group-load after DOM loads
+	!groupsQueue.length && $(function() { setupGroups(); });
+	
+	groupsQueue.push(generator());
+}
 
 export default class GroupInput extends Input {
 	constructor(name, params, default_params) {
@@ -12,29 +35,62 @@ export default class GroupInput extends Input {
 	}
 	
 	setupElement(element) {
-		var _this = this;
+		var group = this;
 		
-		// run after DOM has loaded
-		$(function() {
-			var $inputs;
-			var param = _this.params;
+		// delay group loading
+		scheduleGroupLoad(function* () {
+			yield; // wait for load cycle to start
+			
+			var $children = $();
+			var param = group.params;
+			
+			// load children
+			search: while(true) {
+				var $inputs;
+				
+				// query remaining form-inputs inside of the group
+				UID.exe(element, () => $inputs = $$("[data-form-input]"));
+				
+				// for each input
+				for(var ele of $inputs) {
+					var $ele = $(ele);
+					var input = ele.input;
+					
+					// if the input is a group, and it has not yet claimed it's children
+					if(input instanceof GroupInput && typeof input.children === 'undefined') {
+						yield; 			 // pause execution
+						continue search; // restart search
+					}
+
+					// chain events from children
+					input.addListener(value => group.fireChangeEvent(this, { src: input, val: value}));
+					
+					// remove the input-flag from all children
+					$ele.attr("data-form-input", null);
+					// replace the input-flag with a group-input flag
+					$ele.attr("data-group-input", input.getField());
+					
+					// add element to list of children
+					$children = $children.add($ele);
+				}
+				
+				// if we exit the for-loop, then all inputs processed
+				break;
+			}
 			
 			UID.exe(element, function() {
-				$inputs = $$("[data-form-input]");
-				// remove the input-flag from all children
-				$inputs.attr("data-form-input", null);
-				$inputs.attr("data-group-input", $inputs[0].input.getField());
+				// attempt to setup children
+				if(typeof group.setupChildren === 'function')
+					group.setupChildren($children);
 				
-				if(typeof _this.setupChildren === 'function')
-					_this.setupChildren($inputs);
-				
-				if(_this.rev_button && typeof _this.setupRevertChildren === 'function')
-					_this.setupRevertChildren($inputs, _this.rev_button);
+				// if a revert button was added, attempt to perform setup
+				if(group.rev_button && typeof group.setupRevertChildren === 'function')
+					group.setupRevertChildren($children, group.rev_button);
 			});
 
 			// record the list of input for later use
-			_this.children = $inputs;
-			_this.wrapper = element;
+			group.children = $children;
+			group.wrapper = element;
 		});
 	}
 	
