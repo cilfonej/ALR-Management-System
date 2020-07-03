@@ -28,4 +28,8 @@ public class ReturnDogService {
 		
 		repository.save(returning);	
 	}	
+	
+	public DogReturn findReturnByID(int id) {
+		return repository.findById(id).orElse(null);
+	}
 }

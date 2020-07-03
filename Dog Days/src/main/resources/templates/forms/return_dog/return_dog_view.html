@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <link rel="stylesheet" href="/css/forms/return_dog/return_dog_view.css" />
+	</head>
+	
+	
+	<body>
+		<ul th:fragment="breadcrums">
+		    <li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+		    <li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
+		</ul>
+		
+		<div th:fragment="page" class="returnPage">
+			<div>
+				<div class="dogCard">
+					<div th:replace="pages/dog/view/dog_info_card :: card(${dog})"></div>
+				</div>
+				
+				<div class="personCard">
+					<!-- TODO <div th:replace="pages/dog/view/caretaker_assignment_card :: card(${dog})"></div> -->
+				</div>
+			</div>
+			
+			<div class="returnCard">
+				<div class="card-header">
+					<h2>Reason</h2>
+				</div>
+				
+				<div class="return-date">
+					<div th:text="${#temporals.format(returnDate, 'MMMM d, yyyy')}"></div>
+				</div>
+				
+				<div class="returnCard-reason">
+					<div th:text="${reason}"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+</html>
