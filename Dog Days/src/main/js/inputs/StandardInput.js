@@ -2,11 +2,17 @@ import Input from "./InputBase";
 
 import DateType from "./extensions/DateInput";
 import NumberType from "./extensions/NumberInput";
+import EmailType from "./extensions/EmailInput";
+import PhoneType from "./extensions/PhoneInput";
 
 var types = {
 	"date": DateType,
+	
 	"number": NumberType,
 	"decimal": NumberType,
+	
+	"email": EmailType,
+	"phone": PhoneType,
 };
 
 var DEFAULT_PARAMS = {
@@ -76,6 +82,10 @@ export default class StandardInput extends Input {
 	}
 	
 	getValue() { 
+		// perform special value-generation, if provided
+		var result = callNamedFunction(this, this.params, "get-value");
+		if(typeof result !== "undefined") return result;
+		
 		// perform special value-generation based on input-type
 		var type = types[this.params['type']]
 		if(type && type.getValue) return type.getValue(this);
@@ -109,7 +119,7 @@ export default class StandardInput extends Input {
 				$ele.val(val.substring(0, max));
 			}
 		}
-
+		
 		// perform special input-filtering based on input-type
 		var type = types[this.params['type']]
 		type && type.validate && type.onInput(this);
@@ -150,6 +160,13 @@ export default class StandardInput extends Input {
 			this.setError('Please enter at-least ' + param["min-length"] + ' characters');
 			return false;
 		}
+
+		// perform special validation, if provided
+		var passing = callNamedFunction(this, param, "validate");
+		// ensure a value was returned, and if that value was false (invalid)
+		if(typeof passing !== 'undefined' && !passing) {
+			return false;
+		}
 		
 		// perform special validation based on input-type
 		var type = types[this.params['type']]
@@ -161,4 +178,34 @@ export default class StandardInput extends Input {
 		this.setError(null);
 		return true;
 	}
+}
+
+function callNamedFunction(input, param, option) {
+	if(typeof param[option] === "function") {
+		return param[option](input);
+		
+	// most common option, a name of a window function is provided
+	} else if(typeof param[option] !== "undefined") {
+		var func_name = param[option];
+		var target = window;
+
+		for(var obj_name of func_name.split(".")) {
+			if(typeof target !== "object") {
+				console.warn("Could not find object: " + obj_name);
+				target = null; // flag target as unusable
+				break;
+			}
+			
+			obj_name in target && (target = target[obj_name]);
+		}
+		
+		if(target) {
+			if(typeof target !== 'function') 
+				console.warn(func_name + " is not a function");
+			else 
+				return target(input);
+		}
+	}
+	
+	// return undefined;
 }
