@@ -1,0 +1,27 @@
+@import "../../card.less";
+
+.person-form {
+	.person-form_name {
+		display: grid;
+		grid-template-columns: auto auto;
+		grid-column-gap: @card-padding;
+	}
+	
+	.person-form_roles {
+		h3 {
+			font-size: .85rem;
+			font-weight: bold;
+			
+			color: @dark_gray35;
+			margin: 0;
+		}
+		
+		.person-form_roles-group {
+			display: flex;
+			
+			& > * {
+				margin-right: @card-section_gap;
+			}
+		}
+    }
+}

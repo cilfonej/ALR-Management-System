@@ -143,6 +143,30 @@
 	}
 }
 
+.phone-input input {
+	font-family: @font-monospace;
+}
+
+.form-input_address {
+	.city-state {
+		display: grid;
+		grid-template-columns: auto 5rem;
+		grid-column-gap: @card-padding;
+		
+		width: 100%;
+		box-sizing: border-box;
+	}
+	
+	.zip-country {
+		display: grid;
+		grid-template-columns: 8rem auto;
+		grid-column-gap: @card-padding;
+		
+		width: 100%;
+		box-sizing: border-box;
+	}
+}
+
 .form-input_person {
 	&.input-person_top, .input-person_top {
 		display: grid;
@@ -165,10 +189,6 @@
 		display: grid;
 		grid-template-columns: auto auto;
 		grid-column-gap: @card-padding;
-		
-		.phone-input input {
-			font-family: @font-monospace;
-		}
     }
     
     .input-person_roles {
@@ -185,26 +205,6 @@
 			justify-content: space-between;
 		}
     }
-    
-    .input-person_address {
-		.city-state {
-			display: grid;
-			grid-template-columns: auto 5rem;
-			grid-column-gap: @card-padding;
-			
-			width: 100%;
-			box-sizing: border-box;
-		}
-		
-		.zip-country {
-			display: grid;
-			grid-template-columns: 8rem auto;
-			grid-column-gap: @card-padding;
-			
-			width: 100%;
-			box-sizing: border-box;
-		}
-	}
 }
 
 .form-input {

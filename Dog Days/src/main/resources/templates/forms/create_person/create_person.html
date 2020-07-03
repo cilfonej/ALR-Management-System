@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="form" th:replace="forms/form :: form(
+		url='/register/person/submit',
+		class='person-form',
+		title='Create New Person', 
+		body=~{:: #form})">
+	</div>
+	
+	<div id="form" th:remove="tag">
+		<span class="form-input_label"> Person's Name </span>
+		<div class="person-form_name">
+			<div th:replace="components/input :: form_group('name')"></div>
+			<div th:replace="components/input :: form_input(
+				name='first',
+				placeholder='First name',
+				 
+				max_length=25,
+				show_limit=false, 
+				allow_blank=false
+			)"> </div>
+			
+			<div th:replace="components/input :: form_input(
+				name='last',
+				placeholder='Last name',
+				 
+				max_length=25,
+				show_limit=false,
+				allow_blank=false
+			)"> </div>
+		</div>
+		
+		<span class="form-input_label"> Roles </span>
+		<div class="person-form_roles">
+			<div th:replace="components/input :: form_buttonGroup(name='roles', allow_multiple=true)"></div>
+			
+			<div class="person-form_roles-group">
+				<div th:replace="components/input :: form_checkbox(text='Adopter')"> </div>
+				<div th:replace="components/input :: form_checkbox(text='Foster')"> </div>
+				
+				<div th:replace="components/input :: form_checkbox(
+					text='Application Coordinator', 
+					value='coordinator'
+				)"> </div>
+				
+			</div>
+		</div>
+		
+		<div th:replace="components/input :: form_input(
+			name='email', 
+			
+			label='Email',
+			icon='fa fa-envelope',
+			placeholder='Email',
+			
+			type='email'
+		)"> </div>
+		
+		<div th:replace="components/input :: form_input(
+			name='phone', 
+			
+			label='Phone Number',
+			icon='fa fa-phone',
+			
+			class='phone-input',
+			placeholder='(   )    -    ',
+			
+			type='phone'
+		)"> </div>
+		
+		<div th:replace="components/input :: form_address(
+			name='home_address', 
+			
+			label='Home Address',
+			icon='fa fa-home',
+			
+			allow_blank=true
+		)"> </div>
+		
+		<div th:replace="components/input :: form_address(
+			name='mail_address', 
+			
+			label='Mailing Address (Optional)',
+			icon='fa fa-mail-bulk',
+			
+			allow_blank=true
+		)"> </div>
+		
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				var $rolesInput = $$("[data-form-input='roles']");
+				
+				// add event-listener to detect when the slected roles change
+				$rolesInput[0].input.addListener(UID.bind(function(input, value) {
+					var requireEmail, requirePhone, requireAddress;
+					var roles = input.getValue();
+					
+					for(var role of roles) {
+						switch(role.toLowerCase()) {
+							case "caretaker":
+							case "adopter":
+							case "foster":
+								requireEmail = true;
+								requirePhone = true;
+								requireAddress = true;
+							break;
+							
+							case "admin":
+							case "coordinator":
+								requireEmail = true;
+							break;
+						}
+					}
+					
+					$$("[data-form-input='email']")[0].input.params["allow-blank"] = !requireEmail;
+					$$("[data-form-input='phone']")[0].input.params["allow-blank"] = !requirePhone;
+
+					// fine home-address street input
+					$$("[data-form-input='home_address'] [data-group-input='street']")[0]
+						.input.params["allow-blank"] = !requireAddress;
+				}));
+			}); /*]]>*/
+		</script>
+	</div>
+</body>
+</html>

@@ -244,7 +244,7 @@
 		 
 		 <!-- 
 			text: string
-			value: string <optional>
+			value: string <default = ${text}>
 			
 			checked: boolean <default = false>
 			
@@ -363,6 +363,46 @@
 		</div>
 	</div>
 	
+<!-- ---------------------------------------- -------------- ---------------------------------------- -->
+<!-- ---------------------------------------- Compound Types ---------------------------------------- -->
+<!-- ---------------------------------------- -------------- ---------------------------------------- -->
+	
+	<div th:fragment="form_address(name)" 
+		th:with="_name=${name}, name=null, 
+				 _label=${label}, label=null,
+				 _icon=${icon}, icon=null,
+				 _class=${class}, class=null"
+		th:remove="tag">
+		
+		<span class="form-input_label" th:text="${_label}" th:if="${_label != null}"> </span>
+		
+		<div class="form-input_address" th:classappend="${_class}">
+			<div th:replace="components/input :: form_group(${_name})"></div>
+			<div th:replace="components/input :: form_input(
+				name='street', 
+				
+				icon=${_icon}, 
+				placeholder='Street', 
+				
+				allow_blank=${allow_blank ?: false}
+			)"></div>
+			
+			<div class="city-state">
+				<div th:replace="components/input :: form_input(name='city', placeholder='City')"></div>
+				<div th:replace="components/input :: form_input(name='state', placeholder='State')"></div>
+			</div>
+			
+			<div class="zip-country">
+				<div th:replace="components/input :: form_input(name='zipcode', placeholder='Zipcode')"></div>
+				<div th:replace="components/input :: form_input(
+					name='country',
+					placeholder='Country', 
+					value='United States'
+				)"></div>
+			</div>
+		</div>	
+	</div>
+	
 	<div th:fragment="form_person(name)"
 		 th:with="u_id=${#UID.$()}, 
 		 		_label=${label}, label=null,
@@ -460,31 +500,7 @@
 					<div th:replace=":: form_hidden('role', ${roles[0]})"></div>
 				</th:block>
 				
-				<div class="input-person_address">
-					<div th:replace="components/input :: form_group('address')"></div>
-					<div th:replace="components/input :: form_input(
-						name='street', 
-						
-						icon='fa fa-map-marker-alt', 
-						placeholder='Street', 
-						
-						allow_blank=false
-					)"></div>
-					
-					<div class="city-state">
-						<div th:replace="components/input :: form_input(name='city', placeholder='City')"></div>
-						<div th:replace="components/input :: form_input(name='state', placeholder='State')"></div>
-					</div>
-					
-					<div class="zip-country">
-						<div th:replace="components/input :: form_input(name='zipcode', placeholder='Zipcode')"></div>
-						<div th:replace="components/input :: form_input(
-							name='country',
-							placeholder='Country', 
-							value='United States'
-						)"></div>
-					</div>
-				</div>
+				<div th:replace=":: form_address(name='address', icon='fa fa-map-marker-alt')"></div>
 			</div>
 			
 			<script type="text/javascript" th:inline="javascript">
