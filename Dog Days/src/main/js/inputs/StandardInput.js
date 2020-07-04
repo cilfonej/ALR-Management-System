@@ -144,6 +144,13 @@ export default class StandardInput extends Input {
 		var isBlank = /^\s*$/.test(value);
 		var allowBlank = param["allow-blank"];
 		
+		// perform special validation, if provided
+		var passing = callNamedFunction(this, param, "validate");
+		// ensure a value was returned, and if that value was false (invalid)
+		if(typeof passing !== 'undefined' && !passing) {
+			return false;
+		}
+		
 		// short-cut validity, if blank and allowing blank, done
 		if(isBlank && allowBlank) {
 			// clear error message
@@ -158,13 +165,6 @@ export default class StandardInput extends Input {
 		
 		if(value.length < param["min-length"]) {
 			this.setError('Please enter at-least ' + param["min-length"] + ' characters');
-			return false;
-		}
-
-		// perform special validation, if provided
-		var passing = callNamedFunction(this, param, "validate");
-		// ensure a value was returned, and if that value was false (invalid)
-		if(typeof passing !== 'undefined' && !passing) {
 			return false;
 		}
 		

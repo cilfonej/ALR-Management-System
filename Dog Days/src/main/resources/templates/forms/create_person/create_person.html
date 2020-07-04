@@ -14,9 +14,8 @@
 	<div id="form" th:remove="tag">
 		<span class="form-input_label"> Person's Name </span>
 		<div class="person-form_name">
-			<div th:replace="components/input :: form_group('name')"></div>
 			<div th:replace="components/input :: form_input(
-				name='first',
+				name='firstname',
 				placeholder='First name',
 				 
 				max_length=25,
@@ -25,7 +24,7 @@
 			)"> </div>
 			
 			<div th:replace="components/input :: form_input(
-				name='last',
+				name='lastname',
 				placeholder='Last name',
 				 
 				max_length=25,

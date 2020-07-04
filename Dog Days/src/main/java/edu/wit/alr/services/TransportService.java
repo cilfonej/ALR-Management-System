@@ -1,6 +1,7 @@
 package edu.wit.alr.services;
 
 import java.time.LocalDate;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class TransportService {
 	}
 	
 	public TransportReservation findReservationForDog(Dog dog) {
-		//TODO FIX ME NOT CHEATING
-		return repository.findAllByDog(dog).iterator().next();
+		Iterator<TransportReservation> iter = repository.findAllByDog(dog).iterator();
+		return iter.hasNext() ? iter.next() : null;
 	}
 }
