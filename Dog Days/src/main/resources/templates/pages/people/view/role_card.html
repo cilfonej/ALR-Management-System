@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(role)" th:remove="tag">
+		<th:block th:switch="${role.class.simpleName}">
+			<th:block th:case="ApplicationCoordinator" >
+				<div th:replace="pages/people/view/role_coordinator_card :: card(${role})"></div>
+			</th:block>
+				
+			<th:block th:case="Foster">
+				<div th:replace="pages/people/view/role_foster_card :: card(${role})"></div>
+			</th:block>
+			
+			<th:block th:case="Adopter">
+				<div th:replace="pages/people/view/role_adopter_card :: card(${role})"></div>
+			</th:block>
+			
+		</th:block>
+	</div>
+</body>
+</html>

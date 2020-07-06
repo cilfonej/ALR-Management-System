@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(role)" class="card role-card role-card_adopter">
+		<header class="card-header">
+			<h2> Foster </h2>
+			
+			<a class="icon-button icon-button_ghost fade-icon" data-tippy-content="Edit">
+				<i class="fa fa-pen"></i>
+			</a>
+		</header>
+		
+		<div class="role-card_content">
+			<div class="role-card_info">
+				<span> Email: </span>
+				<span> 
+					<th:block th:text="${role.email}"></th:block>
+					<span data-tippy-content="Verified" class="verified-icon"></span>
+				</span>
+				
+				<span> Phone: </span>
+				<span class="role-card_phone" th:text="${role.primaryPhone}"></span>
+			</div>
+			
+			<div class="role-card_address">
+				<h3> Home Address </h3>
+				<span> 12 Hunt St. </span>
+				<span> Washington, VT </span>
+				<span> 02963, United States </span>
+			</div>
+
+			<!-- if the role has an associated mailing-address -->
+			<th:block th:if="${role.mailingAddress != null}">
+				<div class="role-card_address">
+					<h3> Mailing Address </h3>
+					<span> 12 Hunt St. </span>
+					<span> Washington, VT </span>
+					<span> 02963, United States </span>
+				</div>
+			</th:block>
+		</div>
+	</div>
+</body>
+</html>

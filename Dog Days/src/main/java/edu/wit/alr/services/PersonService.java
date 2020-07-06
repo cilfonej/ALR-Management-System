@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.InstantiationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.wit.alr.database.model.Address;
 import edu.wit.alr.database.model.Contact.EmailContact;
@@ -48,7 +49,7 @@ public class PersonService {
 			Role role = null;
 			
 			// check for fields on Role.class
-			if(email == null && !email.isEmpty()) 
+			if(email == null || !email.isEmpty()) 
 				throw new NullPointerException("No 'email' for Role [adopter]");
 			
 			// check if the role is a Caretaker
@@ -111,5 +112,15 @@ public class PersonService {
 		}
 		
 		return roles;
+	}
+	
+	@Transactional(readOnly = true)
+	public Person findPersonByID(int id) {
+		Person person = repository.findById(id).orElse(null);
+		if(person == null) return null;
+		
+		// force lazy-initialization of Person's roles
+		person.findRole(Role.class);
+		return person;
 	}
 }

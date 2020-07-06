@@ -1,0 +1,126 @@
+@import "../../../card.less";
+
+.role-card {
+	flex-shrink: 0;
+	width: 300px;
+	
+	&.role-card_coordinator {
+		order: 1;
+	}
+	
+	&.role-card_foster {
+		order: 2;
+	}
+	
+	&.role-card_adopter {
+		order: 3;
+	}
+	
+	.role-card_content {
+		margin: @card-padding;
+		
+		& > * {
+			margin: @card-section_gap 0;
+		
+			&:first-child {
+				margin-top: 0;
+			}
+			
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+		
+		.role-card_info {
+			display: grid;
+			align-items: center;
+			grid-template-columns: min-content auto;
+			
+			grid-row-gap: @card-padding;
+			grid-column-gap: @card-section_gap;
+			
+			// label
+			span:nth-child(2n + 1) {
+				font-size: .85rem;
+				font-weight: bold;
+			}
+			
+			// values
+			span:nth-child(2n) {
+				color: @value-text_color;
+			}
+			
+			.role-card_phone {
+				font-family: @font-monospace;
+			}
+		}
+		
+		.role-card_address {
+			display: flex;
+			flex-direction: column;
+			
+			font-size: .85rem;
+			
+			h3 {
+				width: 100%;
+				
+				margin: 0;
+				margin-bottom: @card-sub_spacing;
+				border-bottom: 1px solid @gray85;
+				
+				font-size: .85rem;
+				font-weight: bold;
+				white-space: nowrap;
+			}
+			
+			span {
+				flex-grow: 1;
+				width: 100%;
+				margin: @card-sub_spacing 0;
+			}
+		}
+	}
+}
+
+.verified-icon {
+    display: inline-flex;
+    
+    width: 1rem;
+    height: 1rem;
+    
+    margin-left: .25rem;
+    
+	background: @gray50;
+    border-radius: 50%;
+    
+    vertical-align: text-top;
+    
+	font-size: .6rem !important;
+    color: white;
+    
+    // default / unknown
+    &::after {
+		content: "\f128";
+    		
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+		
+		margin: auto;
+    }
+    
+    &.verified {
+    	background: @color-success;
+    	
+    	&::after {
+    		content: "\f00c";
+    	}
+    }
+    
+    &.rejected {
+    	background: @color-error;
+    	
+    	&::after {
+    		content: "\f05e";
+    	}
+    }
+}

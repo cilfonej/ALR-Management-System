@@ -1,0 +1,58 @@
+package edu.wit.alr.web.controllers.pages;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import edu.wit.alr.database.model.Dog;
+import edu.wit.alr.database.model.Person;
+import edu.wit.alr.services.PersonService;
+import edu.wit.alr.web.response.PageResponse;
+import edu.wit.alr.web.response.ReplaceResponse;
+import edu.wit.alr.web.response.ResponseBuilder;
+
+@Controller
+@RequestMapping("/view/people")
+public class ViewPersonController {
+
+	@Autowired private ResponseBuilder builder;
+	@Autowired private PersonService personService;
+	
+	@GetMapping("")
+	protected @ResponseBody String list_direct() {
+//		return builder.buildIndependentPage(listPage());
+		return null;
+	}
+	
+	@GetMapping("/{id}")
+	protected @ResponseBody String loadPage_direct(@PathVariable("id") Integer id) {
+		if(id == null) return list_direct();
+		return builder.buildIndependentPage(loadPage(id));
+	}
+	
+	public PageResponse loadPage(int dog_id) {
+		return loadPage(personService.findPersonByID(dog_id));
+	}
+	
+	public PageResponse loadPage(Person person) {
+		if(person == null) ; // TODO: build error page
+		
+		Map<String, Object> vars = new HashMap<>();
+		vars.put("person", person);
+		
+		return builder.redirect("/view/people/" + person.getID(), "pages/people/view/view_person :: page", vars);
+	}
+	
+	public ReplaceResponse updateCaretakerCard(Dog dog) {
+		return builder.replacement(
+				".caretaker-card", 
+				"pages/dog/view/caretaker_assignment_card :: card", 
+				Map.of("dog", dog));
+	}
+}

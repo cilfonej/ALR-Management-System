@@ -1,0 +1,58 @@
+@import "../../../card.less";
+
+@icon-size: 75px;
+
+.person-header {
+	.person-header_wrapper {
+		display: flex;
+		align-items: center;
+	
+		.person-header_icon {
+			display: flex;
+			flex-shrink: 0;
+			
+			width: @icon-size;
+			height: @icon-size;
+			
+			margin: @card-padding;
+			border-radius: 50%;
+			
+			background: @theme-color_light;
+			color: #fff;
+			
+			.person-header_icon-default {
+				margin: auto;
+				font-size: @icon-size / 2;
+			}
+		}
+		
+		.person-header_details-wrapper {
+			flex-grow: 1;
+			margin: @card-section_gap;
+			
+			h1 {
+				margin: 0;
+				margin-bottom: @card-padding;
+				
+				font-size: 1.5rem;
+			}
+			
+			.person-header_details {
+				font-size: .85rem;
+				
+				// values
+				*:nth-child(2n) {
+					color: @value-text_color;
+				}
+			}
+			
+			.person-header_edit {
+				position: absolute;
+				top: 0;
+				right: 0;
+				
+				margin: @card-section_gap;
+			}
+		}
+	}
+}

@@ -1,0 +1,33 @@
+@import "role_card.less";
+@import "person_header_card.less";
+
+.view-person_wrapper {
+	
+	.view-person_role-divider {
+		display: flex;
+		justify-content: space-between;
+		
+		margin-bottom: @card-margin;
+		margin-right: @card-margin;
+		
+		padding-bottom: @card-sub_spacing;
+		border-bottom: 1px ridge @gray65;
+		
+		h2 {
+			margin: 0;
+			font-weight: normal;
+		}
+	}
+	
+	.view-person_roles {
+		display: flex;
+		flex-wrap: wrap;
+		
+		//justify-content: space-between;
+		align-items: flex-start;
+		
+		// margin-right: -@card-margin;
+	}
+	
+	
+}

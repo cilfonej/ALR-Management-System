@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+<div th:fragment="card(person)" class="card person-header">
+	<div class="person-header_wrapper">
+		<div class="person-header_icon">
+			<i class="person-header_icon-default fa fa-user"></i>
+		</div>
+		
+		<div class="person-header_details-wrapper">
+			<h1> Sven Shimit </h1>
+			
+			<div class="person-header_details">
+				<span> Date Joined: </span> 
+				<span> January 16th, 2019 </span>
+			</div>
+			
+	        <a class="person-header_edit icon-button icon-button_ghost fade-icon" data-tippy-content="Edit">
+	        	<i class="fa fa-pen"></i>
+	    	</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

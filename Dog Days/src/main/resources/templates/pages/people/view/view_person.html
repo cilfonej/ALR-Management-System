@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<ul th:fragment="breadcrums(person)">
+		<li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+		<li th:replace="common/header :: breadcrum(name='People', icon='alr-user')"></li>
+		<li th:replace="common/header :: breadcrum(name=${person.name})"></li>
+	</ul>	
+
+	<div th:fragment="page(person)" class="view-person_wrapper">
+		<div th:replace="common/header :: title('ALR - ' + ${person.name}, ~{:: breadcrums(${person})})">	</div>
+		
+		<div th:replace="pages/people/view/person_header_card :: card(${person})"></div>
+		
+		<div class="view-person_role-divider">
+			<h2> Roles </h2>
+			<span class="icon-button icon-button_ghost fade-icon" data-content-tippy="Add Role">
+				<i class="fa fa-plus"></i>
+			</span>
+		</div>
+		
+		<div class="view-person_roles">
+			<th:block th:each="role : ${person.roles}"> 
+				<div th:replace="pages/people/view/role_card :: card(${role})"></div>
+			</th:block>
+		</div>
+	</div>
+</body>
+</html>
