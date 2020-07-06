@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.wit.alr.database.model.Dog;
 import edu.wit.alr.database.model.Person;
 import edu.wit.alr.services.PersonService;
 import edu.wit.alr.web.response.PageResponse;
@@ -49,10 +48,10 @@ public class ViewPersonController {
 		return builder.redirect("/view/people/" + person.getID(), "pages/people/view/view_person :: page", vars);
 	}
 	
-	public ReplaceResponse updateCaretakerCard(Dog dog) {
+	public ReplaceResponse updatePersonHeader(Person person) {
 		return builder.replacement(
-				".caretaker-card", 
-				"pages/dog/view/caretaker_assignment_card :: card", 
-				Map.of("dog", dog));
+				".person-header", 
+				"pages/people/view/person_header_card :: card", 
+				Map.of("person", person));
 	}
 }

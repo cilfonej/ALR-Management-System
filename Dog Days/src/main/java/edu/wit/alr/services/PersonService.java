@@ -98,6 +98,14 @@ public class PersonService {
 		return null;
 	}
 	
+	public Person updatePersonDetails(Person person, String firstname, String lastname) {
+		person.setFirstname(firstname);
+		person.setLastname(lastname);
+		
+		repository.save(person);
+		return person;
+	}
+	
 	public List<Class<? extends Role>> toRoles(String[] roleNames) {
 		List<Class<? extends Role>> roles = new ArrayList<>();
 		for(String role : roleNames) {

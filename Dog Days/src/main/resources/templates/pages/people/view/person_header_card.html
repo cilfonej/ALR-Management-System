@@ -11,18 +11,60 @@
 		</div>
 		
 		<div class="person-header_details-wrapper">
-			<h1> Sven Shimit </h1>
+			<h1 th:text="${person.name}"> </h1>
 			
 			<div class="person-header_details">
 				<span> Date Joined: </span> 
 				<span> January 16th, 2019 </span>
 			</div>
 			
-	        <a class="person-header_edit icon-button icon-button_ghost fade-icon" data-tippy-content="Edit">
+	        <a class="person-header_edit icon-button icon-button_ghost fade-icon" 
+	        	data-micromodal-trigger="edit-person"
+	        	data-tippy-content="Edit">
 	        	<i class="fa fa-pen"></i>
 	    	</a>
 		</div>
+		
+		<div th:replace="components/modal :: modal('edit-person', 'Edit Person Info', 
+				~{forms/form :: edit_form(
+						url='/edit/person/' + ${person.ID}, 
+						class='person-edit',
+						body=~{:: edit_form}
+				)}
+		)"></div>
 	</div>
 </div>
+
+<div th:fragment="edit_form" th:remove="tag">
+	<span class="form-input_label"> Person's Name </span>
+	
+	<div class="person-edit_names">
+		<div th:replace="components/input :: form_input(
+			name='firstname',
+			placeholder='First name',
+			
+			show_limit=false, 
+			max_length=25,
+			
+			allow_blank=false
+		)"> </div>
+		
+		<div th:replace="components/input :: form_input(
+			name='lastname', 
+			placeholder='Last name',
+			
+			show_limit=false, 
+			max_length=25,
+			
+			allow_blank=false
+		)"> </div>
+	</div>
+	
+	<div th:replace="components/input :: revert(
+		${ {'firstname', 'lastname'} }, 
+		${ {person.firstname, person.lastname} }
+	)"> </div>
+</div>
+
 </body>
 </html>
