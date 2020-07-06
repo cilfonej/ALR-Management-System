@@ -1,5 +1,13 @@
+import StandardType from "./StandardRevert";
+import AddressType from "./AddressRevert";
+
+var types = {
+	"std": StandardType,
+	"address": AddressType
+};
+
 export default class RevertButton {
-	constructor(element, fields, values) {
+	constructor(element, fields, values, types) {
 
 		// ensure fields/values are valid
 		if(typeof fields === 'undefined') throw "invalid set of fields";
@@ -8,6 +16,7 @@ export default class RevertButton {
 		// covert fields/values to arrays
 		fields = !Array.isArray(fields) && [fields] || fields;
 		values = !Array.isArray(values) && [values] || values;
+		types && (types = !Array.isArray(types) && [types] || types);
 		
 		// make sure they are of the same size
 		if(fields.length != values.length) throw "not enough fields/values provided";
@@ -15,7 +24,10 @@ export default class RevertButton {
 		// store data into a map of "field-name": "value"
 		this.map = {};
 		for(var i = 0; i < fields.length; i ++) {
-			this.map[fields[i]] = values[i];
+			this.map[fields[i]] = {
+				value: values[i],
+				type: types && types[i] || 'std'
+			}
 		}
 		
 		// extract DOM-Element and create jQuery object
@@ -37,22 +49,20 @@ export default class RevertButton {
 		var $ele = $(this.ele);
 		var $form = $ele.closest("[data-form]");
 		
-		for(var field in this.map) {
-			var $input = $form.find("[data-form-input='"+field+"'], [data-group-input='"+field+"']");
-			if($input.length < 1) {
-				console.warn("Could not find field: " + field);
-				continue;
+		UID.exe($form, () => {
+			for(var field in this.map) {
+				var config = this.map[field];
+				
+				// perform special input-binding based on type
+				var type = types[config.type];
+				if(!type) {
+					console.warn("Unknown RevertButton type: " + config.type);
+					continue;
+				}
+				
+				type.bindInputs(this, field, config.value);
 			}
-			
-			var input = $input[0].input
-			if(!input) {
-				console.warn("Field '" + field  + "' is missing *.input on element");
-				continue;
-			}
-			
-			input.setupRevertButton(this);
-			input.setValue(this.map[field]);
-		}
+		});
 	}
 	
 	revertFields() {
@@ -62,21 +72,15 @@ export default class RevertButton {
 		// button is disabled, ignore click-event
 		if($ele.attr("disabled")) return;
 		
-		for(var field in this.map) {
-			var $input = $form.find("[data-form-input='"+field+"'], [data-group-input='"+field+"']");
-			if($input.length < 1) {
-				console.warn("Could not find field: " + field);
-				continue;
+		UID.exe($form, () => {
+			for(var field in this.map) {
+				var config = this.map[field];
+				
+				// perform special revert-function based on type
+				var type = types[config.type];
+				type && type.revertField(this, field, config.value);
 			}
-			
-			var input = $input[0].input
-			if(!input) {
-				console.warn("Field '" + field  + "' is missing *.input on element");
-				continue;
-			}
-			
-			input.setValue(this.map[field]);
-		}
+		});
 		
 		// disable button on revert-to-default
 		$ele.attr("disabled", true).addClass("disabled");

@@ -3,7 +3,7 @@ import LookupInput from "./LookupInput";
 import GroupInput from "./GroupInput";
 import ButtonGroupInput, {CheckboxInput} from "./ButtonGroupInput";
 
-import RevertButton from "./RevertButton";
+import RevertButton from "./revert/RevertButton";
 
 window.Input = (function() {
 	
