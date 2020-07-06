@@ -21,9 +21,13 @@
 				</div>
 			</div>
 			
-			<div class="returnCard">
+			<div th:fragment="pageReturnCard(returnDate, reason, dogReturn)" class="returnCard">
 				<div class="card-header">
 					<h2>Reason</h2>
+					<a class="dog-card_edit icon-button icon-button_ghost fade-icon" 
+					data-tippy-content="Edit" data-micromodal-trigger="edit-return">
+					<i class="fa fa-pen"></i>
+			</a>
 				</div>
 				
 				<div class="return-date">
@@ -33,8 +37,14 @@
 				<div class="returnCard-reason">
 					<div th:text="${reason}"></div>
 				</div>
+				<div th:replace="components/modal :: modal('edit-return', 'Edit Return Info', ~{:: edit(${dogReturn})})"></div>
 			</div>
+	
 		</div>
+		
+		<div th:fragment="edit(dogReturn)">
+		<div th:replace="forms/return_dog/return_dog_view_edit :: form(${dogReturn})"></div>
+	</div>
 	</body>
 	
 </html>

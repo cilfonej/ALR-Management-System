@@ -79,15 +79,8 @@ public class DogService {
 		repository.save(dog);	
 	}
 	
-<<<<<<< Upstream, based on origin/master
 	public void updateCaretaker(Dog dog, Caretaker caretaker) {
 		dog.setCaretaker(caretaker);
 		repository.save(dog);
 	} 
-=======
-	public void changeCaretaker(Dog dog, Caretaker caretaker) {
-		dog.setCaretaker(caretaker);
-		repository.save(dog);
-	}
->>>>>>> 288ae6f adding returned dogs done :(
 }

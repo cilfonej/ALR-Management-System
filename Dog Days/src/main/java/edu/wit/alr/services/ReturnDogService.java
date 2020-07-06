@@ -22,7 +22,7 @@ public class ReturnDogService {
 	
 	public void createReturnDog(Dog dog, Adopter returnPerson, Caretaker newPerson, String reason, LocalDate returnDate) {
 		DogReturn returning = new DogReturn(dog, returnPerson, reason); 
-		dogService.changeCaretaker(dog, newPerson);	
+		dogService.updateCaretaker(dog, newPerson);	
 		returning.setReason(reason);
 		returning.setReturnDate(returnDate);
 		
@@ -31,5 +31,12 @@ public class ReturnDogService {
 	
 	public DogReturn findReturnByID(int id) {
 		return repository.findById(id).orElse(null);
+	}
+	
+	public DogReturn updateReturn(DogReturn dogReturn, LocalDate returnDate, String reason) {
+		dogReturn.setReturnDate(returnDate);
+		dogReturn.setReason(reason);
+		repository.save(dogReturn);	
+		return dogReturn;
 	}
 }
