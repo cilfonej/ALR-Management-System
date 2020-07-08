@@ -40,7 +40,33 @@ var Request = (function() {
 			return true;
 			
 			case "replace":
-				$(data.query).replaceWith(data.replacementHTML);
+				// special type target
+				if(data.query.startsWith("$")) {
+					var targets = data.query.split("$");
+					for(var query of targets) {
+						
+						// check if the string is blank
+						query = query.trim();
+						if(/^\s*$/.test(query)) continue;
+						
+						// check for append-symbol
+						if(query.startsWith("+")) {
+							var $ele = $(query.substring(1));
+							$ele.append(data.replacementHTML);
+							if($ele.length) break;
+						
+						// default option is "replace"
+						} else {
+							var $ele = $(query);
+							$ele.replaceWith(data.replacementHTML);
+							if($ele.length) break;
+						}
+					}
+				
+				// standard query-string
+				} else {
+					$(data.query).replaceWith(data.replacementHTML);
+				}
 			return true;
 		}
 	}

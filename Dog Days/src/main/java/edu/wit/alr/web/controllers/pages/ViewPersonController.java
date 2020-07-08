@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.wit.alr.database.model.Person;
+import edu.wit.alr.database.model.roles.Adopter;
+import edu.wit.alr.database.model.roles.ApplicationCoordinator;
+import edu.wit.alr.database.model.roles.Foster;
+import edu.wit.alr.database.model.roles.Role;
 import edu.wit.alr.services.PersonService;
 import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.ReplaceResponse;
@@ -53,5 +57,18 @@ public class ViewPersonController {
 				".person-header", 
 				"pages/people/view/person_header_card :: card", 
 				Map.of("person", person));
+	}
+	
+	public ReplaceResponse updateRoleCard(Role role) {
+		String clazz = "$.role-card_";
+		
+		if(role instanceof Adopter) clazz += "adopter";
+		else if(role instanceof Foster) clazz += "foster";
+		else if(role instanceof ApplicationCoordinator) clazz += "coordinator";
+		
+		return builder.replacement(
+				clazz + " $+.view-person_roles", 
+				"pages/people/view/role_card :: card", 
+				Map.of("role", role, "person", role.getPerson()));
 	}
 }

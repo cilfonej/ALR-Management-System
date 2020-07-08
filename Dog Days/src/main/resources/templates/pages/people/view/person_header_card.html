@@ -29,13 +29,13 @@
 				~{forms/form :: edit_form(
 						url='/edit/person/' + ${person.ID}, 
 						class='person-edit',
-						body=~{:: edit_form}
+						body=~{:: edit_form(${person})}
 				)}
 		)"></div>
 	</div>
 </div>
 
-<div th:fragment="edit_form" th:remove="tag">
+<div th:fragment="edit_form(person)" th:remove="tag">
 	<span class="form-input_label"> Person's Name </span>
 	
 	<div class="person-edit_names">

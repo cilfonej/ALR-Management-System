@@ -8,7 +8,9 @@
 		<header class="card-header">
 			<h2> Application Coordinator </h2>
 			
-			<a class="icon-button icon-button_ghost fade-icon" data-tippy-content="Edit">
+			<a class="icon-button icon-button_ghost fade-icon" 
+				data-micromodal-trigger="edit-role-coordinator"
+				data-tippy-content="Edit">
 				<i class="fa fa-pen"></i>
 			</a>
 		</header>
@@ -32,12 +34,63 @@
 			<th:block th:if="${role.mailingAddress != null}">
 				<div class="role-card_address">
 					<h3> Mailing Address </h3>
-					<span> 12 Hunt St. </span>
-					<span> Washington, VT </span>
-					<span> 02963, United States </span>
+					<span th:text="${role.mailingAddress.streetAddress}"></span>
+					<span th:text="${#Addresses.formatStateLine(role.mailingAddress)}"></span>
+					<span th:text="${#Addresses.formatPostalLine(role.mailingAddress)}"></span>
 				</div>
 			</th:block>
 		</div>
+		<div th:replace="components/modal :: modal('edit-role-coordinator', 'Edit [Application Coordinator] Info', 
+				~{forms/form :: edit_form(
+						url=${'/edit/person/' + person.ID + '/role'}, 
+						class='role-edit',
+						body=~{:: edit_form(${role})}
+				)}
+		)"></div>
+	</div>
+
+	<div th:fragment="edit_form(role)" th:remove="tag">
+		<div th:replace="components/input :: form_hidden('role', 'coordinator')"></div>
+		
+		<div th:replace="components/input :: form_input(
+			name='email', 
+			
+			label='Email',
+			icon='fa fa-envelope',
+			placeholder='Email',
+			
+			type='email'
+		)"> </div>
+		<div th:replace="components/input :: revert('email', ${role.email.toString()})"> </div>
+		
+		<div th:replace="components/input :: form_input(
+			name='phone', 
+			
+			label='Phone Number',
+			icon='fa fa-phone',
+			
+			class='phone-input',
+			placeholder='(   )    -    ',
+			
+			type='phone'
+		)"> </div>
+		<div th:replace="components/input :: revert('phone', ${role.primaryPhone.toString()})"> </div>
+		
+		<div th:replace="components/input :: form_address(
+			name='mail_address', 
+			
+			label='Mailing Address (Optional)',
+			icon='fa fa-mail-bulk',
+			
+			allow_blank=true
+		)"> </div>
+		
+		<div th:replace="components/input :: revert(
+			fields='mail_address', 
+			values=${role.mailingAddress}, 
+			types='address')
+		"> </div>
+		
 	</div>
 </body>
 </html>
