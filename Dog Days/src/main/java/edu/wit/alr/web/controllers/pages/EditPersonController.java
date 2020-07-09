@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import edu.wit.alr.database.model.Address;
 import edu.wit.alr.database.model.Person;
 import edu.wit.alr.database.model.roles.Role;
@@ -39,6 +41,7 @@ public class EditPersonController {
 	}
 
 	public static class EditRoleData {
+		@JsonAlias("roles")
 		public String role;
 		
 		public String email;
@@ -56,7 +59,7 @@ public class EditPersonController {
 		List<Class<? extends Role>> roles = people.toRoles(data.role);
 		if(roles.size() < 1) throw new IllegalArgumentException("No such Role: " + data.role);
 		
-		Role role = people.updatePersonRole(people.findPersonByID(id), roles.get(0), data.email, data.phone, home_address, mail_address);
+		Role role = people.constructRole(people.findPersonByID(id), roles.get(0), data.email, data.phone, home_address, mail_address);
 		return viewController.updateRoleCard(role);
 	}
 }

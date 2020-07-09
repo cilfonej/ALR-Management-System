@@ -74,7 +74,7 @@
 			
 			type='phone'
 		)"> </div>
-		<div th:replace="components/input :: revert('phone', ${role.primaryPhone.toString()})"> </div>
+		<div th:replace="components/input :: revert('phone', ${role.primaryPhone?.toString()})"> </div>
 		
 		<div th:replace="components/input :: form_address(
 			name='mail_address', 
@@ -82,15 +82,9 @@
 			label='Mailing Address (Optional)',
 			icon='fa fa-mail-bulk',
 			
-			allow_blank=true
+			require=false
 		)"> </div>
-		
-		<div th:replace="components/input :: revert(
-			fields='mail_address', 
-			values=${role.mailingAddress}, 
-			types='address')
-		"> </div>
-		
+		<div th:replace="components/input :: revert(fields='mail_address', values=${role.mailingAddress})"> </div>
 	</div>
 </body>
 </html>

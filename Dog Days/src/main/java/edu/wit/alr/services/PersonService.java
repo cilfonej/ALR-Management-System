@@ -20,12 +20,16 @@ import edu.wit.alr.database.model.roles.Caretaker;
 import edu.wit.alr.database.model.roles.Foster;
 import edu.wit.alr.database.model.roles.Role;
 import edu.wit.alr.database.repository.PersonRepository;
+import edu.wit.alr.database.repository.RoleRepository;
 
 @Service
 public class PersonService {
 	
 	@Autowired
 	private PersonRepository repository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	public Person createPerson(String firstname, String lastname, String email, String phone, 
 								Address home, Address mailing, Collection<Class<? extends Role>> roles) {
@@ -85,6 +89,7 @@ public class PersonService {
 			
 			caretaker.setPrimaryPhone(new PhoneContact(phone));
 			caretaker.setHomeAddress(home);
+			caretaker.setMailingAddress(mailing);
 
 		// check if the role is a Admin
 		} else if(role instanceof Admin) {
@@ -95,12 +100,9 @@ public class PersonService {
 			
 			// set fields related to Admin
 			
-			if(phone != null && !phone.isEmpty())
-				admin.setPrimaryPhone(new PhoneContact(phone));
-			
+			admin.setPrimaryPhone(phone == null || phone.isEmpty() ? null : new PhoneContact(phone));
 			// pick the most appropriate address to use
-			if(home != null || mailing != null)
-				admin.setMailingAddress(mailing == null ? home : mailing);
+			admin.setMailingAddress(home == null && mailing == null ? null : mailing == null ? home : mailing);
 		}
 		
 		// set fields related to Role
@@ -117,7 +119,6 @@ public class PersonService {
 		return person;
 	}
 	
-	@Transactional
 	public <T extends Role> T updatePersonRole(Person person, Class<T> type, String email, String phone, Address home, Address mail) {
 		T role = person.findRole(type);
 		
@@ -126,7 +127,8 @@ public class PersonService {
 		else
 			role = updateRole(role, email, phone, home, mail);
 		
-		repository.save(person);
+		// TODO: BUG doesn't save any changes from "view/edit person" page
+		roleRepository.save(role);
 		return role;
 	}
 	

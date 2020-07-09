@@ -6,7 +6,7 @@
 <body>
 	<div th:fragment="card(role)" class="card role-card role-card_adopter">
 		<header class="card-header">
-			<h2> Foster </h2>
+			<h2> Adopter </h2>
 			
 			<a class="icon-button icon-button_ghost fade-icon" data-tippy-content="Edit">
 				<i class="fa fa-pen"></i>
@@ -84,14 +84,9 @@
 			label='Home Address',
 			icon='fa fa-home',
 			
-			allow_blank=false
+			require=true
 		)"> </div>
-		
-		<div th:replace="components/input :: revert(
-			fields='home_address', 
-			values=${role.homeAddress}, 
-			types='address')
-		"> </div>
+		<div th:replace="components/input :: revert(fields='home_address', values=${role.homeAddress})"> </div>
 		
 		<div th:replace="components/input :: form_address(
 			name='mail_address', 
@@ -99,14 +94,9 @@
 			label='Mailing Address (Optional)',
 			icon='fa fa-mail-bulk',
 			
-			allow_blank=true
+			require=false
 		)"> </div>
-		
-		<div th:replace="components/input :: revert(
-			fields='mail_address', 
-			values=${role.mailingAddress}, 
-			types='address')
-		"> </div>
+		<div th:replace="components/input :: revert(fields='mail_address', values=${role.mailingAddress})"> </div>
 	</div>
 </body>
 </html>

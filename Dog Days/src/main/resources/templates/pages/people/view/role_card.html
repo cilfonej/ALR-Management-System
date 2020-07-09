@@ -20,5 +20,27 @@
 			
 		</th:block>
 	</div>
+	
+	<div th:fragment="header" th:remove="tag">
+		<div class="view-person_role-divider">
+			<h2> Roles </h2>
+			<span class="icon-button icon-button_ghost fade-icon" 
+				  data-micromodal-trigger="add-role"
+				  data-tippy-content="Add Role">
+				<i class="fa fa-plus"></i>
+			</span>
+		</div>
+			
+		<th:block th:with="role_only=true">
+			<div th:replace="components/modal :: modal('add-role', 'Add New Role', 
+				~{forms/form :: form(
+						url=${'/edit/person/' + person.ID + '/role'}, 
+						class='modal-form person-form',
+						header=~{},
+						body=~{forms/create_person/create_person :: #form}
+				)}
+			)"></div>
+		</th:block>
+	</div>
 </body>
 </html>

@@ -14,13 +14,7 @@
 		<div th:replace="common/header :: title('ALR - ' + ${person.name}, ~{:: breadcrums(${person})})">	</div>
 		
 		<div th:replace="pages/people/view/person_header_card :: card(${person})"></div>
-		
-		<div class="view-person_role-divider">
-			<h2> Roles </h2>
-			<span class="icon-button icon-button_ghost fade-icon" data-content-tippy="Add Role">
-				<i class="fa fa-plus"></i>
-			</span>
-		</div>
+		<div th:replace="pages/people/view/role_card :: header"></div>
 		
 		<div class="view-person_roles">
 			<th:block th:each="role : ${person.roles}"> 
