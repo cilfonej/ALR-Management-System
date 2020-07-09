@@ -26,6 +26,7 @@ var Form = (function() {
 			var form_data = {};
 			// extract form data into JSON object
 			for(var input of getInputs(form_element)) {
+				if(!input.isVisible()) continue;
 				form_data[input.getField()] = input.getValue();
 			}
 			
@@ -46,6 +47,7 @@ var Form = (function() {
 		var invalid = false;
 
 		for(var input of inputs) {
+			if(!input.isVisible()) continue;
 			// check if input is NOT valid
 			invalid = !input.validate() || invalid;
 		}

@@ -8,6 +8,7 @@ export default class InputBase {
 		if(typeof this.clear !== 'function') throw new TypeError("Method 'clear' has not ben defined");
 	
 		this.name = name;
+		this.visible = true;
 	}
 	
 	setupElement(element) {}
@@ -16,6 +17,10 @@ export default class InputBase {
 	getField() {
 		return this.name;
 	}
+	
+	show() { this.visible = true; }
+	hide() { this.visible = false; }
+	isVisible() { return this.visible; }
 	
 	onBlur() {
 		if(this.validate()) {
@@ -32,10 +37,10 @@ export default class InputBase {
 		this.listeners.push(listener);
 	}
 	
-	fireChangeEvent(new_value) {
+	fireChangeEvent(...new_value) {
 		if(!this.listeners) return;
 		for(var listen of this.listeners) {
-			listen(this, new_value);
+			listen(this, ...new_value);
 		}
 	}
 };

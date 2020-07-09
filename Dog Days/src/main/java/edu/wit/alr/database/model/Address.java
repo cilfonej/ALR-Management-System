@@ -5,9 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Address {
-	
+
+	@JsonIgnore
 	@Id
 	@GeneratedValue
 	@Column(unique = true, nullable = false)

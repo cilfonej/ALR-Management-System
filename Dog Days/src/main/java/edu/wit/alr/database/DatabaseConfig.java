@@ -62,6 +62,7 @@ public class DatabaseConfig {
 		Properties hibernateProperties = new Properties();
 		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update"); // ddl-auto validate 
 		hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL55Dialect");
+//		hibernateProperties.setProperty("hibernate.show_sql", "true");
 		
 		System.setProperty("hibernate.dialect.storage_engine", "innodb");
 		return hibernateProperties;

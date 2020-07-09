@@ -18,7 +18,8 @@
 				new Input.RevertButton(
 					$$(""), 
 					/*[[${fields}]]*/, 
-					/*[[${values}]]*/);
+					/*[[${values}]]*/, 
+					/*[[${types}]]*/);
 			}); /*]]>*/
 		</script>
 	</div>
@@ -34,8 +35,8 @@
 			icon: string <optional>
 			class: string <optional>
 			
-			formatter: js-function <optional>
-			validate: js-function <default = stdValidator>
+			get_value: js-function <optional>
+			validate: js-function <optional>
 			allow_blank: boolean <default = true>
 			
 			type: string <default = text> [text, number, date, phone, email]
@@ -65,7 +66,7 @@
 		<div class="form-input" th:attr="data-uid=${u_id}" data-error="" th:classappend="${class}">
 			<i th:classappend="${icon}" th:if="${icon != null}"> </i>
 			
-			<input data-default="true" type="text" 
+			<input  type="text" 
 					th:value="${value}" 
 					th:placeholder="${placeholder}">
 			
@@ -91,6 +92,9 @@
 						'type': /*[[${type}]]*/ '',
 						"pattern": /*[[${pattern}]]*/ '',
 						
+						"get-value": /*[[${get_value}]]*/ '',
+						"validate": /*[[${validate}]]*/ '',
+						
 						'min-length': /*[[${min_length}]]*/ '',
 						'max-length': /*[[${max_length}]]*/ '',
 
@@ -105,6 +109,25 @@
 		</script>
 	</div>
 	
+	<div th:fragment="form_hidden(name, value)" 
+		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		
+		<!-- 
+			name: string
+			value: string
+		 -->
+			
+		<input type="hidden" th:value="${value}">
+
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				Input.setupInput(
+					$$("input"), 
+					new Input.Std(/*[[${name}]]*/, { 'type': 'hidden' })
+				);
+			}); /*]]>*/
+		</script>
+	</div>
 	
 	<div th:fragment="form_textarea(name)" 
 		th:with="u_id=${#UID.$()}"
@@ -222,7 +245,7 @@
 		 
 		 <!-- 
 			text: string
-			value: string <optional>
+			value: string <default = ${text}>
 			
 			checked: boolean <default = false>
 			
@@ -256,10 +279,14 @@
 		 
 		 <script id="group-setup" type="text/javascript" th:inline="javascript">
 		 	var script = $("#group-setup");
-		 	script.parent().attr("data-uid", /*[[${u_id}]]*/'');
+		 	
+		 	var gen_uid = /*[[${u_id}]]*/'';
+		 	var uid = script.parent().attr("data-uid") || gen_uid;
+		 	
+		 	script.parent().attr("data-uid", uid);
 		 	script.remove();
 		 
-			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+			/*<![CDATA[*/ UID.exe(uid, function() {
 				Input.setupInput(
 					$$(""), 
 					new Input.Group(/*[[${name}]]*/)
@@ -279,10 +306,14 @@
 		 
 		 <script id="group-setup" type="text/javascript" th:inline="javascript">
 		 	var script = $("#group-setup");
-		 	script.parent().attr("data-uid", /*[[${u_id}]]*/'').addClass("form-input_group");
+		 	
+		 	var gen_uid = /*[[${u_id}]]*/'';
+		 	var uid = script.parent().attr("data-uid") || gen_uid;
+		 	
+		 	script.parent().attr("data-uid", uid).addClass("form-input_group");
 		 	script.remove();
 		 
-			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+			/*<![CDATA[*/ UID.exe(uid, function() {
 				Input.setupInput(
 					$$(""), 
 					new Input.ButtonGroup(/*[[${name}]]*/, {
@@ -316,7 +347,7 @@
 		 
 		<span class="form-input_label" th:text="${label}" th:if="${label != null}"> </span>
 		 
-		 <div th:attr="data-uid=${u_id}" th:classappend="${class}">
+		<div th:attr="data-uid=${u_id}" th:classappend="${class}">
 			<th:block th:replace="components/jsx :: LookupFormInput(
 									id=${name}, 
 									icon=${icon}, 
@@ -336,6 +367,274 @@
 					
 					var value = /*[[${value}]]*/ null;
 					value && jsx.setSelectedValue(value);
+				}); /*]]>*/
+			</script>
+		</div>
+	</div>
+	
+<!-- ---------------------------------------- -------------- ---------------------------------------- -->
+<!-- ---------------------------------------- Compound Types ---------------------------------------- -->
+<!-- ---------------------------------------- -------------- ---------------------------------------- -->
+	
+	<div th:fragment="form_address(name)" 
+		th:with="u_id=${#UID.$()},
+				 _name=${name}, name=null, 
+				 _label=${label}, label=null,
+				 _icon=${icon}, icon=null,
+				 _class=${class}, class=null"
+		th:remove="tag">
+		
+		 <!-- 
+		 	name: string
+		 
+			label: string <optional>
+			icon: string <default = [based on type]>
+			class: string <optional>
+			
+			require: boolean <default = true>
+			readonly: boolean <default = false>
+		 -->
+		
+		<span class="form-input_label" th:text="${_label}" th:if="${_label != null}"> </span>
+		
+		<div class="form-input_address" th:attr="data-uid=${u_id}" th:classappend="${_class}">
+			<div th:replace="components/input :: form_input(
+				name='street', 
+				
+				icon=${_icon}, 
+				placeholder='Street'
+			)"></div>
+			
+			<div class="city-state">
+				<div th:replace="components/input :: form_input(name='city', placeholder='City')"></div>
+				<div th:replace="components/input :: form_input(name='state', placeholder='State')"></div>
+			</div>
+			
+			<div class="zip-country">
+				<div th:replace="components/input :: form_input(name='zipcode', placeholder='Zipcode')"></div>
+				<div th:replace="components/input :: form_input(
+					name='country',
+					placeholder='Country', 
+					value='United States'
+				)"></div>
+			</div>
+		</div>	
+		
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+				Input.setupInput(
+					$$(""), 
+					new Input.AddressInput(/*[[${_name}]]*/, {
+						"require": /*[[${require}]]*/ '',
+					})
+				);
+			}); /*]]>*/
+		</script>
+	</div>
+	
+	<div th:fragment="form_person(name)"
+		 th:with="u_id=${#UID.$()}, 
+		 		_label=${label}, label=null,
+		 		_icon=${icon}, icon=null"
+		 th:remove="tag">
+		 
+		 <!-- 
+		 	name: string
+		 
+			label: string <optional>
+			icon: string <default = [based on type]>
+			class: string <optional>
+			
+			allow_blank: boolean <default = true>
+			
+			url: string <optional>
+			
+			placeholder: string <optional>
+			roles: string[] <default = [Foster, Admin, Addopter]>
+			
+			readonly: boolean <default = false>
+		 -->
+		 
+		<span class="form-input_label" th:text="${_label}" th:if="${_label != null}"> </span>
+		 
+		<div th:attr="data-uid=${u_id}" th:classappend="${class}">
+			<!-- Person Lookup -->
+			<div class="form-input_person input-person_top input-person_lookup">
+				<th:block th:replace=":: form_lookup(name=${name}, url=${url}, icon=${_icon})"></th:block>
+				<span class="icon-button icon-button_box-plain" 
+						data-tippy-content="New Person"
+						th:onclick="showPersonCreate([[${u_id}]])">
+					<i class="fa fa-plus"></i>
+				</span>
+			</div>
+			
+			<!-- In-line Create Person Form -->
+			<div class="form-input_person input-person_inline">
+				<th:block th:replace=":: form_group(name=${name})"></th:block>
+				
+				<div class="input-person_top">
+					<!-- TODO: Custom validation to firstname (25) lastname (25) -->
+					<div th:replace="components/input :: form_input(
+						name='name', 
+						
+						icon='fa alr-user',
+						placeholder='Name',
+
+						validate='validatePersonName',						
+						allow_blank=false
+					)"> </div>
+					
+					<span class="icon-button icon-button_box-plain" 
+							data-tippy-content="Lookup Person"
+							th:onclick="showPersonLookup([[${u_id}]])">
+						<i class="fa fa-search"></i>
+					</span>
+				</div>
+				
+				<div class="input-person_contact">
+					<div th:replace="components/input :: form_input(
+						name='email', 
+						
+						icon='fa fa-envelope',
+						placeholder='Email',
+						
+						type='email',
+						allow_blank=false
+					)"> </div>
+					
+					<div th:replace="components/input :: form_input(
+						name='phone', 
+						
+						icon='fa fa-phone',
+						class='phone-input',
+						placeholder='(   )    -    ',
+						
+						type='phone',
+						allow_blank=false
+					)"> </div>
+				</div>
+				
+				<div class="input-person_roles" th:if="${#arrays.length(roles) != 1}">
+					<div th:replace="components/input :: form_buttonGroup(name='roles', allow_multiple=true)"></div>
+					
+					<h3> Roles </h3>
+					<div class="input-person_roles-wrapper">
+						<th:block th:each="value : ${roles ?: {'Coordinator', 'Foster', 'Adopter'} }">
+							<div th:replace="components/input :: form_checkbox(text=${value})"> </div>
+						</th:block>
+					</div>
+				</div>
+				
+				<th:block th:if="${#arrays.length(roles) == 1}">
+					<div th:replace=":: form_hidden('role', ${roles[0]})"></div>
+				</th:block>
+				
+				<div th:replace=":: form_address(name='address', icon='fa fa-map-marker-alt')"></div>
+			</div>
+			
+			<script type="text/javascript" th:inline="javascript">
+				function showPersonCreate(uid) {
+					UID.exe(uid, function() {
+						var filter = "[data-form-input='" + /*[[${name}]]*/ + "']";
+						
+						var $lookup = $$(".input-person_lookup").find(filter).addBack(filter);
+						var $inline = $$(".input-person_inline").find(filter).addBack(filter);
+						
+						$lookup[0].input.hide();
+						$inline[0].input.show();
+						
+						$lookup.closest(".input-person_lookup").hide();
+						$inline.closest(".input-person_inline").show();
+					});
+				}
+				
+				function showPersonLookup(uid) {
+					UID.exe(uid, function() {
+						var filter = "[data-form-input='" + /*[[${name}]]*/ + "']";
+						
+						var $lookup = $$(".input-person_lookup").find(filter).addBack(filter);
+						var $inline = $$(".input-person_inline").find(filter).addBack(filter);
+						
+						$lookup[0].input.show();
+						$inline[0].input.hide();
+
+						$lookup.closest(".input-person_lookup").show();
+						$inline.closest(".input-person_inline").hide();
+					});
+				}
+			
+				function updatePersonRequirements(uid, roles) {
+					UID.exe(uid, function() {
+						var requireEmail, requirePhone, requireAddress;
+						roles = Array.isArray(roles) && roles || [roles];
+						
+						for(var role of roles) {
+							switch(role.toLowerCase()) {
+								case "caretaker":
+								case "adopter":
+								case "foster":
+									requireEmail = true;
+									requirePhone = true;
+									requireAddress = true;
+								break;
+								
+								case "admin":
+								case "coordinator":
+									requireEmail = true;
+								break;
+							}
+						}
+						
+						$$( "[data-form-input='email'], " + 
+							"[data-group-input='email']")[0].input.params["allow-blank"] = !requireEmail;
+
+						$$( "[data-form-input='phone'], " + 
+							"[data-group-input='phone']")[0].input.params["allow-blank"] = !requirePhone;
+
+						$$( "[data-form-input='street'], " + 
+							"[data-group-input='street']")[0].input.params["allow-blank"] = !requireAddress;
+					});
+				}
+				
+				function validatePersonName(input) {
+					var value = $(input.ele).val();	
+					
+					// if the input is blank, return
+					if(/^\s*$/.test(value)) return;
+					value = value.trim();
+					
+					var parts = value.split(" ");
+					if(parts.length != 2) {
+						input.setError("Please only enter their first and last name");
+						return false;
+					}
+					
+					if(parts[0].length > 25) {
+						input.setError("First-name is too long!");
+						return false;
+					}
+					
+					if(parts[1].length > 25) {
+						input.setError("Last-name is too long!");
+						return false;
+					}
+					
+					return true;
+				}
+				
+				/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
+					showPersonLookup(/*[[${u_id}]]*/);
+					
+					// if there is only one role, setup the requirments 
+					var roles = /*[[${roles}]]*/ [];
+					if(roles.length == 1) {
+						updatePersonRequirements(/*[[${u_id}]]*/, roles[0]);
+					
+					// otherwise, ass a listener to the role group to control requirments 
+					} else {
+						var $rolesInput = $$("[data-form-input='roles']");
+						$rolesInput.input.addListener(input => updatePersonRequirements(uid, input.getValue()));
+					}
 				}); /*]]>*/
 			</script>
 		</div>

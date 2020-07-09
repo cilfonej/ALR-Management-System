@@ -2,8 +2,9 @@ import StarndardInput from "./StandardInput";
 import LookupInput from "./LookupInput";
 import GroupInput from "./GroupInput";
 import ButtonGroupInput, {CheckboxInput} from "./ButtonGroupInput";
+import AddressInput from "./AddressInput";
 
-import RevertButton from "./RevertButton";
+import RevertButton from "./revert/RevertButton";
 
 window.Input = (function() {
 	
@@ -27,6 +28,7 @@ window.Input = (function() {
 		"Group": GroupInput,
 		"ButtonGroup": ButtonGroupInput,
 		
+		"AddressInput": AddressInput,
 		
 		"RevertButton": RevertButton
 	};

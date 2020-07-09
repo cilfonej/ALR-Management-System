@@ -6,7 +6,7 @@
 <body>
 	<div th:fragment="form" th:replace="forms/form :: form(
 		url='/register/dog/submit',
-		class='register-dog_form'
+		class='register-dog_form',
 		title='Register Dog', 
 		body=~{:: #form})">
 		
@@ -110,12 +110,14 @@
 				</div>
 			</div>
 			
-			<div th:replace="components/input :: form_lookup(
+			<div th:replace="components/input :: form_person(
 				name='coordinator',
 				url='/register/dog/list/people',
 				
 				label='Application Coordinator',
-				icon='fa alr-user'
+				icon='fa alr-user',
+				
+				roles=${ {'Coordinator'} }
 			)"> </div>
 			
 			<div th:replace="components/input :: form_input(

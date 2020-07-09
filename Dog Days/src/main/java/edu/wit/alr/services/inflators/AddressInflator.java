@@ -48,6 +48,23 @@ public class AddressInflator implements Inflator<Address, AddressData> {
 		}
 		
 		if(data.streetName != null) {
+			data.streetName = data.streetName.trim();
+			
+			if(data.city != null) data.city = data.city.trim();
+			if(data.state != null) data.state = data.state.trim();
+			if(data.zipcode != null) data.zipcode = data.zipcode.trim();
+			if(data.country != null) data.country = data.country.trim();
+			
+			// force there to be a streetName, city, and valid state
+			if(data.streetName.isBlank() || data.city == null || data.city.isBlank() || data.state == null || data.state.isBlank()) {
+				throw new InflationException("Cannot inflate Address! Not enough address-information was provided");
+			}
+
+			// if the fields were going to be empty, make it null
+			if(data.zipcode.isBlank()) data.zipcode = null;
+			if(data.country.isBlank()) data.country = null;
+			
+			// construct new address 
 			return new Address(data.streetName, data.city, data.state, data.zipcode, data.country);
 		}
 		

@@ -111,7 +111,7 @@
 		<dependency>
 		    <groupId>org.webjars.npm</groupId>
 		    <artifactId>micromodal</artifactId>
-		    <version>0.4.0</version>
+		    <version>0.4.6</version>
 		</dependency>
 		
 		<!-- dependency>
