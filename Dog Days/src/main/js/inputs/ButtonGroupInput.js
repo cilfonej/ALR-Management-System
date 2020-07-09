@@ -30,18 +30,8 @@ export default class ButtonGroupInput extends GroupInput {
 		// setup single-selection on child-inputs
 		if(!param["allow-multiple"]) {
 			var option_selected = false;
-			var onSelect = (input, val) => {
-				// un-select all inputs in group
-				$inputs.prop("checked", false);
-				
-				// force the selected element to stay selected
-				$(input.ele).prop("checked", true);
-			};
-			
 			$inputs.each((index, ele) => {
 				var input = ele.input;
-				input.addListener(onSelect);
-
 				// force only one option to be selected
 				input.getValue() && (option_selected = true) || $(ele).prop("checked", false);
 				
@@ -78,6 +68,20 @@ export default class ButtonGroupInput extends GroupInput {
 			// if values contains this options, then select it, otherwise un-check
 			$ele.prop("checked", values.includes(val));
 		});
+	}
+	
+	fireChildEvent(input, value) {
+		// if only one selection is allowed, update all options
+		if(!this.params["allow-multiple"]) {
+			// un-select all inputs in group
+			this.children.prop("checked", false);
+			
+			// force the selected element to stay selected
+			$(input.ele).prop("checked", true);
+		}
+		
+		// chain-fire event
+		super.fireChildEvent(input, value);
 	}
 	
 	getValue() {

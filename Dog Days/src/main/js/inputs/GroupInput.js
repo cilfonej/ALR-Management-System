@@ -33,7 +33,8 @@ export default class GroupInput extends Input {
 		$.each(params, (key, value) => (value === null && delete params[key], true));
 		this.params = Object.assign(base_params, params);
 	}
-	
+
+	// do not override, use "setupChildren($children)"
 	setupElement(element) {
 		var group = this;
 		
@@ -63,7 +64,7 @@ export default class GroupInput extends Input {
 					}
 
 					// chain events from children
-					input.addListener(value => group.fireChangeEvent(this, { src: input, val: value}));
+					input.addListener((child, value) => group.fireChildEvent(child, value));
 					
 					// remove the input-flag from all children
 					$ele.attr("data-form-input", null);
@@ -84,7 +85,7 @@ export default class GroupInput extends Input {
 					group.setupChildren($children);
 				
 				// if a revert button was added, attempt to perform setup
-				if(group.rev_button && typeof group.setupRevertChildren === 'function')
+				if(group.rev_button) 
 					group.setupRevertChildren($children, group.rev_button);
 			});
 
@@ -94,15 +95,36 @@ export default class GroupInput extends Input {
 		});
 	}
 	
+	// do not override, use "setupRevertChildren($children, button)"
 	setupRevertButton(button) {
 		// setup cannot happen yet, must wait till children/DOM is loaded
 		this.rev_button = button;
 	}
 	
+	setupRevertChildren($inputs, button) {
+		// DEFAULT *** implementation 
+		
+		var onSelect = () => button.onInputChange();
+		// on child value change, trigger revert-button state change
+		$inputs.each((index, ele) => ele.input.addListener(onSelect));
+		
+		// enable the revert-button
+		button.onInputChange();
+		// now that the group is initialized, we can "reset" the value
+		button.revertFields();
+	}
+	
+	fireChildEvent(input, value) {
+		// DEFAULT *** implementation
+		this.fireChangeEvent({ src: input, val: value})
+	}
+	
 	// cannot set an value of a group, by default
 	setValue(val) { }
-	
+
 	getValue() {
+		// DEFAULT *** implementation
+		
 		var data = {};
 		$.each(this.children, (index, ele) => {
 			var input = ele.input;
@@ -113,8 +135,10 @@ export default class GroupInput extends Input {
 	}
 
 	validate() {
+		// DEFAULT *** implementation
+		
 		var invalid = false;
-		$.each(this.children, (index, ele) => invalid = !ele.input.validate() || invalid);
+		$.each(this.children, function(index, ele) { invalid = !ele.input.validate() || invalid });
 		
 		return !invalid;
 	}
@@ -123,6 +147,8 @@ export default class GroupInput extends Input {
 	setError(msg) { }
 	
 	clear() {
+		// DEFAULT *** implementation
+		
 		$.each(this.children, (index, ele) => ele.input.clear());
 		this.setError(null);
 	}
