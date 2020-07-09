@@ -37,10 +37,10 @@ export default class InputBase {
 		this.listeners.push(listener);
 	}
 	
-	fireChangeEvent(new_value) {
+	fireChangeEvent(...new_value) {
 		if(!this.listeners) return;
 		for(var listen of this.listeners) {
-			listen(this, new_value);
+			listen(this, ...new_value);
 		}
 	}
 };

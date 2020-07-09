@@ -384,18 +384,25 @@
 				 _class=${class}, class=null"
 		th:remove="tag">
 		
+		 <!-- 
+		 	name: string
+		 
+			label: string <optional>
+			icon: string <default = [based on type]>
+			class: string <optional>
+			
+			require: boolean <default = true>
+			readonly: boolean <default = false>
+		 -->
+		
 		<span class="form-input_label" th:text="${_label}" th:if="${_label != null}"> </span>
 		
 		<div class="form-input_address" th:attr="data-uid=${u_id}" th:classappend="${_class}">
-			<div th:replace="components/input :: form_group(${_name})"></div>
 			<div th:replace="components/input :: form_input(
 				name='street', 
 				
 				icon=${_icon}, 
-				placeholder='Street', 
-				
-				allow_blank=${allow_blank ?: false},
-				validate='validateStreetAddress'
+				placeholder='Street'
 			)"></div>
 			
 			<div class="city-state">
@@ -414,47 +421,13 @@
 		</div>	
 		
 		<script type="text/javascript" th:inline="javascript">
-			function validateStreetAddress(input) {
-				var value = $(input.ele).val();
-				
-				// if street-address is blank
-				if(/^\s*$/.test(value)) {
-					var hasCity, hasState;
-					
-					// find the wrapping UID element
-					var uid = $(input.ele).closest("[data-uid]").parent().closest("[data-uid]");
-					
-					// check to make sure the city and state are also blank
-					UID.exe(uid, () => {
-						var $city = $$("[data-group-input='city']");
-						var $state = $$("[data-group-input='state']");
-						 
-						var val;
-						hasCity = $city.length && (val = $city[0].input.getValue(), !/^\s*$/.test(val));
-						hasState = $state.length && (val = $state[0].input.getValue(), !/^\s*$/.test(val));
-					});
-					
-					// has city or state value, but no street-address
-					if(hasCity || hasState) {
-						 input.setError("Must provide street-address");
-						 return false;
-					}
-				}
-				
-				return true;
-			}
-		
 			/*<![CDATA[*/ UID.exe(/*[[${u_id}]]*/, function() {
-				// find group-input object
-				var input = $$("")[0].input;
-				
-				var og_getValue = input.getValue;
-				input.getValue = function() {
-					var $street = input.children.filter("[data-group-input='street']");
-					var val = $street[0].input.getValue();
-					// check if street-address is blank
-					return /^\s*$/.test(val) && null || og_getValue.call(input);
-				};
+				Input.setupInput(
+					$$(""), 
+					new Input.AddressInput(/*[[${_name}]]*/, {
+						"require": /*[[${require}]]*/ '',
+					})
+				);
 			}); /*]]>*/
 		</script>
 	</div>

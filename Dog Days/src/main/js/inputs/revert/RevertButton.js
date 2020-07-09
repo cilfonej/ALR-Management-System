@@ -1,9 +1,7 @@
 import StandardType from "./StandardRevert";
-import AddressType from "./AddressRevert";
 
 var types = {
-	"std": StandardType,
-	"address": AddressType
+	"std": StandardType
 };
 
 export default class RevertButton {
