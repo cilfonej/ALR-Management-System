@@ -1,8 +1,7 @@
 package edu.wit.alr.mail;
 
 import java.util.Properties;
-
-import javax.validation.constraints.Email;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,6 +14,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
+import org.thymeleaf.templateresolver.StringTemplateResolver;
 
 import edu.wit.alr.web.preprocessor.AddressHelperDialect;
 import edu.wit.alr.web.preprocessor.NumberFormatDialect;
@@ -28,11 +28,13 @@ public class MailConfig {
 	private int port;
 	
 	/** Email address used as the default "from" when sending emails */
-	private String from = "ALR No-reply <no-reply@alr.com>";
+	private String from = "ALR no-reply <no-reply@alr.com>";
 
 	/** Sending account's mail-server login @See #host */
 	private String username;
 	private String password;
+	
+	public String getDefaultFrom() { return from; }
 
 	@Bean
 	public JavaMailSender getJavaMailSender() {
@@ -47,7 +49,7 @@ public class MailConfig {
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.debug", "true");
+//		props.put("mail.debug", "true");
 		    
 		return mailSender;
 	}
@@ -56,23 +58,36 @@ public class MailConfig {
 	@Qualifier("mail")
 	public SpringTemplateEngine mailTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(mailTemplateResolver());
+        
+        templateEngine.addTemplateResolver(mailTemplateResolver());
+        templateEngine.addTemplateResolver(subjectTemplateResolver());
+        
         templateEngine.addDialect(new Java8TimeDialect());
         templateEngine.addDialect(new NumberFormatDialect());
         templateEngine.addDialect(new AddressHelperDialect());
+        
         return templateEngine;
     }
-	 
-	@Bean
-	public ITemplateResolver mailTemplateResolver() {
+
+
+	private ITemplateResolver mailTemplateResolver() {
 	    ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-	    resolver.setPrefix("mail/");
+	    resolver.setResolvablePatterns(Set.of("mail/*")); // improves response time when picking resolver
 	    resolver.setSuffix(".html");
 	    resolver.setTemplateMode(TemplateMode.HTML);
 	    resolver.setCharacterEncoding("UTF-8");
 	    resolver.setCacheable(false);
+	    resolver.setOrder(1);
 	    return resolver;
 	}
+
+	private ITemplateResolver subjectTemplateResolver() {
+		StringTemplateResolver resolver = new StringTemplateResolver();
+		resolver.setTemplateMode(TemplateMode.TEXT);
+		resolver.setCacheable(false);
+		resolver.setOrder(2);
+		return resolver;
+    }
 
 // ***** AUTO-CONFIG SETTERS *****
 
