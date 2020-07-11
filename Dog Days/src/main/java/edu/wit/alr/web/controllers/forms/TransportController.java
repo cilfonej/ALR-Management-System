@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import edu.wit.alr.database.model.Address;
 import edu.wit.alr.database.model.Dog;
 import edu.wit.alr.database.model.Person;
+import edu.wit.alr.database.model.TransportReservation;
 import edu.wit.alr.database.model.roles.Adopter;
 import edu.wit.alr.database.model.roles.Caretaker;
 import edu.wit.alr.database.model.roles.Foster;
@@ -29,6 +30,7 @@ import edu.wit.alr.services.inflators.AddressInflator.AddressData;
 import edu.wit.alr.services.inflators.DogInflator.DogData;
 import edu.wit.alr.services.inflators.InflatorService;
 import edu.wit.alr.services.inflators.PersonInflator.PersonData;
+import edu.wit.alr.web.controllers.pages.TransportViewController;
 import edu.wit.alr.web.lookups.DogLookupOption;
 import edu.wit.alr.web.lookups.LookupOption.LookupGroup;
 import edu.wit.alr.web.lookups.PersonLookupOption;
@@ -56,6 +58,9 @@ public class TransportController {
 	
 	@Autowired
 	private PersonRepository personRepo;
+
+	@Autowired
+	private TransportViewController viewController;
 	
 	public static class TransportData {
 		public AddressData address;
@@ -65,14 +70,14 @@ public class TransportController {
 	}
 	
 	@PostMapping("/submit")
-	public @ResponseBody String submit(@RequestBody TransportData data) {
+	public @ResponseBody PageResponse submit(@RequestBody TransportData data) {
 		
 		Address address = inflatorService.inflate(data.address); 
 		Dog dog = inflatorService.inflate(data.chooseDog);
 		Caretaker person = inflatorService.inflatePerson(data.pickupPerson, Caretaker.class);		
-		transportService.createTransport(address, dog, person, data.pickupDate);	
-		//TODO FIX RETURN OK
-		return "OK";
+		
+		TransportReservation reservation = transportService.createTransport(address, dog, person, data.pickupDate);	
+		return viewController.transportationRedirect(reservation.getTransportDate());
 	}
 	
 	//TODO filter to only active dogs
@@ -130,6 +135,3 @@ public class TransportController {
 		return builder.redirect("/register/transport", "forms/transport/transport :: form", vars);
 	}
 }
-
-
-
