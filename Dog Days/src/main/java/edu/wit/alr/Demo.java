@@ -1,5 +1,6 @@
 package edu.wit.alr;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -17,9 +18,11 @@ import edu.wit.alr.database.model.Address;
 import edu.wit.alr.database.model.Contact.EmailContact;
 import edu.wit.alr.database.model.Contact.PhoneContact;
 import edu.wit.alr.database.model.Dog;
+import edu.wit.alr.database.model.Dog.Gender;
 import edu.wit.alr.database.model.Drug;
 import edu.wit.alr.database.model.Drug.DrugType;
 import edu.wit.alr.database.model.Person;
+import edu.wit.alr.database.model.TransportReservation;
 import edu.wit.alr.database.model.roles.Adopter;
 import edu.wit.alr.database.model.roles.ApplicationCoordinator;
 import edu.wit.alr.database.model.roles.Foster;
@@ -27,6 +30,7 @@ import edu.wit.alr.database.repository.AddressRepository;
 import edu.wit.alr.database.repository.DogRepository;
 import edu.wit.alr.database.repository.DrugRepository;
 import edu.wit.alr.database.repository.PersonRepository;
+import edu.wit.alr.database.repository.TransportReservationRepository;
 
 @Component
 public class Demo {
@@ -39,6 +43,8 @@ public class Demo {
 	private DrugRepository drugRepository;
 	@Autowired
 	private AddressRepository addressRepository;
+	@Autowired
+	private TransportReservationRepository tansportRepository;
 	
 	private Random current;
 
@@ -51,6 +57,10 @@ public class Demo {
 		
 		ArrayList<Person> people = new ArrayList<>();
 		
+		ArrayList<Foster> fosters = new ArrayList<>();
+		ArrayList<Adopter> adopters = new ArrayList<>();
+		ArrayList<ApplicationCoordinator> coordinators = new ArrayList<>();
+		
 		for(int i = 0, limit = rand.nextInt(6) + 4; i < limit; i ++) {
 			Faker faker = data();
 			Person person = generatePerson(faker);
@@ -58,28 +68,56 @@ public class Demo {
 			
 			if(rand.nextDouble() > .75) {
 				generateAdopter(faker, person);
+				adopters.add(person.findRole(Adopter.class));
 				
 			} else {
-				if(rand.nextDouble() > .1)
+				if(rand.nextDouble() > .1) {
 					generateFoster(faker, person);
+					fosters.add(person.findRole(Foster.class));
+				}
 				
-				if(rand.nextDouble() > .7)
+				if(rand.nextDouble() > .7) {
 					generateCoordinator(faker, person);
+					coordinators.add(person.findRole(ApplicationCoordinator.class));
+				}
 			}
 		}
 		
 		ArrayList<Dog> dogs = new ArrayList<>();
-		for(int i = 0, limit = rand.nextInt(6) + 3; i < limit; i ++) {
+		for(int i = 0, limit = rand.nextInt(10) + 10; i < limit; i ++) {
 			Faker faker = data();
 			Dog dog = generateDog(faker);
 			dogs.add(dog);
 			
-//			if(faker.bool().bool())
-//				dog.setCustodian(fosters.get(rand.nextInt(fosters.size())).getBasePerson());
+			dog.setAddoptionCoordinator(coordinators.get(rand.nextInt(coordinators.size())));
+			
+			if(faker.bool().bool())
+				dog.setCaretaker(data().bool().bool() ? 
+						fosters.get(rand.nextInt(fosters.size())) : adopters.get(rand.nextInt(adopters.size())));
+		}
+		
+		ArrayList<TransportReservation> reservations = new ArrayList<>();
+		for(int i = 0; i < 3; i ++) {
+			LocalDate transportDate = LocalDate.ofInstant(data().date().between(Date.valueOf(
+					LocalDate.now().minusMonths(2)), Date.valueOf(LocalDate.now().plusMonths(1))).toInstant(), ZoneId.systemDefault());
+			
+			for(int k = 0, kCount = rand.nextInt(3) + 1; k < kCount; k ++) {
+				Address address = generateAddress(data());
+				
+				for(int j = 0, count = rand.nextInt(4); j < count; j ++) {
+					TransportReservation reservation = new TransportReservation(dogs.get(rand.nextInt(dogs.size())));
+					reservation.setPickupAddress(address);
+					reservation.setTransportDate(transportDate);
+					reservation.setPickupPerson(fosters.get(rand.nextInt(fosters.size())));
+					
+					reservations.add(reservation);
+				}
+			}
 		}
 		
 		personRepository.saveAll(people);
 		dogRepository.saveAll(dogs);
+		tansportRepository.saveAll(reservations);
 	}
 	
 	private Faker data() {
@@ -87,10 +125,11 @@ public class Demo {
 	}
 	
 	private void clearAll() {
+		tansportRepository.deleteAll();
 		drugRepository.deleteAll();
 		dogRepository.deleteAll();
 		personRepository.deleteAll();
-		addressRepository.deleteAll();
+		//addressRepository.deleteAll();
 	}
 	
 	private void generateStaticData() {
@@ -143,6 +182,8 @@ public class Demo {
 	private Dog generateDog(Faker faker) {
 		Dog dog = new Dog(faker.cat().name());
 		dog.setWeight(faker.number().randomDouble(2, 2, 120));
+		
+		dog.setGender(Gender.values()[faker.number().numberBetween(0, 3)]);
 		
 		LocalDate date = LocalDate.from(faker.date().birthday(0, 15).toInstant().atZone(ZoneId.systemDefault()));
 		dog.setBirthday(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
