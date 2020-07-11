@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<ul th:fragment="breadcrums(label)">
+	    <li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+	    <li th:replace="common/header :: breadcrum(name='Dog Return', icon='fa-undo-alt')"></li>
+	    <li th:replace="common/header :: breadcrum(name=${label})"></li>
+	</ul>
+	
+	<div th:fragment="page" class="returnPage">
+		<div th:replace="common/header :: title('ALR - Dog Return', ~{:: breadcrums(${dogReturn.ID})})"></div>
+	
+		<div>
+			<div class="dogCard">
+				<!-- TODO: Slim non-editable dog info card -->
+				<div th:replace="pages/dog/view/dog_info_card :: card(${dog})"></div>
+			</div>
+			
+			<div class="personCard">
+				<!-- TODO: Slim non-editable adopter card -->
+				<!-- TODO <div th:replace="pages/dog/view/caretaker_assignment_card :: card(${dog})"></div> -->
+			</div>
+		</div>
+		
+		<div th:fragment="pageReturnCard(returnDate, reason, dogReturn)" class="returnCard">
+			<div class="card-header">
+				<h2>Reason</h2>
+				
+				<a class="dog-card_edit icon-button icon-button_ghost fade-icon" 
+					data-micromodal-trigger="edit-return"
+					data-tippy-content="Edit">
+					
+					<i class="fa fa-pen"></i>
+				</a>
+			</div>
+			
+			<div class="return-date">
+				<div th:text="${#temporals.format(returnDate, 'MMMM d, yyyy')}"></div>
+			</div>
+			
+			<div class="returnCard-reason">
+				<div th:text="${reason}"></div>
+			</div>
+			
+			<div th:replace="components/modal :: modal('edit-return', 'Edit Return Info', ~{:: edit(${dogReturn})})"></div>
+		</div>
+	</div>
+	
+	<div th:fragment="edit(dogReturn)">
+		<div th:replace="pages/return_dog/view/return_dog_view_edit :: form(${dogReturn})"></div>
+	</div>
+</body>
+</html>
