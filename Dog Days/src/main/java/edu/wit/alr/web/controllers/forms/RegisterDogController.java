@@ -126,6 +126,7 @@ public class RegisterDogController {
 		return builder.buildIndependentPage(loadPage());
 	}
 	
+	@PostMapping("")
 	public @ResponseBody PageResponse loadPage() {
 		return builder.redirect("/register/dog", "forms/register_dog/register_dog :: form", null);
 	}
