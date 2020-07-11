@@ -15,7 +15,7 @@
 			<h2> Caretaker </h2>
 			
 			<a class="icon-button icon-button_ghost fade-icon" 
-				data-tippy-content="Replace" th:onclick="Request.send('/edit/dog/[(${dog.ID})]/caretaker')">
+				data-tippy-content="Replace" th:onclick="Request.send('/edit/dog/[(${dog.id})]/caretaker')">
 				<i class="fa fa-pen"></i>
 			</a>
 		</header>
@@ -76,7 +76,7 @@
 	</div>
 	
 	<div th:fragment="edit(dog)" th:replace="forms/form :: edit_form(
-		url='/edit/dog/' + ${dog.ID} + '/caretaker',
+		url='/edit/dog/' + ${dog.id} + '/caretaker',
 		body=~{:: #edit_form})">
 	</div>
 	

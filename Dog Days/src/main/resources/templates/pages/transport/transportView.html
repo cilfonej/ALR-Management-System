@@ -66,8 +66,8 @@
 	                <table>
 	                	<!-- TODO: make all of these links, for easier navigation -->
 	                    <tr th:each="row : ${cityCard.value}">
-	                        <td th:text="${row.dog.name + ' #' + row.dog.ID}"></td>
-	                        <td th:text="${row.pickupPerson.name}"></td>
+	                        <td th:text="${row.dog.name + ' #' + row.dog.id}"></td>
+	                        <td th:text="${row.pickupPerson?.name}"></td>
 	                    </tr>
 	                </table>
 	            </div>   

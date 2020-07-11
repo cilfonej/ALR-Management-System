@@ -40,10 +40,10 @@ public class ReturnDogViewController {
 		vars.put("returner", dogReturn.getAddopter());
 		vars.put("reason", dogReturn.getReason());
 		vars.put("returnDate", dogReturn.getReturnDate());
-		vars.put("returnID", dogReturn.getID());
+		vars.put("returnID", dogReturn.getId());
 		vars.put("dogReturn", dogReturn);
 		
-		return builderService.redirect("/view/returns/" + dogReturn.getID(), "pages/return_dog/view/return_dog_view :: page", vars);
+		return builderService.redirect("/view/returns/" + dogReturn.getId(), "pages/return_dog/view/return_dog_view :: page", vars);
 	}
 		
 }

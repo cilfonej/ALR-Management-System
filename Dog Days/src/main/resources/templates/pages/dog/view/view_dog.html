@@ -7,7 +7,7 @@
 	<ul th:fragment="breadcrums(dog)">
 		<li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
 		<li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
-		<li th:replace="common/header :: breadcrum(name=${dog.name}, extra=${'#' + dog.ID})"></li>
+		<li th:replace="common/header :: breadcrum(name=${dog.name}, extra=${'#' + dog.id})"></li>
 	</ul>	
 
 	<div th:fragment="page(dog)" class="view-dog_wrapper">
