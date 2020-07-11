@@ -1,6 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
-	    <link rel="stylesheet" href="/css/forms/return_dog/return_dog_view.css" />
 	</head>
 	
 	
@@ -43,7 +42,7 @@
 		</div>
 		
 		<div th:fragment="edit(dogReturn)">
-		<div th:replace="forms/return_dog/return_dog_view_edit :: form(${dogReturn})"></div>
+		<div th:replace="pages/return_dog/view/return_dog_view_edit :: form(${dogReturn})"></div>
 	</div>
 	</body>
 	

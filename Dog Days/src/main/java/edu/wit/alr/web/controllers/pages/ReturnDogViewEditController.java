@@ -1,4 +1,4 @@
-package edu.wit.alr.web.controllers.forms;
+package edu.wit.alr.web.controllers.pages;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -46,6 +46,6 @@ public class ReturnDogViewEditController {
 		vars.put("reason",updateReturn.getReason());
 		vars.put("dogReturn", updateReturn);
 		
-		return builderService.replacement(".returnCard", "forms/return_dog/return_dog_view::pageReturnCard", vars);
+		return builderService.replacement(".returnCard", "pages/return_dog/view/return_dog_view :: pageReturnCard", vars);
 	}
 }

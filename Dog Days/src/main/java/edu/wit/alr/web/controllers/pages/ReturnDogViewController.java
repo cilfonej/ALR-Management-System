@@ -1,6 +1,5 @@
-package edu.wit.alr.web.controllers.forms;
+package edu.wit.alr.web.controllers.pages;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,18 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.fasterxml.jackson.annotation.JsonAlias;
 
 import edu.wit.alr.database.model.DogReturn;
 import edu.wit.alr.services.ReturnDogService;
 import edu.wit.alr.web.response.PageResponse;
-import edu.wit.alr.web.response.ReplaceResponse;
-import edu.wit.alr.web.response.Response;
 import edu.wit.alr.web.response.ResponseBuilder;
 
 @Controller
@@ -50,7 +43,7 @@ public class ReturnDogViewController {
 		vars.put("returnID", dogReturn.getID());
 		vars.put("dogReturn", dogReturn);
 		
-		return builderService.redirect("/view/returns/" + dogReturn.getID(), "forms/return_dog/return_dog_view::page", vars) ;
+		return builderService.redirect("/view/returns/" + dogReturn.getID(), "pages/return_dog/view/return_dog_view :: page", vars);
 	}
 		
 }
