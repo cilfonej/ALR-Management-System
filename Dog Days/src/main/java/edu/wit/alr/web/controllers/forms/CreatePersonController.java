@@ -60,6 +60,7 @@ public class CreatePersonController {
 		return builder.buildIndependentPage(loadPage());
 	}
 	
+	@PostMapping("")
 	public @ResponseBody PageResponse loadPage() {
 		return builder.redirect("/register/person", "forms/create_person/create_person :: form", null);
 	}

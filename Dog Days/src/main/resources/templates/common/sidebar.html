@@ -6,50 +6,67 @@
 
 <body>
 	<aside th:fragment="sidebar" class="page-sidebar">
-		<div style="height: 50px"></div>
-	
+		<div style="height: 70px"></div>  <!--  TODO ADD LOGo -->
 		<div class="page-sidebar_nav">
-			<ul>
-				<li th:replace=":: nav_category(name='Home', icon='fa-home')"></li>
-				
-				<li th:replace=":: nav_category(name='Dogs', icon='fa-dog', selected=true,
-												items=${ {'Manage', 'View', 'New'} })"></li>
-												
-				<li th:replace=":: nav_category(name='Inventory', icon='fa-boxes', 
-												items=${ {'Manage', 'Received', 'Send'} })"></li>
-				
-				<li th:fragment="nav_category(name, icon)" th:if="${name != null}"
-						class="page-sidebar_nav-category" th:classappend="${(selected ?: false) ? 'nav-selected' : ''}"
-						th:id="'nav-' + ${name}" th:attr="data-name=${name}">
-						
-					<a class="page-sidebar_nav-category-label" onclick="openCategory(this)">   
-						<i class="page-sidebar_nav-icon fa" th:classappend="${icon}"></i>
-						<th:block th:text="${name}"> </th:block>
-						<i class="page-sidebar_nav-open fa fa-chevron-down" 
-							th:if="${not #lists.isEmpty(items)}"></i>
-					</a>
-					
-					<div class="page-sidebar_nav-item-wrapper" 
-							th:if="${items != null}">
-						<ul>
-							<li th:each="item : ${items}" class="page-sidebar_nav-item">
-								<i class="fa fa-chevron-right"></i>
-								<th:block th:text="${item}"> </th:block>
-							</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</div>
 		
-		<script>
-			function openCategory(ele) {
-				$(".nav-selected").removeClass("nav-selected");
+			<div class="page-sidebar_nav-category">
+				<div class="page-sidebar_nav-category-label">
+					<span><i class="fa fa-dog"></i>Dog</span>
+				</div>
+				<div class="page-sidebar_nav-item-wrapper">
+					<a onclick="Request.send()">                        <!--  TODO -->
+						<span><i class="fa fa-list-ul"></i>View All</span>
+					</a>	
+					<a onclick="Request.send('/register/dog')">  	
+						<span><i class="fa fa-plus"></i>Add Dog</span>	
+					</a>
+					<a onclick="Request.send('/register/transport')">  
+						<span><i class="fa fa-truck"></i>Add Reservation</span>
+					</a>
+					<a onclick="Request.send('/register/return')">
+						<span><i class="fa fa-undo-alt"></i>Add Dog Return</span>	
+					</a>	
+				</div>
+			</div>	
 				
-				var name = $(ele).closest("[data-name]").data("name");
-				$("#nav-" + name).addClass("nav-selected");
-			}
-		</script>
+				
+			<div class="page-sidebar_nav-category">
+				<div class="page-sidebar_nav-category-label">
+					<span><i class="fa fa-user"></i>People</span>
+				</div>		
+				<div class="page-sidebar_nav-item-wrapper">		
+					<a onclick="Request.send('')">                    <!--  TODO ADD URL -->
+						<span><i class="fa fa-list-ul"></i>View All</span>
+					</a>	
+					<a onclick="Request.send('')">                         <!--  TODO ADD URL      IF WE DO THIS -->
+						<span><i class="fa fa-user"></i>Adopter Applicants</span>
+					</a>						
+					<a onclick="Request.send('/register/person')">
+						<span><i class="fa fa-plus"></i>Add Person</span>
+					</a>
+				</div>
+			</div>
+			    
+			    
+			<div class="page-sidebar_nav-category"> 
+			    <div class="page-sidebar_nav-category-label">
+			    	<span><i class="fa fa-truck"></i>Transport</span>
+			    </div>
+			    <div class="page-sidebar_nav-item-wrapper">	
+					<a onclick="Request.send('/view/transport')"> 
+						<span><i class="fa fa-calendar-week"></i>Upcoming</span>
+					</a>
+					<a onclick="Request.send('')">                   <!--  TODO ADD URL --> 
+						<span><i class="fa fa-list-ul"></i>View All</span>
+					</a>
+					<a onclick="Request.send('/register/transport')">
+						<span><i class="fa fa-plus"></i>Add Reservation</span>
+					</a>	
+				</div>
+			</div>			
+			
+											
+		</div>
 	</aside>
 </body>
 </html>

@@ -42,7 +42,7 @@
 		</header>
 	
 		<div class="card-blank_body">
-			<div class="card-blank_inner" th:onclick="Request.send('/register/transport', { dog: [(${dog.ID})] })">
+			<div class="card-blank_inner" th:onclick="Request.send('/register/transport', { dog: [(${dog.id})] })">
 				<i class="fa fa-plus"></i>
 				<span class="card-blank_message"> Add reservation for Dog </span>
 			</div>

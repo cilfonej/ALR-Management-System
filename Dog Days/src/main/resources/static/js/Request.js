@@ -1,5 +1,9 @@
 var Request = (function() {
 	
+	function getPage(url) {
+		sendRequest(url, null, { method: "GET", raw_data: "" });
+	}
+	
 	function sendRequest(url, data, config, done, error, final) {
 		// check if no 'config' was provided
 		if(typeof config === 'function') {
@@ -84,5 +88,6 @@ var Request = (function() {
 	
 	return {
 		"send": sendRequest,
+		"get": getPage,
 	};
 })();

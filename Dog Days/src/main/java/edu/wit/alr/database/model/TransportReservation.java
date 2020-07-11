@@ -5,20 +5,13 @@ import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import edu.wit.alr.database.model.roles.Caretaker;
 
 @Entity
-public class TransportReservation {
-	
-	@Id
-	@GeneratedValue
-	@Column(unique = true, nullable = false)
-	private int id;
+public class TransportReservation extends DBObject {
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -42,8 +35,6 @@ public class TransportReservation {
 		this.dog = dog;
 	}
 	
-	public int getId() { return id; }
-
 	public Dog getDog() { return dog; }
 	public Caretaker getPickupPerson() { return pickupPerson; }
 	

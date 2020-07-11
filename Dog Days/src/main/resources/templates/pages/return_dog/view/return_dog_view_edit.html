@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="form(return)" th:replace="forms/form :: edit_form(url='/edit/return/' + ${return.id}, 
+																		title='Edit Return', 
+																		body=~{:: #form}, 
+																		class='dogreturn_all')">
+	</div>
+	
+	<div id="form" th:remove="tag">
+		<div th:replace="components/input :: form_input(label='Date of Return', type='date', icon='fas fa-calendar-alt', name='returnDate')"></div>
+		<div th:replace="components/input :: revert('returnDate', ${return.ReturnDate})"> </div>
+		
+		<div th:replace="components/input :: form_textarea(label='Reason', name='reason', class='reason_textarea')"></div>
+		<div th:replace="components/input :: revert('reason', ${return.Reason})"> </div>
+	</div>
+</body>

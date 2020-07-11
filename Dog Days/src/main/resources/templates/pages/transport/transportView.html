@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <link rel="stylesheet" href="/css/forms/transport/transportView.css" />
+	</head>
+	
+    <body>
+    	<ul th:fragment="breadcrums(label)">
+			<li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+			<li th:replace="common/header :: breadcrum(name='Transport', icon='fa-truck')"></li>
+			<li th:replace="common/header :: breadcrum(name=${label})"></li>
+		</ul>
+
+		<div th:fragment="page(state_map, date)"
+			 th:with="date_str=${#temporals.format(date, 'yyyyy-MM-dd')}"
+			 class="transport-view">
+			 
+			<div th:replace="common/header :: title(
+					'ALR - Transport ' + ${date_str}, ~{:: breadcrums(${date_str})})"></div>
+					
+			<!-- TODO: Add Navigation buttons to move to the next/prev transport -->
+			<!-- TODO: Add header for the date of the current transport -->
+	
+			<div class="transport-view_header card">
+				<a th:if="${prev_date != null}" th:onclick="
+					Request.send([[${'/view/transport?date=' + #temporals.format(prev_date, 'yyyy-MM-dd')}]])">
+						
+					<i class="fa fa-arrow-left"></i> 
+					<th:block th:text="${#temporals.format(prev_date, 'MMM d, yyyy')}"></th:block>
+				</a>
+				<div th:if="${prev_date == null}"> <!-- empty placeholder --> </div>
+				
+				<div class="transport-view_header-title">
+					<span>  Transport Reservations on </span>
+					<h3 th:text="${#temporals.format(date, 'MMMM d, yyyy')}"> </h3>
+				</div>
+				
+				<a th:if="${next_date != null}" th:onclick="
+					Request.send([[${'/view/transport?date=' + #temporals.format(next_date, 'yyyy-MM-dd')}]])">
+						
+					<i class="fa fa-arrow-right"></i> 
+					<th:block th:text="${#temporals.format(next_date, 'MMMM d, yyyy')}"></th:block>
+				</a>
+				<div th:if="${next_date == null}"> <!-- empty placeholder --> </div>
+				
+			</div>
+			
+	        <div th:each="stateData : ${state_map}" th:remove="tag">
+	        	<div th:replace = ":: section(${stateData.key}, ${stateData.value})"></div>
+	        </div>
+	        
+	        <div th:if="${state_map.isEmpty()}" class="transport-view_no-content">
+	        	No transports scheduled for this day
+	        </div>
+        </div>	 
+        
+        <div th:fragment="section(state, citylist)" class="transport-view_section">
+        <!-- TODO: STATE abbreivation to full name -->
+        	<h2 th:text="${state}" class="transportview-state"></h2>
+        	
+	        <div class="transportview-location">
+	            <div th:each="cityCard : ${citylist}" class="transportview-location_card">
+	                <div class="card-header"> 
+	                	<h2 th:text="${cityCard.key}"></h2> 
+	                </div>
+	                
+	                <table>
+	                	<!-- TODO: make all of these links, for easier navigation -->
+	                    <tr th:each="row : ${cityCard.value}">
+	                        <td th:text="${row.dog.name + ' #' + row.dog.id}"></td>
+	                        <td th:text="${row.pickupPerson?.name}"></td>
+	                    </tr>
+	                </table>
+	            </div>   
+	        </div>
+        </div>     
+    </body>  
+</html>
