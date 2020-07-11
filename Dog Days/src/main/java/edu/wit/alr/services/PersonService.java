@@ -19,6 +19,7 @@ import edu.wit.alr.database.model.roles.Caretaker;
 import edu.wit.alr.database.model.roles.Foster;
 import edu.wit.alr.database.model.roles.Role;
 import edu.wit.alr.database.repository.PersonRepository;
+import edu.wit.alr.services.inflators.AddressInflator.AddressData;
 
 @Service
 public class PersonService {
@@ -111,5 +112,11 @@ public class PersonService {
 		}
 		
 		return roles;
+	}
+	
+	public Person updateUser(Person user, String email, String password, String firstName, String lastName, String phone, AddressData address) {
+		//set all of this data
+		repository.save(user);
+		return user;
 	}
 }
