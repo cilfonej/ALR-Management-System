@@ -1,60 +1,57 @@
-@import "../../const/all.less";
-@card-border_radius: 3px; 
+@import "../../card.less";
 
-@card-barground_color: white;
-@card-header_color: @light_gray97;
-
-.transportview-state {
-	margin-left: 2rem;
-	font-family: @font-default;
-	font-weight: bold;
-	color: @text_color;
-	font-size: @font_size-header;
-	color: @text_color;    
-
-}
-.transportview-all{
-	display: grid;
-	grid-template-columns: auto auto auto;
-	border-top-style: solid;
-	margin-bottom: 3rem;
-	font-family: @font-default;
-	color: @text_color;
-	justify-items: center;
-		       
-	.transportview-cityCard{
-		display: grid;
-		grid-template-columns: auto;
-		border-style: solid;
-		border-width: 2px;
-		width: 400px;
-		margin-top: 2rem;
-		border-radius: @card-border_radius;
-   		box-shadow: @border-shadow;
-		background: @card-barground_color;
-   		box-sizing: border-box;
-   		align-self: start;
-	
-		.transportview-cityState{
-			border-bottom: 1px solid;
-			padding: 6px;
-			padding-bottom: 3px;
+.transport-view {
+	.transport-view_section {
+		display: flex;
+		flex-direction: column;
+		
+		.transportview-state {
 			font-weight: bold;
-			background: @card-header_color;
-	   		box-shadow: @border-shadow;
+			font-size: @font_size-header;
+	
+			padding-bottom: 3px; // TODO: @card-sub_spacing			
+			border-bottom: 1px solid @gray50;
+			
+			h2 {
+				margin: 0;
+			}
 		}
 		
-		table {
-		border-collapse: collapse;
-		}
-	        
-		tr:nth-child(even){
-			background-color:@light_gray95;
-		}
-		td, th {
-			text-align:left;
-			padding:4px 6px;
-			font-weight: normal;
+		.transportview-location {
+			display: grid;
+			justify-items: space-between;
+			grid-template-columns: auto auto auto;
+					       
+			.transportview-location_card {
+				&:extend(.card all);
+				width: 400px;
+				
+				margin: 0;
+				margin-top: @card-margin;
+					
+				table {
+					border-collapse: collapse;
+					
+					tr {
+						&:nth-child(even) {
+							background-color:@light_gray97;
+						}
+						
+						&:first-child td {
+							padding-top: @card-padding;
+						}
+						
+						&:last-child td {
+							padding-bottom: @card-padding;
+						}
+					}
+					
+					td {
+						text-align: left;
+						padding: @card-padding / 2 @card-padding;
+					}
+				}
+			}
 		}
 	}
 }

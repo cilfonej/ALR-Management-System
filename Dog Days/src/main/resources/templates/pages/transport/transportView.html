@@ -2,30 +2,44 @@
 	<head>
 	    <link rel="stylesheet" href="/css/forms/transport/transportView.css" />
 	</head>
+	
     <body>
-    
-    	<ul th:fragment="breadcrums">
-		    <li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
-		    <li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
+    	<ul th:fragment="breadcrums(label)">
+			<li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+			<li th:replace="common/header :: breadcrum(name='Transport', icon='fa-truck')"></li>
+			<li th:replace="common/header :: breadcrum(name=${label})"></li>
 		</ul>
 
-		<div th:fragment="transportView">				
-	        <div th:each="stateData : ${state_map}">
-	        	<div th:replace = "::sections(${stateData.key}, ${stateData.value})"></div>
+		<div th:fragment="page(state_map, date)"
+			 th:with="date_str=${#temporals.format(date, 'MM/dd/yyyyy')}"
+			 class="transport-view">
+			 
+			<div th:replace="common/header :: title(
+					'ALR - Transport ' + ${date_str}, ~{:: breadcrums(${date_str})})"></div>
+			
+			<!-- TODO: Add Navigation buttons to move to the next/prev transport -->
+			<!-- TODO: Add header for the date of the current transport -->
+			
+	        <div th:each="stateData : ${state_map}" th:remove="tag">
+	        	<div th:replace = ":: section(${stateData.key}, ${stateData.value})"></div>
 	        </div>
         </div>	 
         
-        <div th:fragment="sections(state, citylist)">
+        <div th:fragment="section(state, citylist)" class="transport-view_section">
         <!-- TODO: STATE abbreivation to full name -->
-        	<span th:text="${state}" class="transportview-state">STATE</span>
-	        <div class="transportview-all">
-	            
-	            <div th:each="cityCard : ${citylist}" class ="transportview-cityCard">
-	                <span th:text="${cityCard.key}" class="transportview-cityState">city/street</span>
+        	<h2 th:text="${state}" class="transportview-state"></h2>
+        	
+	        <div class="transportview-location">
+	            <div th:each="cityCard : ${citylist}" class="transportview-location_card">
+	                <div class="card-header"> 
+	                	<h2 th:text="${cityCard.key}"></h2> 
+	                </div>
+	                
 	                <table>
+	                	<!-- TODO: make all of these links, for easier navigation -->
 	                    <tr th:each="row : ${cityCard.value}">
-	                        <td th:text="${row.dog.name + ' #' + row.dog.ID}">Dog</td>
-	                        <td th:text="${row.pickupPerson.name}">Person Picking Up</td>
+	                        <td th:text="${row.dog.name + ' #' + row.dog.ID}"></td>
+	                        <td th:text="${row.pickupPerson.name}"></td>
 	                    </tr>
 	                </table>
 	            </div>   
