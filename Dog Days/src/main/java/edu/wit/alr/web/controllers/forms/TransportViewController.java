@@ -1,6 +1,5 @@
 package edu.wit.alr.web.controllers.forms;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,17 +10,21 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.wit.alr.database.model.TransportReservation;
 import edu.wit.alr.database.repository.TransportReservationRepository;
+import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.ResponseBuilder;
 
 @Controller
-@RequestMapping("/forms")
+@RequestMapping("/view/transport")
 public class TransportViewController {
+	
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	@Autowired
 	private ResponseBuilder builderService;
@@ -29,11 +32,21 @@ public class TransportViewController {
 	@Autowired
 	private TransportReservationRepository transRepo;
 	
-	@GetMapping("/transportView")
-	public @ResponseBody String transportationUrl(@RequestParam("date") String date) {
+	@GetMapping("")
+	public @ResponseBody String transportationUrl(@RequestParam(name="date", required=false) String date) {
+		return builderService.buildIndependentPage(transportationRedirect(date));
+	}
+	
+	@PostMapping("")
+	public @ResponseBody PageResponse transportationRedirect(@RequestParam(name="date", required=false) String date) {
+
+		// if no date was provided, find the closest transport to today
+		if(date == null) {
+			// TODO: find the closest transport date
+		}
 		
 		//looks for yyyy-mm-dd DATE-FORMAT
-		LocalDate sqlDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate sqlDate = LocalDate.parse(date, FORMATTER);
 		
 		Map<String, Map<String, List<TransportReservation>>> stateMap = new HashMap<>();
 		
@@ -47,16 +60,16 @@ public class TransportViewController {
 			
 			if(stateMap.containsKey(state)) {
 				citystMap = stateMap.get(state);
-			}
-			else {
+				
+			} else {
 				stateMap.put(state, new HashMap<>());
 				citystMap = stateMap.get(state);
 			}
 			
 			if(citystMap.containsKey(cityStreet)) {
 				citystMap.get(cityStreet).add(tRes);
-			}
-			else {
+				
+			} else {
 				citystMap.put(cityStreet, new ArrayList<>());
 				citystMap.get(cityStreet).add(tRes);
 			}
@@ -64,10 +77,9 @@ public class TransportViewController {
 		
 		Map<String, Object> vars = new HashMap<>();
 		vars.put("state_map", stateMap);
+		vars.put("date", sqlDate);
 		
-		return builderService.buildIndependentPage(builderService.redirect("/forms/transportView", "forms/transport/transportView::transportView", vars));
+		return builderService.redirect("/view/transport?" + FORMATTER.format(sqlDate), "pages/transport/transportView :: page", vars);
 	}
-	
-	
 }
 
