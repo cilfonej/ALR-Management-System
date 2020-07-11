@@ -20,7 +20,7 @@
 			<!-- TODO: Add Navigation buttons to move to the next/prev transport -->
 			<!-- TODO: Add header for the date of the current transport -->
 	
-			<div class="transport-view_header">
+			<div class="transport-view_header card">
 				<a th:if="${prev_date != null}" th:onclick="
 					Request.send([[${'/view/transport?date=' + #temporals.format(prev_date, 'yyyy-MM-dd')}]])">
 						
