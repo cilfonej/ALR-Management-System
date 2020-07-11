@@ -21,7 +21,7 @@ import edu.wit.alr.web.response.ResponseBuilder;
 
 @Controller
 @RequestMapping("/edit/return")
-public class ReturnDogViewEditController {
+public class ReturnDogEditController {
 	
 	@Autowired
 	private ReturnDogService returnDogService;

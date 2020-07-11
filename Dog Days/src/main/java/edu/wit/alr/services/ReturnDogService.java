@@ -20,13 +20,14 @@ public class ReturnDogService {
 	@Autowired
 	private DogService dogService;
 	
-	public void createReturnDog(Dog dog, Adopter returnPerson, Caretaker newPerson, String reason, LocalDate returnDate) {
+	public DogReturn createReturnDog(Dog dog, Adopter returnPerson, Caretaker newPerson, String reason, LocalDate returnDate) {
 		DogReturn returning = new DogReturn(dog, returnPerson, reason); 
 		dogService.updateCaretaker(dog, newPerson);	
 		returning.setReason(reason);
 		returning.setReturnDate(returnDate);
 		
 		repository.save(returning);	
+		return returning;
 	}	
 	
 	public DogReturn findReturnByID(int id) {

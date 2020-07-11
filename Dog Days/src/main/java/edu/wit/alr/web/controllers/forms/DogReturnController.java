@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.wit.alr.database.model.Address;
 import edu.wit.alr.database.model.Dog;
+import edu.wit.alr.database.model.DogReturn;
 import edu.wit.alr.database.model.Person;
 import edu.wit.alr.database.model.roles.Adopter;
 import edu.wit.alr.database.model.roles.Caretaker;
@@ -26,13 +26,15 @@ import edu.wit.alr.services.inflators.AddressInflator.AddressData;
 import edu.wit.alr.services.inflators.DogInflator.DogData;
 import edu.wit.alr.services.inflators.InflatorService;
 import edu.wit.alr.services.inflators.PersonInflator.PersonData;
+import edu.wit.alr.web.controllers.pages.ReturnDogViewController;
 import edu.wit.alr.web.lookups.DogLookupOption;
 import edu.wit.alr.web.lookups.LookupOption.LookupGroup;
 import edu.wit.alr.web.lookups.PersonLookupOption;
+import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.ResponseBuilder;
 
 @Controller
-@RequestMapping("/forms/return_dog")
+@RequestMapping("/register/return")
 public class DogReturnController {
 	
 	@Autowired
@@ -50,9 +52,8 @@ public class DogReturnController {
 	@Autowired
 	private ReturnDogService returnDogService;
 	
-	
-	
-	
+	@Autowired
+	private ReturnDogViewController viewController;
 	
 	public static class ReturnData {
 		public AddressData address;
@@ -62,28 +63,20 @@ public class DogReturnController {
 		public LocalDate returnDate; 
 		public String reason;
 	}
-	
-	
-	
-	
-	
-	
-	@PostMapping("")
-	public @ResponseBody String returnSubmit(@RequestBody ReturnData data) {
-		
+
+	@PostMapping("submit")
+	public @ResponseBody PageResponse returnSubmit(@RequestBody ReturnData data) {
 		Dog dog = inflatorService.inflate(data.returnDog);
+		
 		Adopter returnPerson = inflatorService.inflatePerson(data.returnPerson, Adopter.class);
 		Caretaker newPerson = inflatorService.inflatePerson(data.newPerson, Caretaker.class);	
+		
 		String reason = data.reason;
 		LocalDate returnDate = LocalDate.now();
-		returnDogService.createReturnDog(dog, returnPerson, newPerson, reason, returnDate);	
-		//TODO FIX RETURN OK
-		return "OK";
+		
+		DogReturn dogReturn = returnDogService.createReturnDog(dog, returnPerson, newPerson, reason, returnDate);	
+		return viewController.loadPage(dogReturn);
 	}
-	
-	
-	
-	
 	
 	@GetMapping("/autofill_dogs")
 	public @ResponseBody List<LookupGroup> autofillDog(){
@@ -97,10 +90,6 @@ public class DogReturnController {
 		dogList.add(allDogs);
 		return dogList;
 	}
-	
-	
-	
-	
 	
 	@GetMapping("/autofill_adopter")
 	@Transactional(readOnly=true)
@@ -119,10 +108,6 @@ public class DogReturnController {
 		return peopleList;
 	}
 	
-	
-	
-	
-	
 	@GetMapping("/autofill_foster")
 	@Transactional(readOnly=true)
 	public @ResponseBody List<LookupGroup> autofillFoster(){
@@ -139,11 +124,13 @@ public class DogReturnController {
 		return peopleList;
 	}
 	
-	
-	
-	
 	@GetMapping("")
 	public @ResponseBody String returnUrl() {
-		return builderService.buildIndependentPage(builderService.redirect("/forms/return_dog", "forms/return_dog/return_dog::form", null));
+		return builderService.buildIndependentPage(returnRedirect());
+	}
+	
+	@PostMapping("")
+	public @ResponseBody PageResponse returnRedirect() {
+		return builderService.redirect("/forms/return_dog", "forms/return_dog/return_dog::form", null);
 	}
 }
