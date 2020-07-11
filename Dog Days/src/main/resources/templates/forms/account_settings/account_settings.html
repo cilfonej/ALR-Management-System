@@ -28,20 +28,36 @@
 															 placeholder='First Name', 
 															 max_length=25, 
 															 show_limit=false, 
-															 allow_blank=false)">
+															 allow_blank=false,
+															 value=${person.firstname})">
 			</div>
 			<div th:replace="components/input :: form_input(name='lastName', 
 															placeholder='Last Name', 
 															max_length=25, 
 															show_limit=false, 
-															allow_blank=false)">
+															allow_blank=false,
+															value=${person.lastname})">
 			</div>
 		</div>
-		<div th:replace="components/input :: form_input(label='Email', icon='fas fa-envelope', type='email', name='email')"></div>
-		<div th:replace="components/input :: form_input(label='Phone', icon='fas fa-phone', name='phone', type='phone', allow_blank=false)"></div>
-		<div th:replace="components/input :: form_address(name='home_address', label='Home Address', icon='fa fa-home', allow_blank=false)"> </div>
-		<div th:replace="components/input :: form_address(name='mail_address', label='Mail Address', icon='fa fa-home', allow_blank=false)"> </div>
-		<!--  TODO IF ROLE MORE EMAIL ? PHONE OPTIONS -->
+		
+		<div th:replace="components/input :: form_input(label='Email', icon='fas fa-envelope', 
+														type='email', name='email', 
+														allow_blank=false, 
+														value=${person.email})"></div>
+														
+		<div th:replace="components/input :: form_input(label='Phone', icon='fas fa-phone', 
+														name='phone', type='phone', 
+														allow_blank=${!isCaretaker}, 
+														value=${person.primaryPhone})"></div>
+														
+		<div th:replace="components/input :: form_address(name='home_address', label='Home Address', 
+														  icon='fa fa-home', 
+		                                                  require=${isCaretaker}, 
+		                                                  value=${person.homeAddress})"> </div>
+		                                                  
+		<div th:replace="components/input :: form_address(name='mail_address', label='Mail Address', 
+		                                                  icon='fa fa-home',
+		                                                  value=${person.mailingAddress})"> </div>
 	</div>
 		
 </body> 
