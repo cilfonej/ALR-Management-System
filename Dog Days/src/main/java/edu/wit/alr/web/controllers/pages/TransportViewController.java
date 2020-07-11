@@ -1,4 +1,4 @@
-package edu.wit.alr.web.controllers.forms;
+package edu.wit.alr.web.controllers.pages;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,41 +16,55 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.wit.alr.database.model.TransportReservation;
-import edu.wit.alr.database.repository.TransportReservationRepository;
+import edu.wit.alr.services.TransportService;
 import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.ResponseBuilder;
 
 @Controller
 @RequestMapping("/view/transport")
 public class TransportViewController {
-	
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	@Autowired
-	private ResponseBuilder builderService;
+	private ResponseBuilder builder;
 	
 	@Autowired
-	private TransportReservationRepository transRepo;
+	private TransportService service;
 	
 	@GetMapping("")
 	public @ResponseBody String transportationUrl(@RequestParam(name="date", required=false) String date) {
-		return builderService.buildIndependentPage(transportationRedirect(date));
+		return builder.buildIndependentPage(transportationRedirect(date));
 	}
 	
 	@PostMapping("")
 	public @ResponseBody PageResponse transportationRedirect(@RequestParam(name="date", required=false) String date) {
-
-		// if no date was provided, find the closest transport to today
+		LocalDate sqlDate, nextDate, prevDate;
+		
+		// if no date value was provided, find the closest transport to today
 		if(date == null) {
-			// TODO: find the closest transport date
+			LocalDate[] dates = service.getClosestDateRange(LocalDate.now());
+			
+			prevDate = dates[0];
+			sqlDate = dates[1];
+			nextDate = dates[2];
+			
+		} else {
+			// looks for yyyy-mm-dd DATE-FORMAT
+			LocalDate providedDate = LocalDate.parse(date, FORMATTER);
+			
+			// look for the neighboring transport dates for the date provided 
+			LocalDate[] dates = service.getClosestDateRange(providedDate);
+			
+			prevDate = dates[0];
+			sqlDate = providedDate; // still use the provided date (could be no data)
+			nextDate = dates[2];
 		}
 		
-		//looks for yyyy-mm-dd DATE-FORMAT
-		LocalDate sqlDate = LocalDate.parse(date, FORMATTER);
 		
 		Map<String, Map<String, List<TransportReservation>>> stateMap = new HashMap<>();
 		
-		for(TransportReservation tRes : transRepo.findAllByDate(sqlDate)) {
+		// go through all the reservation for the selected date (could be none)
+		for(TransportReservation tRes : service.getReservations(sqlDate)) {
 			String state =  tRes.getPickupAddress().getState();
 			String city = tRes.getPickupAddress().getCity();
 			String street = tRes.getPickupAddress().getStreetAddress();
@@ -58,6 +72,7 @@ public class TransportViewController {
 			
 			Map<String, List<TransportReservation>> citystMap;
 			
+			// sort by "state"
 			if(stateMap.containsKey(state)) {
 				citystMap = stateMap.get(state);
 				
@@ -66,6 +81,7 @@ public class TransportViewController {
 				citystMap = stateMap.get(state);
 			}
 			
+			// sort by "street, city"
 			if(citystMap.containsKey(cityStreet)) {
 				citystMap.get(cityStreet).add(tRes);
 				
@@ -77,9 +93,12 @@ public class TransportViewController {
 		
 		Map<String, Object> vars = new HashMap<>();
 		vars.put("state_map", stateMap);
-		vars.put("date", sqlDate);
 		
-		return builderService.redirect("/view/transport?" + FORMATTER.format(sqlDate), "pages/transport/transportView :: page", vars);
+		vars.put("prev_date", prevDate);
+		vars.put("date", sqlDate);
+		vars.put("next_date", nextDate);
+		
+		return builder.redirect("/view/transport?date=" + FORMATTER.format(sqlDate), "pages/transport/transportView :: page", vars);
 	}
 }
 

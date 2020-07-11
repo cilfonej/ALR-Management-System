@@ -1,6 +1,8 @@
 package edu.wit.alr.services;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,4 +30,29 @@ public class TransportService {
 		repository.save(transport);
 	}
 	
+	public Iterable<TransportReservation> getReservations(LocalDate date) {
+		return repository.findAllByDate(date);
+	}
+	
+	public LocalDate[] getClosestDateRange(LocalDate date) {
+		Iterable<Date> dates = repository.findAllTransportDates();
+		LocalDate prev = null;
+
+		// set date to previous day, to mimic <= functionality
+		date = date.minusDays(1);
+		
+		// go through all the transports, in increasing order
+		for(Iterator<Date> iter = dates.iterator(); iter.hasNext();) {
+			LocalDate transDate = iter.next().toLocalDate();
+					
+			// until a transport-date is after the date specified
+			if(transDate.isAfter(date)) {
+				return new LocalDate[] { prev, transDate, iter.hasNext() ? iter.next().toLocalDate() : null };
+			}
+			
+			prev = transDate;
+		}
+		
+		return new LocalDate[] { null, null, null };
+	}
 }
