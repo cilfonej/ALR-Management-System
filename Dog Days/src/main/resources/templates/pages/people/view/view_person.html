@@ -13,14 +13,15 @@
 	<div th:fragment="page(person)" class="view-person_wrapper">
 		<div th:replace="common/header :: title('ALR - ' + ${person.name}, ~{:: breadcrums(${person})})">	</div>
 		
-		<div th:replace="pages/people/view/person_header_card :: card(${person})"></div>
+		<div th:replace="pages/people/view/person_header_card :: card(${person})"></div> <!-- KEEP -->
 		<div th:replace="pages/people/view/role_card :: header"></div>
 		
-		<div class="view-person_roles">
+		<!-- <div class="view-person_roles">
 			<th:block th:each="role : ${person.roles}"> 
 				<div th:replace="pages/people/view/role_card :: card(${role})"></div>
 			</th:block>
-		</div>
+		</div>       REMOVEVOEEVEVE -->
+		<!-- cna use return_history_card from dogs -->
 	</div>
 </body>
 </html>

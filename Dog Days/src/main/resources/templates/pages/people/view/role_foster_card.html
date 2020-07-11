@@ -46,7 +46,7 @@
 		</div>
 		<div th:replace="components/modal :: modal('edit-role-foster', 'Edit [Foster] Info', 
 				~{forms/form :: edit_form(
-						url=${'/edit/person/' + person.ID + '/role'}, 
+						url=${'/edit/person/' + person.id + '/role'}, 
 						class='role-edit',
 						body=~{:: edit_form(${role})}
 				)}

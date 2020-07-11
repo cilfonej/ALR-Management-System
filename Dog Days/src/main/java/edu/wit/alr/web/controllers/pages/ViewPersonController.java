@@ -49,7 +49,7 @@ public class ViewPersonController {
 		Map<String, Object> vars = new HashMap<>();
 		vars.put("person", person);
 		
-		return builder.redirect("/view/people/" + person.getID(), "pages/people/view/view_person :: page", vars);
+		return builder.redirect("/view/people/" + person.getId(), "pages/people/view/view_person :: page", vars);
 	}
 	
 	public ReplaceResponse updatePersonHeader(Person person) {

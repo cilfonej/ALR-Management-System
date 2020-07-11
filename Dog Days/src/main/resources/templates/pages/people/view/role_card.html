@@ -34,7 +34,7 @@
 		<th:block th:with="role_only=true">
 			<div th:replace="components/modal :: modal('add-role', 'Add New Role', 
 				~{forms/form :: form(
-						url=${'/edit/person/' + person.ID + '/role'}, 
+						url=${'/edit/person/' + person.id + '/role'}, 
 						class='modal-form person-form',
 						header=~{},
 						body=~{forms/create_person/create_person :: #form}

@@ -27,7 +27,7 @@
 		
 		<div th:replace="components/modal :: modal('edit-person', 'Edit Person Info', 
 				~{forms/form :: edit_form(
-						url='/edit/person/' + ${person.ID}, 
+						url='/edit/person/' + ${person.id}, 
 						class='person-edit',
 						body=~{:: edit_form(${person})}
 				)}
