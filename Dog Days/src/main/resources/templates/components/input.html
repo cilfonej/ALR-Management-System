@@ -381,7 +381,8 @@
 				 _name=${name}, name=null, 
 				 _label=${label}, label=null,
 				 _icon=${icon}, icon=null,
-				 _class=${class}, class=null"
+				 _class=${class}, class=null,
+				 _value=${value}, value=null"
 		th:remove="tag">
 		
 		 <!-- 
@@ -426,7 +427,7 @@
 					$$(""), 
 					new Input.AddressInput(/*[[${_name}]]*/, {
 						"require": /*[[${require}]]*/ '',
-					})
+					}, /*[[${_value}]]*/ undefined)
 				);
 			}); /*]]>*/
 		</script>

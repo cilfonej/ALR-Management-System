@@ -5,8 +5,9 @@ var DEFAULT_PARAMS = {
 };
 
 export default class AddressGroupInput extends GroupInput {
-	constructor(name, params) {
+	constructor(name, params, value) {
 		super(name, params, DEFAULT_PARAMS);
+		this.initValue = value;
 	}
 	
 	setupChildren($children) {
@@ -21,6 +22,11 @@ export default class AddressGroupInput extends GroupInput {
 			"zipcode": $children.filter("[data-group-input='zipcode']")[0].input,
 			"country": $children.filter("[data-group-input='country']")[0].input,	
 		};
+		
+		if(typeof this.initValue !== "undefined") {
+			this.setValue(this.initValue);
+			this.initValue = undefined;
+		}
 	}
 	
 	setValue(value) {
