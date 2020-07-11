@@ -12,12 +12,12 @@ public class DogLookupOption extends LookupOption {
 	
 	public DogLookupOption(Dog dog) {
 		super("dog", 
-				dog.getName() + "#" + dog.getID(), 
-				dog.getName() + "#" + dog.getID(),
-				dog.getID());
+				dog.getName() + "#" + dog.getId(), 
+				dog.getName() + "#" + dog.getId(),
+				dog.getId());
 		
 		this.name = dog.getName();
-		this.number = dog.getID();
+		this.number = dog.getId();
 	}
 	
 	public int getID() { return number; }

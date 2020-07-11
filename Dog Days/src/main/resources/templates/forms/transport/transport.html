@@ -20,7 +20,7 @@
 				label='Choose Dog', 
 				icon='fas fa-dog',
 				
-				value=${dog?.ID}
+				value=${dog?.id}
 			)"></div>
 			
 			<div th:replace="components/input :: form_lookup(label='Who\'s picking up this dog?', icon='fas fa-user-alt', name='pickupPerson', url='/register/transport/autofill_person')"></div>

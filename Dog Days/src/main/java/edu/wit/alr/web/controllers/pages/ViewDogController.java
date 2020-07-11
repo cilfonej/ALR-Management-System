@@ -48,7 +48,7 @@ public class ViewDogController {
 		vars.put("reservation", transportService.findReservationForDog(dog));
 		vars.put("dog", dog);
 		
-		return builder.redirect("/view/dogs/" + dog.getID(), "pages/dog/view/view_dog :: page", vars);
+		return builder.redirect("/view/dogs/" + dog.getId(), "pages/dog/view/view_dog :: page", vars);
 	}
 	
 	public PageResponse listPage() {

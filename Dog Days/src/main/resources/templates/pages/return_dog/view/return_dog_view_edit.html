@@ -4,7 +4,7 @@
 </head>
 
 <body>
-	<div th:fragment="form(return)" th:replace="forms/form :: edit_form(url='/edit/return/' + ${return.ID}, 
+	<div th:fragment="form(return)" th:replace="forms/form :: edit_form(url='/edit/return/' + ${return.id}, 
 																		title='Edit Return', 
 																		body=~{:: #form}, 
 																		class='dogreturn_all')">

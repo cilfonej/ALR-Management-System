@@ -7,8 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,12 +16,7 @@ import edu.wit.alr.database.model.Contact.PhoneContact;
 import edu.wit.alr.database.model.roles.Role;
 
 @Entity
-public class Person {
-
-	@Id
-	@GeneratedValue
-	@Column(unique = true, nullable = false)
-	private int id;
+public class Person extends DBObject {
 
 	@Column(length = 25, nullable = false)
 	private String firstname;
@@ -58,8 +51,6 @@ public class Person {
 		this.firstname = firstname;
 		this.lastname = lastname;
 	}
-
-	public int getID() { return id; }
 	
 	public String getName() { return firstname + " " + lastname; }
 	public String getFirstname() { return firstname; }

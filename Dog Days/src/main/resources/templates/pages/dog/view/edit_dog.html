@@ -5,7 +5,7 @@
 
 <body>
 	<div th:fragment="form(dog)" th:replace="forms/form :: edit_form(
-		url='/edit/dog/' + ${dog.ID},
+		url='/edit/dog/' + ${dog.id},
 		body=~{:: #form})">
 	</div>
 	
@@ -130,7 +130,7 @@
 			
 			roles=${ {'coordinator'} }
 		)"> </div>
-		<div th:replace="components/input :: revert('coordinator', ${dog.addoptionCoordinator?.person?.ID})"> </div>
+		<div th:replace="components/input :: revert('coordinator', ${dog.addoptionCoordinator?.person?.id})"> </div>
 		
 	</div>
 </body>

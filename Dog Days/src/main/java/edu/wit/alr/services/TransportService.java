@@ -59,6 +59,6 @@ public class TransportService {
 			prev = transDate;
 		}
 		
-		return new LocalDate[] { null, null, null };
+		return new LocalDate[] { null, date, null };
 	}
 }

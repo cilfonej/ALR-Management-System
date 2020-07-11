@@ -13,12 +13,7 @@ import javax.persistence.ManyToOne;
 import edu.wit.alr.database.model.roles.Adopter;
 
 @Entity
-public class DogReturn {
-	
-	@Id
-	@GeneratedValue
-	@Column(unique = true, nullable = false)
-	private int id;
+public class DogReturn extends DBObject {
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -45,8 +40,6 @@ public class DogReturn {
 		this.reason = reason;
 		this.return_date = LocalDate.now();
 	}
-	
-	public int getID() { return id; }
 	
 	public Dog getDog() { return dog; }
 	public Adopter getAddopter() { return addopter; }

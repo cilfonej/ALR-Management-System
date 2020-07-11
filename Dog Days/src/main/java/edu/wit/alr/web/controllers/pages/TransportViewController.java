@@ -39,7 +39,7 @@ public class TransportViewController {
 	@PostMapping("")
 	public @ResponseBody PageResponse transportationRedirect(@RequestParam(name="date", required=false) String date) {
 		// looks for yyyy-mm-dd DATE-FORMAT
-		return transportationRedirect(LocalDate.parse(date, FORMATTER));
+		return transportationRedirect(date == null ? null : LocalDate.parse(date, FORMATTER));
 	}
 	
 	public PageResponse transportationRedirect(LocalDate date) {
