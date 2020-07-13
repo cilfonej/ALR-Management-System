@@ -7,15 +7,27 @@
 		display: flex;
 		justify-content: space-between;
 		
-		margin-bottom: @card-margin;
+		margin-bottom: -12px;
 		margin-right: @card-margin;
 		
 		padding-bottom: @card-sub_spacing;
-		border-bottom: 1px ridge @gray65;
+		//border-bottom: 4px solid @gray65;
 		
 		h2 {
 			margin: 0;
 			font-weight: normal;
+		}
+	}
+	
+	.dog-subheaders {
+		display: grid;
+		grid-template-columns: auto auto auto;
+		grid-column-gap: 40px;
+		
+		h3{
+			display: inline-block;
+			border-bottom: 1px ridge @gray65;
+			padding-bottom: 5px;
 		}
 	}
 	

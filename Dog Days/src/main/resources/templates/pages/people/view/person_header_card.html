@@ -14,8 +14,13 @@
 			<h1 th:text="${person.name}"> </h1>
 			
 			<div class="person-header_details">
-				<span> Date Joined: </span> 
-				<span> January 16th, 2019 </span>
+				<div class="person-header_details_spacing">
+					<span> Roles: Adopter, Foster </span>
+				</div>
+				<div>
+					<span> Date Joined: </span> 
+					<span> January 16th, 2019 </span>
+				</div>
 			</div>
 			
 	        <a class="person-header_edit icon-button icon-button_ghost fade-icon" 
@@ -33,6 +38,29 @@
 				)}
 		)"></div>
 	</div>
+	
+	<!-- ADDED TODO REMOVE -->
+	<div class="person-header_bottom">
+		<div class="person-header_bottom_basic">
+			<h4>Basic Info:</h4>
+			<span>Email: asdasdasdasd@gmail.com</span>
+			<span>Phone: 123-123-1234</span>
+		</div>
+		<div class="person-header_bottom_basic">
+			<h4>Home Address:</h4>
+			<span>123 street street</span>
+			<span>Boston, MA</span>
+			<span>02148, United States</span>
+		</div>
+		<div class="person-header_bottom_basic">
+			<h4>Mailing Address:</h4>
+			<span>123 street street</span>
+			<span>Boston, MA</span>
+			<span>02148, United States</span>
+		</div>
+	</div>
+	<!-- ADDED TODO REMOVE -->
+	
 </div>
 
 <div th:fragment="edit_form(person)" th:remove="tag">
