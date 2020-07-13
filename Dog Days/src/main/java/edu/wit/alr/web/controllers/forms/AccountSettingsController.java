@@ -6,18 +6,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.wit.alr.database.model.Address;
+import edu.wit.alr.database.model.Contact.EmailContact;
+import edu.wit.alr.database.model.Contact.PhoneContact;
 import edu.wit.alr.database.model.Person;
 import edu.wit.alr.database.model.roles.Caretaker;
 import edu.wit.alr.database.repository.PersonRepository;
 import edu.wit.alr.services.PersonService;
-import edu.wit.alr.services.inflators.AddressInflator.AddressData;
-import edu.wit.alr.web.controllers.forms.TransportController.ProtoTransportData;
 import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.Response;
 import edu.wit.alr.web.response.ResponseBuilder;
@@ -35,19 +35,20 @@ public class AccountSettingsController {
 	private PersonRepository personRepo;
 		
 	public static class EditData {	
-		public String password;
-		 
+		//public String password;
+		public Person person;	//TODO SWITCH TO ACCOUNT LOGGED IN NOT PERSON
+		
 		public String firstName;
 		public String lastName;
-		public String email;
-		public String phone;
-		public AddressData homeAddress;
-		public AddressData mailAddress;
+		public EmailContact email;
+		public PhoneContact phone;
+		public Address homeAddress;
+		public Address mailAddress;
 	}
 	
-	@PostMapping("")
+	@PostMapping() //TODO NEEDS POST MAPPING TO ACTUALLY SAVE AND WORK
 	public @ResponseBody Response update(@RequestBody EditData data) {
-	//	Person updatePerson = personService.updateUser(data.person, data.email, data.password, data.firstName, data.lastName, data.phone, data.address);	
+		Person updatePerson = personService.updateUserInfo(data.person, data.firstName, data.lastName, data.email, data.phone, data.homeAddress, data.mailAddress);	
 		return null; //TODO show confirm msg (popup maybe - toast - alert )
 	}
 	

@@ -6,9 +6,9 @@
 
 <body>	
 	<div th:fragment="user_account_all">					<!-- TODO /id ///account > person > data -->
-		<div th:replace="forms/form :: form(url='/user/edit/', title='Account Settings', body=~{:: #account}, class='user-account_account')">
+		<div th:replace="forms/form :: form(url='/account/settings/', title='Account Settings', body=~{:: #account}, class='user-account_account')">
 		</div>
-		<div th:replace="forms/form :: form(url='/user/edit/', title='Personal Settings', body=~{:: #personal}, class='user-account_personal')">
+		<div th:replace="forms/form :: form(url='/account/settings/', title='Personal Settings', body=~{:: #personal}, class='user-account_personal')">
 		</div>
 	</div>
 	

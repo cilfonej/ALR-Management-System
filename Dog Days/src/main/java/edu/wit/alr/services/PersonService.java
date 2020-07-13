@@ -114,8 +114,14 @@ public class PersonService {
 		return roles;
 	}
 	
-	public Person updateUser(Person user, String email, String password, String firstName, String lastName, String phone, AddressData address) {
-		//set all of this data
+	//TODO person user needs to be account later
+	public Person updateUserInfo(Person user, String firstName, String lastName, EmailContact email, PhoneContact phone, Address homeAddress, Address mailAddress) {
+		user.setFirstname(firstName);
+		user.setLastname(lastName);
+		user.setEmail(email);
+		user.setPrimaryPhone(phone);
+		user.setHomeAddress(homeAddress);
+		user.setMailingAddress(mailAddress);
 		repository.save(user);
 		return user;
 	}
