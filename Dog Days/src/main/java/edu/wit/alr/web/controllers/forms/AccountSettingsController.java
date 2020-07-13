@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.wit.alr.database.model.Address;
-import edu.wit.alr.database.model.Contact.EmailContact;
-import edu.wit.alr.database.model.Contact.PhoneContact;
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import edu.wit.alr.database.model.Person;
 import edu.wit.alr.database.model.roles.Caretaker;
 import edu.wit.alr.database.repository.PersonRepository;
 import edu.wit.alr.services.PersonService;
+import edu.wit.alr.services.inflators.AddressInflator.AddressData;
+import edu.wit.alr.services.inflators.InflatorService;
 import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.Response;
 import edu.wit.alr.web.response.ResponseBuilder;
@@ -33,22 +34,27 @@ public class AccountSettingsController {
 	
 	@Autowired //TODO remove
 	private PersonRepository personRepo;
+	
+	@Autowired
+	private InflatorService inflater;
 		
 	public static class EditData {	
 		//public String password;
-		public Person person;	//TODO SWITCH TO ACCOUNT LOGGED IN NOT PERSON
 		
 		public String firstName;
 		public String lastName;
-		public EmailContact email;
-		public PhoneContact phone;
-		public Address homeAddress;
-		public Address mailAddress;
+		public String email;
+		public String phone;
+		@JsonAlias("home_address")
+		public AddressData homeAddress;
+		@JsonAlias("mail_address")
+		public AddressData mailAddress;
 	}
 	
-	@PostMapping() //TODO NEEDS POST MAPPING TO ACTUALLY SAVE AND WORK
+	@PostMapping("submit") //TODO NEEDS POST MAPPING TO ACTUALLY SAVE AND WORK
 	public @ResponseBody Response update(@RequestBody EditData data) {
-		Person updatePerson = personService.updateUserInfo(data.person, data.firstName, data.lastName, data.email, data.phone, data.homeAddress, data.mailAddress);	
+		Person person = personRepo.findAll().iterator().next(); //TODO SWITCH TO ACCOUNT LOGGED IN NOT PERSON
+		Person updatePerson = personService.updateUserInfo(person, data.firstName, data.lastName, data.email, data.phone, inflater.inflate(data.homeAddress), inflater.inflate(data.mailAddress));	
 		return null; //TODO show confirm msg (popup maybe - toast - alert )
 	}
 	
