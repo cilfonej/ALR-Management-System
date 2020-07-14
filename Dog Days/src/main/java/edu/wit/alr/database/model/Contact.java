@@ -9,7 +9,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
-import edu.wit.alr.Config;
+import edu.wit.alr.config.Config;
 
 public abstract class Contact {
 

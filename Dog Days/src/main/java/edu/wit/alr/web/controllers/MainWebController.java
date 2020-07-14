@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.wit.alr.Demo;
+import edu.wit.alr.config.Demo;
 
 @Controller
 public class MainWebController {
