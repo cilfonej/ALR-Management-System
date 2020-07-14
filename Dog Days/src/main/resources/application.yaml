@@ -1,37 +1,37 @@
 spring:
-	security:
-		oauth2:
-			client:
-				# public configuration for all supported OAuth2 services here
-				registration:
-					google:
-						redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
-						scope:
-							- email
-							- profile
-							
-					facebook:
-						redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
-						scope:
-							- email
-							- public_profile
-							
-					yahoo:
-						redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
-						scope:
-							- email
-							- public_profile
-							
-				# insert URLs for each OAuth2 service's provider here
-				provider:
-					google:
-						authorizationUri: https://accounts.google.com/o/oauth2/v2/auth
-						tokenUri: https://www.googleapis.com/oauth2/v4/token
-						userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-					
-					facebook:
-						authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
-						tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
-						userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,email,picture.width(250).height(250)
-						
-					#yahoo:
+  security:
+    oauth2:
+      client:
+        # public configuration for all supported OAuth2 services here
+        registration:
+          google:
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+                - email
+                - profile
+
+         # facebook:
+          #  redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+          #  scope:
+          #      - email
+          #      - public_profile
+
+          #yahoo:
+           # redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+           # scope:
+           #     - email
+           #     - public_profile
+
+        # insert URLs for each OAuth2 service's provider here
+        provider:
+          google:
+            authorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+            tokenUri: https://www.googleapis.com/oauth2/v4/token
+            userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+
+          #facebook:
+            #authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+            #tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+            #userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,email,picture.width(250).height(250)
+
+        #yahoo:

@@ -17,11 +17,11 @@ public class SecurityProperties {
 		public String getTokenSecret() { return token_secret; }
 		public long getTokenExpiration() { return token_expiration; }
 		
-		void setToken_secret(String token_secret) {
+		void setTokenSecret(String token_secret) {
 			this.token_secret = token_secret;
 		}
 		
-		void setToken_expiration(long token_expiration) {
+		void setTokenExpiration(long token_expiration) {
 			this.token_expiration = token_expiration;
 		}
 	}

@@ -1,4 +1,4 @@
-package edu.wit.alr;
+package edu.wit.alr.config;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
