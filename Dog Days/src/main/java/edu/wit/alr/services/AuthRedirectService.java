@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import edu.wit.alr.database.model.Account;
 import edu.wit.alr.database.model.AuthorizedRedirect;
-import edu.wit.alr.database.repository.AccountRepository;
 import edu.wit.alr.database.repository.AuthorizedRedirectRepository;
 import edu.wit.alr.web.security.authentication.AuthenticationTokenProvider;
 import edu.wit.alr.web.security.authentication.SessionSecurityService;
@@ -41,7 +40,7 @@ public class AuthRedirectService {
 
 		// setup authorization
 		Account authorized = redirect.getAuthorization();
-		String token = tokenProvider.createToken(authorized.getId());
+		String token = tokenProvider.createToken(authorized.getId(), redirect.getPermittedResources());
 		sessionSecurity.pushToken(token);
 		
 		// setup extra-request data

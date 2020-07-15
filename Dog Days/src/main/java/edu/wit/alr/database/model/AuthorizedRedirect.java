@@ -32,6 +32,9 @@ public class AuthorizedRedirect {
 	@Column(nullable = false)
 	private String redirect;
 
+	@Column
+	private String permitted_paths;
+
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Account authorization;
@@ -55,6 +58,8 @@ public class AuthorizedRedirect {
 
 	public String getKey() { return id; }
 	public String getRedirect() { return redirect; }
+	
+	public String getPermittedResources() { return permitted_paths; }
 	public Account getAuthorization() { return authorization; }
 
 	public LocalDateTime getExpiration() { return expiration; }
@@ -62,6 +67,11 @@ public class AuthorizedRedirect {
 	
 	public boolean isExpired() {
 		return expiration != null && expiration.isBefore(LocalDateTime.now());
+	}
+	
+	public void addPermittedResource(String antPattern) {
+		if(permitted_paths == null) permitted_paths = "";
+		this.permitted_paths += antPattern + ",";
 	}
 
 	public void setExpiration(LocalDateTime expiration) {

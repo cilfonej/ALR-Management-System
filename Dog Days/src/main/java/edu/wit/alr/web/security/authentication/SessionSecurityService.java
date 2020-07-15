@@ -37,14 +37,17 @@ public class SessionSecurityService {
 		Jws<Claims> token; 
 		String token_raw;
 		
+		String path = request.getRequestURI();
+		if(path == null) path = "/"; // if there's no path, assign root '/'
+		
 		// first check for an 'Authorization' header
 		token_raw = extractFromHeader(request);
-		token = tokenProvider.validateToken(token_raw);
+		token = tokenProvider.validateRequest(token_raw, path);
 		if(token != null) return token;
 		
 		// if header doesn't contain token, check cookies
 		token_raw = extractFromCookie(request);
-		token = tokenProvider.validateToken(token_raw);
+		token = tokenProvider.validateRequest(token_raw, path);
 		if(token != null) return token;
 		
 		Deque<String> tokens = session.getTokens();
@@ -53,7 +56,7 @@ public class SessionSecurityService {
 		while(!tokens.isEmpty()) {
 			// remove the next token from the stack
 			token_raw = tokens.pop();
-			token = tokenProvider.validateToken(token_raw);
+			token = tokenProvider.validateRequest(token_raw, path);
 
 			// check if the token is valid
 			if(token != null) {
