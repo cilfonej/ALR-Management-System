@@ -20,8 +20,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 	@Autowired private AuthenticationTokenProvider tokenProvider;
 	@Autowired private SessionSecurityService sessionProvider;
-//	@Autowired private AppProperties appProperties;
-	@Autowired private HttpCookieOAuth2RequestRepository repository;
 
 	public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse response, Authentication auth) throws IOException {
 		String targetUrl = determineTargetUrl(req, response, auth);
@@ -34,12 +32,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		}
 
 		// authentication complete, so remove tracking tokens
-		clearAuthenticationAttributes(req, response);
+//		clearAuthenticationAttributes(req, response);
 		getRedirectStrategy().sendRedirect(req, response, targetUrl);
 	}
 
 	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication auth) {
-		String redirectUri = repository.loadRedirectURI(request);
+		String redirectUri = "/";//repository.loadRedirectURI(request);
 
 		// TODO: ??? not sure what redirectUriis for now ???
 		// check to make sure the redirect-link is on a supported domain
@@ -55,10 +53,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		return UriComponentsBuilder.fromUriString(redirectUri).build().toUriString(); // .queryParam("token", token)
 	}
 
-	protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
-		super.clearAuthenticationAttributes(request);
-		repository.removeAuthorizationRequest(request, response);
-	}
+//	protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
+//		super.clearAuthenticationAttributes(request);
+//		repository.removeAuthorizationRequest(request, response);
+//	}
 
 	private boolean isAuthorizedRedirectUri(String uri) {
 		URI clientRedirectUri = URI.create(uri);

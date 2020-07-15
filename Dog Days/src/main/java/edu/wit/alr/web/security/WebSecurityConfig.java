@@ -15,8 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import edu.wit.alr.web.security.authentication.AuthenticationTokenFilter;
+import edu.wit.alr.web.security.authentication.JWTAuthenticationProvider;
 import edu.wit.alr.web.security.authentication.UnauthenticatedEntryPoint;
-import edu.wit.alr.web.security.oauth2.HttpCookieOAuth2RequestRepository;
 import edu.wit.alr.web.security.oauth2.OAuth2FailureHandler;
 import edu.wit.alr.web.security.oauth2.OAuth2SuccessHandler;
 import edu.wit.alr.web.security.oauth2.OAuth2UserProvider;
@@ -24,10 +24,10 @@ import edu.wit.alr.web.security.oauth2.OAuth2UserProvider;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Autowired private HttpCookieOAuth2RequestRepository requestRepository;
-	
+
 	@Autowired private AccountPrincipalService userDetailsService;
+	@Autowired private JWTAuthenticationProvider jwtAuthProvider;
+	
 	@Autowired private OAuth2UserProvider oauthUserProvider;
 
 	@Autowired private OAuth2SuccessHandler oauth2SuccessHandler;
@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors()
 				.and()
 			.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 				.and()
 			.csrf()
 				.disable()
@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.authorizeRequests()
 				.antMatchers(
-						"/", 
+						//"/", 
 						"/error", 
 						"/favicon.ico", 
 						"/webjars/**", 
@@ -92,6 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(AuthenticationManagerBuilder builder) throws Exception {
 		builder
+			.authenticationProvider(jwtAuthProvider)
 			.userDetailsService(userDetailsService)
 			.passwordEncoder(passwordEncoder());
 	}
