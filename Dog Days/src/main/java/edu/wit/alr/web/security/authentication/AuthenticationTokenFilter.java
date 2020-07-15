@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import edu.wit.alr.web.security.AccountDetailsService;
+import edu.wit.alr.web.security.AccountPrincipalService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
@@ -30,21 +30,17 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 	private AuthenticationTokenProvider provider;
 
 	@Autowired
-	private AccountDetailsService service;
+	private AccountPrincipalService service;
+	
+	@Autowired
+	private SessionSecurityService sessionProvider;
 
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain nextFilter) 
 			throws IOException, ServletException {
 		
 		try {
-			// extract out the JWT from the Authorization-Header
-			String tokenRaw = request.getHeader("Authorization");
-			// check if header contains "Bearer <jwt>"
-			if(tokenRaw == null || !tokenRaw.startsWith("Bearer "));
-			// strip "Bearer " leaving just JWT
-			tokenRaw = tokenRaw.substring(7);
-			
 			// attempt to parse and validate the provided token-data
-			Jws<Claims> token = provider.validateToken(tokenRaw);
+			Jws<Claims> token = sessionProvider.getAuthorizationToken(request);
 			
 			// check if the token is still valid
 			if(token != null) {
@@ -58,10 +54,12 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
+			
 		} catch(Exception e) {
 			logger.error("Could not set user authentication in security context", e);
+	
+		} finally {
+			nextFilter.doFilter(request, response);
 		}
-
-		nextFilter.doFilter(request, response);
 	}
 }

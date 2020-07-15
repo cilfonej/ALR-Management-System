@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import com.sun.xml.bind.v2.TODO;
 
 import edu.wit.alr.database.model.Account;
-import edu.wit.alr.web.security.AccountDetailsService;
+import edu.wit.alr.services.SignupService;
+import edu.wit.alr.web.security.AccountPrincipalService;
+import edu.wit.alr.web.security.AuthProviderType;
 import edu.wit.alr.web.security.oauth2.userinfo.OAuth2UserInfo;
 import edu.wit.alr.web.security.oauth2.userinfo.OAuth2UserInfoFactory;
 
@@ -34,7 +36,10 @@ import edu.wit.alr.web.security.oauth2.userinfo.OAuth2UserInfoFactory;
 public class OAuth2UserProvider extends DefaultOAuth2UserService {
 
 	@Autowired
-	private AccountDetailsService accountService;
+	private AccountPrincipalService principalService;
+
+	@Autowired
+	private SignupService signupService;
 
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		try {
@@ -58,43 +63,54 @@ public class OAuth2UserProvider extends DefaultOAuth2UserService {
 	private OAuth2User updateAccountConfig(OAuth2UserRequest request, OAuth2User user) {
 		String registrationId = request.getClientRegistration().getRegistrationId();
 		OAuth2UserInfo userInfo = OAuth2UserInfoFactory.of(registrationId, user.getAttributes());
-//		
-//		if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
-//			throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
-//		}
-//
-//		Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
-//		User user;
-//		if(userOptional.isPresent()) {
-//			user = userOptional.get();
-//			if(!user.getProvider()
-//					.equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
-//				throw new OAuth2AuthenticationProcessingException(
-//						"Looks like you're signed up with " + user.getProvider() + " account. Please use your "
-//								+ user.getProvider() + " account to login.");
-//			}
-//			user = updateExistingUser(user, oAuth2UserInfo);
-//		} else {
-//			user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
-//		}
+		AuthProviderType authority = AuthProviderType.of(registrationId);
+		
+		Account account = principalService.loadAccountByExternalId(userInfo.getId(), authority);
+		Account signup = signupService.getCurrentSignupAccount();
+		
+		if(account == null && signup != null) {
+			// setup new account
+			setupSignupAccount(signup, request, userInfo);
+			account = signup;
+			
+		} else if(account != null && signup == null) {
+			// validate user
+			validateExisting(account, request, userInfo);
+		
+		} else if(account != null && signup != null) {
+			// account already exists
+			// TODO: notify user account exists, and to contact support
+			//			could be because of duplicate user/person (admin's fault)
+			//			or because email is tied to another account, check if conflicting accounts have unverified emails
+			
+		} else if(account == null && signup == null) {
+			// no account
+			// TODO: notify user they do not have an account
+			//			if looking to sign-up please talk with an ALR member
+			//			or check you're inbox for an invitation link
+		}
 
-		return accountService.loadUserByExternalId(userInfo.getId());
+		return principalService.loadFromAccount(account);
 	}
 
-//	private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-//		User user = new User();
-//
-//		user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
-//		user.setProviderId(oAuth2UserInfo.getId());
-//		user.setName(oAuth2UserInfo.getName());
-//		user.setEmail(oAuth2UserInfo.getEmail());
-//		user.setImageUrl(oAuth2UserInfo.getImageUrl());
-//		return userRepository.save(user);
-//	}
-//
-//	private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-//		existingUser.setName(oAuth2UserInfo.getName());
-//		existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
-//		return userRepository.save(existingUser);
-//	}
+	private boolean setupSignupAccount(Account account, OAuth2UserRequest request, OAuth2UserInfo userInfo) {
+		if(account.getAuthService() != null) {
+			// TODO: account has already been signed up
+			//			prompt user with error message, offer to login
+			//			end sign-up process
+//			throw new SigupException
+			throw new IllegalArgumentException("Account already registered");
+		}
+		
+		AuthProviderType authority = AuthProviderType.of(request.getClientRegistration().getRegistrationId());
+		account.withExternalAuthentication(authority, userInfo.getId());
+//		account.setImageUrl(oAuth2UserInfo.getImageUrl());
+		signupService.completeSignup(account);
+		
+		return true;
+	}
+
+	private boolean validateExisting(Account account, OAuth2UserRequest request, OAuth2UserInfo userInfo) {
+		return true;
+	}
 }

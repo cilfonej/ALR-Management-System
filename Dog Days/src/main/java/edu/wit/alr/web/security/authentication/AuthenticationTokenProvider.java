@@ -40,6 +40,11 @@ public class AuthenticationTokenProvider {
 	
 	public Jws<Claims> validateToken(String authToken) {
 		try {
+			if(authToken == null || authToken.isBlank()) 
+				// TODO: maybe throw exception to trigger similar catch block
+				return null;
+				//throw new IllegalArgumentException("Provided token was blank");
+			
 			// attempt to parse the JW-Token, if error occurs token is invalid
 			return Jwts.parser().setSigningKey(properties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
 			

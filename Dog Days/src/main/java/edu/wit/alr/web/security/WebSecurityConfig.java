@@ -9,12 +9,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import edu.wit.alr.web.security.authentication.AuthenticationTokenFilter;
 import edu.wit.alr.web.security.authentication.UnauthenticatedEntryPoint;
+import edu.wit.alr.web.security.oauth2.HttpCookieOAuth2RequestRepository;
 import edu.wit.alr.web.security.oauth2.OAuth2FailureHandler;
 import edu.wit.alr.web.security.oauth2.OAuth2SuccessHandler;
 import edu.wit.alr.web.security.oauth2.OAuth2UserProvider;
@@ -23,19 +25,21 @@ import edu.wit.alr.web.security.oauth2.OAuth2UserProvider;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired private AccountDetailsService userDetailsService;
+	@Autowired private HttpCookieOAuth2RequestRepository requestRepository;
+	
+	@Autowired private AccountPrincipalService userDetailsService;
 	@Autowired private OAuth2UserProvider oauthUserProvider;
 
 	@Autowired private OAuth2SuccessHandler oauth2SuccessHandler;
 	@Autowired private OAuth2FailureHandler oauth2FailureHandler;
-
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors()
 				.and()
-//			.sessionManagement()
-//				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//				.and()
+			.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
 			.csrf()
 				.disable()
 			.formLogin()
@@ -50,13 +54,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/", 
 						"/error", 
 						"/favicon.ico", 
+						"/webjars/**", 
 						"/**/*.png", 
 						"/**/*.gif", 
 						"/**/*.svg", 
 						"/**/*.jpg",
-						"/**/*.html", 
 						"/**/*.css", 
 						"/**/*.js")
+					.permitAll()
+				.antMatchers("/r/**")
+					.permitAll()
+				.antMatchers("/gen_data") // TODO: Remove
 					.permitAll()
 				.antMatchers("/auth/**", "/oauth2/**")
 					.permitAll()
@@ -66,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.oauth2Login()
 				.authorizationEndpoint()
 					.baseUri("/oauth2/authorize")
-//					.authorizationRequestRepository(cookieAuthorizationRequestRepository())
+//					.authorizationRequestRepository(requestRepository)
 					.and()
 				.redirectionEndpoint()
 					.baseUri("/oauth2/callback/*")
@@ -98,11 +106,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthenticationTokenFilter tokenAuthenticationFilter() {
 		return new AuthenticationTokenFilter();
 	}
-
-//	@Bean
-//	public HttpCookieOAuth2RequestRepository cookieAuthorizationRequestRepository() {
-//		return new HttpCookieOAuth2RequestRepository();
-//	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {

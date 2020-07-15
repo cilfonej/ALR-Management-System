@@ -27,6 +27,8 @@ public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
     public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException e) throws IOException {
         String targetUrl = repository.loadRedirectURI(req);
 
+        e.getStackTrace();
+        
         // TODO: yah, this all needs to change ._.
         targetUrl = UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("error", e.getLocalizedMessage())

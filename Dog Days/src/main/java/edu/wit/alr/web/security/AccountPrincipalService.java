@@ -2,7 +2,7 @@ package edu.wit.alr.web.security;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,7 +25,7 @@ import edu.wit.alr.database.repository.AccountRepository;
  * 	@author cilfonej
  */
 @Service
-public class AccountDetailsService implements UserDetailsService {
+public class AccountPrincipalService implements UserDetailsService {
 
 	@Autowired
 	private AccountRepository repository;
@@ -37,39 +37,46 @@ public class AccountDetailsService implements UserDetailsService {
 		if(account.getAuthService() != AuthProviderType.local)
 			throw new IllegalArgumentException("Cannot lookup an external account via a Username");
 
-		Collection<? extends GrantedAuthority> authorities = account.getPerson().getRoles().stream()
-																.map(role -> role.getClass().getSimpleName())
-																.map(SimpleGrantedAuthority::new)
-																.collect(Collectors.toSet());
+		return loadFromAccount(account);
+	}
+
+	public UserPrincipal loadUserByExternalId(String external_id, AuthProviderType authority) throws UsernameNotFoundException {
+		Account account = repository.findByExternal(external_id, authority)
+				.orElseThrow(() -> new UsernameNotFoundException("No such Account with external-id: " + external_id));
 		
-		return new UserPrincipal(account.getId(), account.getUsername(), account.getPassword().getHash(), authorities);
+		if(account.getAuthService() == AuthProviderType.local)
+			throw new IllegalArgumentException("Cannot lookup an local account via an external-id");
+
+		return loadFromAccount(account);
 	}
 	
 	public UserPrincipal loadUserByAccountId(long id) throws UsernameNotFoundException {
 		Account account = repository.findById((int) id)
 				.orElseThrow(() -> new UsernameNotFoundException("No such Account with id: " + id));
-
-		Collection<? extends GrantedAuthority> authorities = account.getPerson().getRoles().stream()
-																.map(role -> role.getClass().getSimpleName())
-																.map(SimpleGrantedAuthority::new)
-																.collect(Collectors.toSet());
 		
-		return new UserPrincipal(account.getId(), account.getUsername(), account.getPassword().getHash(), authorities);
+		return loadFromAccount(account);
 	}
 	
-	public UserPrincipal loadUserByExternalId(String external_id) throws UsernameNotFoundException {
-		Account account = repository.findByExternal(external_id)
-				.orElseThrow(() -> new UsernameNotFoundException("No such Account with external-id: " + external_id));
-		
+	public UserPrincipal loadFromAccount(Account account) {
+		// TODO: Replace after roles no longer need @Transactional
+		Collection<? extends GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+//															account.getPerson().getRoles().stream()
+//																.map(role -> role.getClass().getSimpleName())
+//																.map(SimpleGrantedAuthority::new)
+//																.collect(Collectors.toSet());
+	
 		if(account.getAuthService() == AuthProviderType.local)
-			throw new IllegalArgumentException("Cannot lookup an local account via an external-id");
-		
-		Collection<? extends GrantedAuthority> authorities = account.getPerson().getRoles().stream()
-																.map(role -> role.getClass().getSimpleName())
-																.map(SimpleGrantedAuthority::new)
-																.collect(Collectors.toSet());
-		
-		return new UserPrincipal(account.getId(), String.valueOf(account.getExternalId()), null, authorities);
+			return new UserPrincipal(account.getId(), account.getUsername(), account.getPassword().getHash(), authorities);
+		else
+			return new UserPrincipal(account.getId(), String.valueOf(account.getExternalId()), null, authorities);
+	}
+	
+	public Account loadAccountByUsername(String username) {
+		return repository.findByUsername(username).orElse(null);
+	}
+	
+	public Account loadAccountByExternalId(String external_id, AuthProviderType authority) {
+		return repository.findByExternal(external_id, authority).orElse(null);
 	}
 	
 	@SafeVarargs

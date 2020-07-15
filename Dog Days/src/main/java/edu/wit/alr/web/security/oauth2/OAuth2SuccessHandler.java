@@ -13,11 +13,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import edu.wit.alr.web.security.authentication.AuthenticationTokenProvider;
+import edu.wit.alr.web.security.authentication.SessionSecurityService;
 
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	@Autowired private AuthenticationTokenProvider tokenProvider;
+	@Autowired private SessionSecurityService sessionProvider;
 //	@Autowired private AppProperties appProperties;
 	@Autowired private HttpCookieOAuth2RequestRepository repository;
 
@@ -46,9 +48,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			throw new RuntimeException("Unauthorized Redirect URI; can't proceed with the authentication");
 		}
 
+		// TODO: I think this should go into a cookie
 		String token = tokenProvider.createToken(auth);
+		sessionProvider.pushToken(token);
 
-		return UriComponentsBuilder.fromUriString(redirectUri).queryParam("token", token).build().toUriString();
+		return UriComponentsBuilder.fromUriString(redirectUri).build().toUriString(); // .queryParam("token", token)
 	}
 
 	protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
