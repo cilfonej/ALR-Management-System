@@ -26,12 +26,15 @@ public class AuthenticationTokenProvider {
 
 	public String createToken(Authentication authentication) {
 		UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-
+		return createToken(principal.getId());
+	}
+	
+	public String createToken(long account_id) {
 		Instant now = Instant.now();
 		Instant expires = now.plusSeconds(properties.getAuth().getTokenExpiration());
 
 		return Jwts.builder()
-					.setSubject(String.valueOf(principal.getId()))
+					.setSubject(String.valueOf(account_id))
 					.setIssuedAt(Date.from(now))
 					.setExpiration(Date.from(expires))
 					.signWith(SignatureAlgorithm.HS512, properties.getAuth().getTokenSecret())
