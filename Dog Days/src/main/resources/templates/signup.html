@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>ALR Login</title>
+    <link rel="stylesheet" href="/webjars/font-awesome/css/all.min.css"/>
+    
+    <script type="text/javascript" src="/webjars/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/js/UID.js"></script>
+    
+    <!--/*/ <th:block th:include="forms/form :: head"></th:block> /*/-->
+    
+    <!--/*/ <th:block th:include="components/jsx :: head"></th:block> /*/-->
+    <!--/*/ <th:block th:include="components/tooltips :: head"></th:block> /*/-->
+</head>
+<body th:with="u_id='root'" th:attr="data-uid=${u_id}">
+	<div th:replace="forms/form :: form(url='/signup', title='Signup', body=~{:: #form})"></div>
+	
+	<th:block th:remove="all">
+		<div id="form" th:remove="tag">
+			<div th:replace="components/input :: form_input(
+				name='username',
+				
+				label='Username',
+				icon='fa alr-user'
+			)"> </div>
+			
+			<div th:replace="components/input :: form_input(
+				name='password',
+				
+				label='Password',
+				icon='fa fa-lock'
+			)"> </div>
+		</div>
+	</th:block>
+</body>
+</html>

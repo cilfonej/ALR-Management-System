@@ -1,4 +1,4 @@
-package edu.wit.alr.web.security.oauth2;
+package edu.wit.alr.web.security.login;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 
 @Component
-public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler {
+public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException e) throws IOException {

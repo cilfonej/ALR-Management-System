@@ -56,7 +56,7 @@ public class AuthenticationTokenProvider {
 		if(token == null) return null; // invalid token, reject access
 		
 		String uri_filters = token.getBody().get(CLAIM__ALLOW_URI, String.class);
-		if(uri_filters == null) return token; // no-restriction, allow access
+		if(uri_filters == null || uri == null) return token; // no-restriction, allow access
 	
 		AntPathMatcher matcher = new AntPathMatcher();
 		String[] filters = uri_filters.split(",");

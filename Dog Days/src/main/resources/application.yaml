@@ -16,11 +16,11 @@ spring:
           #      - email
           #      - public_profile
 
-          #yahoo:
-           # redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
-           # scope:
-           #     - email
-           #     - public_profile
+          yahoo:
+            authorization-grant-type: authorization_code
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+                - openid
 
         # insert URLs for each OAuth2 service's provider here
         provider:
@@ -34,4 +34,7 @@ spring:
             #tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
             #userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,email,picture.width(250).height(250)
 
-        #yahoo:
+          yahoo:
+            authorizationUri: https://api.login.yahoo.com/oauth2/request_auth
+            tokenUri: https://api.login.yahoo.com/oauth2/get_token
+            userInfoUri: https://api.login.yahoo.com/openid/v1/userinfo

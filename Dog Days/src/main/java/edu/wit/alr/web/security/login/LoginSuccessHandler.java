@@ -1,4 +1,4 @@
-package edu.wit.alr.web.security.oauth2;
+package edu.wit.alr.web.security.login;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,7 +16,7 @@ import edu.wit.alr.web.security.authentication.AuthenticationTokenProvider;
 import edu.wit.alr.web.security.authentication.SessionSecurityService;
 
 @Component
-public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	@Autowired private AuthenticationTokenProvider tokenProvider;
 	@Autowired private SessionSecurityService sessionProvider;

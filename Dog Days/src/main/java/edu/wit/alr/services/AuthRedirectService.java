@@ -51,6 +51,7 @@ public class AuthRedirectService {
 	}
 	
 	public String getRequestData(HttpServletRequest request) {
+		// TODO: validate that this request came from the sever (ie. forward:/)
 		return (String) request.getAttribute(EXTRA_DATA_ATTRIBUTE);
 	}
 	

@@ -35,19 +35,20 @@ public class SignupService {
 		// TODO: send invitation email
 	}
 	
-	public void startSignup() {
+	public void startSignup(int accountID) {
 		// TODO: implement method
+		invitaion.accountId = accountID;
 	}
 	
 	public Account getCurrentSignupAccount() {
 		// if there's no currently loaded invitation, return null;
-//		if(invitaion == null || invitaion.accountId == null)
-//			return null;
+		if(invitaion == null || invitaion.accountId == null)
+			return null;
 		
 		// attempt to find the account specified in the invitation
-//		return repository.findById(invitaion.accountId).orElse(null);
+		return repository.findById(invitaion.accountId).orElse(null);
 		
-		return repository.findAll().iterator().next();
+//		return repository.findAll().iterator().next();
 	}
 	
 	public void completeSignup(Account changed) {

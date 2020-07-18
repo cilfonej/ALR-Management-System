@@ -3,6 +3,7 @@ package edu.wit.alr.web.security.authentication;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,18 +13,19 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.context.WebApplicationContext;
 
+import edu.wit.alr.web.security.WebSecurityConfig;
 import edu.wit.alr.web.util.CookieHelper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
 @Service
 public class SessionSecurityService {
-	
 	private static final String AUTH_TOKEN_COOKIE = "jws_token";
 
-	@Autowired
+	@Autowired 
 	private AuthenticationTokenProvider tokenProvider;
 	
 	@Autowired
@@ -36,9 +38,20 @@ public class SessionSecurityService {
 	public Jws<Claims> getAuthorizationToken(HttpServletRequest request) {
 		Jws<Claims> token; 
 		String token_raw;
-		
+	
 		String path = request.getRequestURI();
 		if(path == null) path = "/"; // if there's no path, assign root '/'
+
+		final String URI = path;
+		AntPathMatcher matcher = new AntPathMatcher();
+		// check if no authorization is needed to access the resource
+		if(List.of(WebSecurityConfig.RESOURCE_ANT_URIS).stream().anyMatch(ant -> matcher.match(ant, URI))) {
+			// if so, set uri to null as it no longer matters
+//			path = null;
+			
+			// don't _need_ and authentication to access this resource, so don't provide one 
+			return null;
+		}
 		
 		// first check for an 'Authorization' header
 		token_raw = extractFromHeader(request);
@@ -50,6 +63,7 @@ public class SessionSecurityService {
 		token = tokenProvider.validateRequest(token_raw, path);
 		if(token != null) return token;
 		
+		// TODO: this doesn't work in parallel :/
 		Deque<String> tokens = session.getTokens();
 		
 		// last case, check the session for a valid token
