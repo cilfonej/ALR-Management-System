@@ -19,10 +19,10 @@ public class PersonLookupOption extends LookupOption {
 	}
 	
 	private PersonLookupOption(String type, Person person) {
-		super(type, person.getName(), person.getName(), person.getID());
+		super(type, person.getName(), person.getName(), person.getId());
 		
 		this.name = person.getName();
-		this.id = person.getID();
+		this.id = person.getId();
 	}
 	
 	public int getID() { return id; }

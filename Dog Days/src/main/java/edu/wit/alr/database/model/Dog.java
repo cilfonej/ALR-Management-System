@@ -8,19 +8,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import edu.wit.alr.database.model.roles.ApplicationCoordinator;
 import edu.wit.alr.database.model.roles.Caretaker;
+import edu.wit.alr.database.util.SckidConfig;
 
 @Entity
-public class Dog {
+@SckidConfig(prefix = 0)
+public class Dog extends DBObject {
 	public static enum LocationStatus {
 		Shelter, Transport, Foster, Adopted;
 	};
@@ -34,12 +32,6 @@ public class Dog {
 			return Unknown;
 		}
 	};
-	
-	@Id
-	@GenericGenerator(name = "dog_id_gen", strategy = "edu.wit.alr.database.util.IdGenerator")
-	@GeneratedValue(generator = "dog_id_gen")  
-	@Column(unique = true, nullable = false)
-	private int id;
 	
 	@Column(length = 45, nullable = false)
 	private String name;
@@ -104,7 +96,6 @@ public class Dog {
 	public Integer getDOB_Month() { return dob_month; }
 	public Integer getDOB_Day() { return dob_day; }
 	
-	public int getID() { return id; }
 	public String getName() { return name; }
 
 	public Gender getGender() { return gender; }

@@ -1,0 +1,22 @@
+@import "../../../card.less";
+
+.returnCard {
+	&:extend(.card all);
+
+	.card-header{
+		.returnCard-date{
+			float:left;
+		}
+	}	
+
+	.return-date{
+	    padding: 10px;
+	    padding-bottom: 0px;
+	}
+	
+	.returnCard-reason{
+		padding: @card-padding;
+		background-color: @light_gray95;
+		margin: @card-padding;
+	}
+}
