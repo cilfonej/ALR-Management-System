@@ -43,6 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired private LoginSuccessHandler loginSuccessHandler;
 	@Autowired private LoginFailureHandler loginFailureHandler;
+
+	@Autowired private UnauthenticatedEntryPoint unauthenticatedEntryPoint;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -53,12 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.csrf()
 				.disable()
-			.formLogin()
-				.disable()
 			.httpBasic()
 				.disable()
 			.exceptionHandling()
-				.authenticationEntryPoint(new UnauthenticatedEntryPoint())
+				.authenticationEntryPoint(unauthenticatedEntryPoint)
 				.and()
 			.authorizeRequests()
 				// resources
@@ -138,8 +138,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		int saltLength = 32; // salt length in bytes
 		int hashLength = 64; // hash length in bytes
 
-		int iterations = 8;
-		int memory = 512000; // memory costs 4096
+		int iterations = 3;
+		int memory = 4096; // memory costs 4096
 		int parallelism = 1; // currently not supported by Spring Security
 
 		return new Argon2PasswordEncoder(saltLength, hashLength, parallelism, memory, iterations);

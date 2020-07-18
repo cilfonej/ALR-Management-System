@@ -101,12 +101,21 @@ public class SessionSecurityService {
 			.orElse(null);
 	}
 	
+	public void recordRedirectLink(String uri) {
+		session.redirectURI = uri;
+	}
+	
+	public String getRedirectURI() {
+		return session.redirectURI;
+	}
+	
 	@Component
 	@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 	static class ProxyData implements Serializable {
 		private static final long serialVersionUID = -7996259074470530447L;
 		
 		public Deque<String> tokens;
+		public String redirectURI;
 		
 		public Deque<String> getTokens() {
 			if(tokens == null) 

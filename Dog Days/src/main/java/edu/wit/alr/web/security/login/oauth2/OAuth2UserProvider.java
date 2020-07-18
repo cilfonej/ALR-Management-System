@@ -10,12 +10,12 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.sun.xml.bind.v2.TODO;
-
 import edu.wit.alr.database.model.Account;
+import edu.wit.alr.database.model.AuthorizedRedirect;
 import edu.wit.alr.services.SignupService;
 import edu.wit.alr.web.security.AccountPrincipalService;
 import edu.wit.alr.web.security.AuthProviderType;
+import edu.wit.alr.web.security.login.LoginController;
 import edu.wit.alr.web.security.login.oauth2.userinfo.OAuth2UserInfo;
 import edu.wit.alr.web.security.login.oauth2.userinfo.OAuth2UserInfoFactory;
 
@@ -26,8 +26,9 @@ import edu.wit.alr.web.security.login.oauth2.userinfo.OAuth2UserInfoFactory;
  * 	<p>
  * 	This Service is also responsible for finalizing the {@link Account} configuration for a person
  * 	who wishes to log-in via an external OAuth2 service. An {@link Account} must have already be loaded 
- * 	into the current session for this to be achieved. This is most often done by the {@link TODO RegistrationController}
- * 	via following an "sign-up invitation" link.
+ * 	into the current session for this to be achieved. This is most often done by the 
+ * 	{@link LoginController#signupPage(HttpServletRequest)} via following an 
+ * 	"sign-up invitation" {@link AuthorizedRedirect} link.
  * 
  * 	@author cilfonej
  */

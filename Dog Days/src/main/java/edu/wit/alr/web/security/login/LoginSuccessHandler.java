@@ -1,7 +1,6 @@
 package edu.wit.alr.web.security.login;
 
 import java.io.IOException;
-import java.net.URI;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,19 +31,13 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		}
 
 		// authentication complete, so remove tracking tokens
-//		clearAuthenticationAttributes(req, response);
+		clearAuthenticationAttributes(req, response);
 		getRedirectStrategy().sendRedirect(req, response, targetUrl);
 	}
 
 	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication auth) {
-		String redirectUri = "/";//repository.loadRedirectURI(request);
-
-		// TODO: ??? not sure what redirectUriis for now ???
-		// check to make sure the redirect-link is on a supported domain
-		if(redirectUri != null && !isAuthorizedRedirectUri(redirectUri)) {
-			// TODO: What kind of exception?  was BadRequestException @ResponseStatus(HttpStatus.BAD_REQUEST)
-			throw new RuntimeException("Unauthorized Redirect URI; can't proceed with the authentication");
-		}
+		String redirectUri = sessionProvider.getRedirectURI();
+		if(redirectUri == null) redirectUri = "/";
 
 		// TODO: I think this should go into a cookie
 		String token = tokenProvider.createToken(auth);
@@ -53,23 +46,8 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		return UriComponentsBuilder.fromUriString(redirectUri).build().toUriString(); // .queryParam("token", token)
 	}
 
-//	protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
-//		super.clearAuthenticationAttributes(request);
-//		repository.removeAuthorizationRequest(request, response);
-//	}
-
-	private boolean isAuthorizedRedirectUri(String uri) {
-		URI clientRedirectUri = URI.create(uri);
-		return true;
-		// TODO: man I don't know
-//		return appProperties.getOauth2().getAuthorizedRedirectUris().stream().anyMatch(authorizedRedirectUri -> {
-//			// Only validate host and port. Let the clients use different paths if they want to
-//			URI authorizedURI = URI.create(authorizedRedirectUri);
-//			if(authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
-//					&& authorizedURI.getPort() == clientRedirectUri.getPort()) {
-//				return true;
-//			}
-//			return false;
-//		});
+	protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
+		super.clearAuthenticationAttributes(request);
+		sessionProvider.recordRedirectLink(null);
 	}
 }
