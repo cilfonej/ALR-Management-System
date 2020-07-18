@@ -1,4 +1,4 @@
-package edu.wit.alr.web.security.oauth2.userinfo;
+package edu.wit.alr.web.security.login.oauth2.userinfo;
 
 import java.util.Map;
 

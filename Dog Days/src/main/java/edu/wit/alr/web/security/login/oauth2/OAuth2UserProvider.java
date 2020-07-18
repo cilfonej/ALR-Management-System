@@ -1,4 +1,4 @@
-package edu.wit.alr.web.security.oauth2;
+package edu.wit.alr.web.security.login.oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -16,8 +16,8 @@ import edu.wit.alr.database.model.Account;
 import edu.wit.alr.services.SignupService;
 import edu.wit.alr.web.security.AccountPrincipalService;
 import edu.wit.alr.web.security.AuthProviderType;
-import edu.wit.alr.web.security.oauth2.userinfo.OAuth2UserInfo;
-import edu.wit.alr.web.security.oauth2.userinfo.OAuth2UserInfoFactory;
+import edu.wit.alr.web.security.login.oauth2.userinfo.OAuth2UserInfo;
+import edu.wit.alr.web.security.login.oauth2.userinfo.OAuth2UserInfoFactory;
 
 /**
  * 	Service used for converting an {@link OAuth2UserRequest Authentication-Request} into
