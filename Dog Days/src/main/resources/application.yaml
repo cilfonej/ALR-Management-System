@@ -38,3 +38,6 @@ spring:
             authorizationUri: https://api.login.yahoo.com/oauth2/request_auth
             tokenUri: https://api.login.yahoo.com/oauth2/get_token
             userInfoUri: https://api.login.yahoo.com/openid/v1/userinfo
+
+    filter:
+      order: 1
