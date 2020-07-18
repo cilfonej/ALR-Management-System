@@ -16,7 +16,7 @@
     <!--/*/ <th:block th:include="components/tooltips :: head"></th:block> /*/-->
 </head>
 <body th:with="u_id='root'" th:attr="data-uid=${u_id}">
-	<div th:replace="forms/form :: form(url='/login/local', title='Login', body=~{:: #form})"></div>
+	<div th:replace="forms/form :: form(url='/login/local', title='Login', plain=true, body=~{:: #form})"></div>
 	
 	<th:block th:remove="all">
 		<div id="form" th:remove="tag">

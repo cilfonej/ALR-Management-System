@@ -29,7 +29,15 @@ var Form = (function() {
 				form_data[input.getField()] = input.getValue();
 			}
 			
-			Request.send(url, form_data);
+			var config = {};
+			if($form.attr("data-form-plain")) {
+				config = {
+					contentType: 'application/x-www-form-urlencoded',
+					raw_data: true
+				};
+			}
+			
+			Request.send(url, form_data, config);
 			
 		} else {
 			// TODO: ???

@@ -36,6 +36,7 @@ public class LoginController {
 	@PostMapping("signup")
 	public String signup(@RequestParam("username") String username, @RequestParam("password") String password) {
 		String hash = encoder.encode(password);
+		// TODO: add error checks
 		
 		Account account = service.getCurrentSignupAccount();
 		account.withLocalAuthentication(username, new PasswordSpec(hash, null));
