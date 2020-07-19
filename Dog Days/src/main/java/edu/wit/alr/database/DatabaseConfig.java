@@ -5,11 +5,9 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -23,19 +21,11 @@ import edu.wit.alr.database.tracking.DatabaseMonitorIntegrator;
 @Configuration
 @EnableJpaRepositories
 @EnableTransactionManagement
-@PropertySource("classpath:/edu/wit/alr/database/database.properties")
+@ConfigurationProperties("alr.database")
 public class DatabaseConfig {
 
-	@Autowired private DatabaseMonitorIntegrator integrator;
-	
-	@Value("${database.user_access.username}")
-	private String database_username;
-	
-	@Value("${database.user_access.password}")
-	private String database_password;
-	
-	@Value("${spring.datasource.url}")
-	private String database_url;
+	@Autowired 
+	private DatabaseMonitorIntegrator integrator;
 
 	@Bean("entityManagerFactory")
     public LocalSessionFactoryBean databaseSessionFactory() {
