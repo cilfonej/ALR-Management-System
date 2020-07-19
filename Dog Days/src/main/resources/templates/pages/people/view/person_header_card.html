@@ -15,11 +15,7 @@
 			
 			<div class="person-header_details">
 				<div class="person-header_details_spacing">
-					<span> Roles: Adopter, Foster </span>
-				</div>
-				<div>
-					<span> Date Joined: </span> 
-					<span> January 16th, 2019 </span>
+					<span > <th:block th:each="role, iter : ${person.roles}" th:text="${role} + (!${iter.last} ? ' | ' : '')"></th:block> </span>
 				</div>
 			</div>
 			
@@ -37,30 +33,7 @@
 						body=~{:: edit_form(${person})}
 				)}
 		)"></div>
-	</div>
-	
-	<!-- ADDED TODO REMOVE -->
-	<div class="person-header_bottom">
-		<div class="person-header_bottom_basic">
-			<h4>Basic Info:</h4>
-			<span>Email: asdasdasdasd@gmail.com</span>
-			<span>Phone: 123-123-1234</span>
-		</div>
-		<div class="person-header_bottom_basic">
-			<h4>Home Address:</h4>
-			<span>123 street street</span>
-			<span>Boston, MA</span>
-			<span>02148, United States</span>
-		</div>
-		<div class="person-header_bottom_basic">
-			<h4>Mailing Address:</h4>
-			<span>123 street street</span>
-			<span>Boston, MA</span>
-			<span>02148, United States</span>
-		</div>
-	</div>
-	<!-- ADDED TODO REMOVE -->
-	
+	</div>	
 </div>
 
 <div th:fragment="edit_form(person)" th:remove="tag">
@@ -92,7 +65,96 @@
 		${ {'firstname', 'lastname'} }, 
 		${ {person.firstname, person.lastname} }
 	)"> </div>
+	
+	<!--  TODO A WAY TO EDIT ROLES - add / delete -  -->
+	<span class="form-input_email"> Email: </span>
+	
+	<div th:replace="components/input :: form_input(
+		name='email',
+		placeholder='Email',	
+		type = 'email',	
+		allow_blank=false
+	)"> </div>	
+
+	<div th:replace="components/input :: revert(
+		${ {'email'} }, 
+		${ {person.email.toString()} }
+	)"> </div>
+	
+	
+	<span class="form-input_phone"> Phone: </span>
+	
+	<div th:replace="components/input :: form_input(
+		name='phone',
+		placeholder='Phone Number',		
+		type = 'phone',
+		allow_blank=false
+	)"> </div>	
+		
+	<div th:replace="components/input :: revert(
+		${ {'phone'} }, 
+		${ {person.primaryPhone.toString()} }
+	)"> </div>
+	
+	
+	<span class="form-input_home_address"> Home Address:</span>
+	
+	<div th:replace="components/input :: form_address(
+		name='home_address',
+		placeholder='Home Address',
+		require=true
+	)"></div>
+	
+		<!-- TODO: home if adopter / foster -->
+		
+	<div th:replace="components/input :: revert(
+		${ {'home_address'} }, 
+		${ {person.homeAddress} }
+	)"> </div>
+	
+	
+	<span class="form-input_mail_address"> Mailing Address:</span>
+	
+	<div th:replace="components/input :: form_address(
+		name='mail_address',
+		placeholder='Mailing Address',
+		require=false 
+	)"></div>
+	
+	<div th:replace="components/input :: revert(
+		${ {'maila_ddress'} }, 
+		${ {person.mailingAddress} }
+	)"> </div>
+	
+	
 </div>
+
+<!-- basic info card -->
+
+<body>
+	<div class="card person-info_all" th:fragment="person_basic_info(person)">		
+		<div class="person-info_basic">
+			<h4>Basic Info</h4>
+			<span>Email: <th:block th:text="${person.email}"></th:block></span>
+			<span>Phone: <th:block th:text="${person.primaryPhone}"></th:block></span>
+			<span>Date Joined: January 30th, 2020</span> <!--  TODO GET DATE JOINED -->
+		</div>
+		<div class="person-info_basic" th:if="${person.homeAddress != null}">
+			<h4>Home Address</h4>
+			<span class="card-sub_item" th:text="${person.homeAddress.streetAddress}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatStateLine(person.homeAddress)}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatPostalLine(person.homeAddress)}"></span>
+			
+		
+		</div>
+		<div class="person-info_basic" th:if="${person.mailingAddress != null}">
+			<h4>Mailing Address</h4>
+			<span class="card-sub_item" th:text="${person.mailingAddress.streetAddress}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatStateLine(person.mailingAddress)}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatPostalLine(person.mailingAddress)}"></span>
+		</div>
+	</div>
+</body>
 
 </body>
 </html>

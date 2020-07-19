@@ -37,16 +37,19 @@
 				font-size: 1.5rem;
 			}
 			
+			
 			.person-header_details {
 				font-size: .85rem;
-				
+				color: @dark_gray35;
 				// values
 				*:nth-child(2n) {
 					color: @value-text_color;
 				}
 				
 				.person-header_details_spacing{
-				margin-bottom: 5px;
+					margin-bottom: 5px;
+					font-size: 1rem;
+					padding-left: 4px;
 				}
 			}
 			
@@ -67,28 +70,37 @@
 		grid-template-columns: minmax(10rem, auto) minmax(10rem, auto);
 		grid-column-gap: @card-padding;
 	}
+	
+	.person-edit_email{
+		display: grid;
+		grid-template-columns: minmax(10rem, auto);
+		grid-column-gap: @card-padding;
+	}	
 }
 
-.person-header_bottom {
+
+.person-info_all {
 	display: grid;
-	grid-template-columns: 33% 33% 33%;	
+	width: 400px;
+	padding: @card-margin;
 	
-	span {
-		display: block;
-	}	
-	
-	.person-header_bottom_basic {
-		margin: 30px;
-		margin-top: 5px;
-		margin-bottom: 10px;
+	.person-info_basic {
+		margin-bottom: @card-margin;
 		
-		h4{
+		&:last-child {
+			margin-bottom: 0px;
+		}
+		
+		h4 {
 			border-bottom: 1px ridge #a6a6a6;
 			margin-top: 5px;
 		    margin-bottom: 12px;
 		    padding-bottom: 2px;
 		}
+		
+		span {
+			display: block;
+			padding: 5px;
+		}
 	}
-	
-	
 }

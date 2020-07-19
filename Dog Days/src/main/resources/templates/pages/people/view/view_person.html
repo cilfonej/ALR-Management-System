@@ -13,12 +13,30 @@
 	<div th:fragment="page(person)" class="view-person_wrapper">
 		<div th:replace="common/header :: title('ALR - ' + ${person.name}, ~{:: breadcrums(${person})})">	</div>
 		
-		<div th:replace="pages/people/view/person_header_card :: card(${person})"></div> <!-- KEEP -->
+		<div th:replace="pages/people/view/person_header_card :: card(${person})"></div>
+		
+		<div class="view-person_cards">
+			<div th:replace="pages/people/view/person_header_card :: person_basic_info(${person})"></div>
+			
+			<div class="view-person_dogs">
+			
+				<th:block th:if="${roleAdopter}">
+					<div th:replace="pages/people/view/view_dog_list/view_adopt_dog :: card(${adoptList}, ${person})"></div>
+				</th:block>
+				<th:block th:if="${roleFoster}">
+					<div th:replace="pages/people/view/view_dog_list/view_foster_dog :: card(${fosterList}, ${person})"></div>
+				</th:block>
+				<th:block th:if="${roleCoordinator}">
+					<div th:replace="pages/people/view/view_dog_list/view_coordinator_dog :: card(${coordinatorList}, ${person})"></div>
+				</th:block>
+				
+				<!--  TODO RETURN <div th:replace="pages/people/view/view_dog_list/view_return_dog :: card(${returnList})"></div> -->
+			</div>
+		</div>
 		
 		
 		
-		<div th:replace="pages/people/view/role_card :: header"></div>
-		<div th:replace="pages/people/view/role_card :: subheader"></div>
+		
 		
 		<!-- <div class="view-person_roles">
 			<th:block th:each="role : ${person.roles}"> 

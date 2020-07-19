@@ -14,8 +14,10 @@ import edu.wit.alr.database.model.Person;
 import edu.wit.alr.database.model.roles.Adopter;
 import edu.wit.alr.database.model.roles.ApplicationCoordinator;
 import edu.wit.alr.database.model.roles.Foster;
-import edu.wit.alr.database.model.roles.Role;
+import edu.wit.alr.database.repository.DogRepository;
 import edu.wit.alr.services.PersonService;
+import edu.wit.alr.services.inflators.AddressInflator;
+import edu.wit.alr.services.inflators.PersonInflator;
 import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.ReplaceResponse;
 import edu.wit.alr.web.response.ResponseBuilder;
@@ -26,6 +28,9 @@ public class ViewPersonController {
 
 	@Autowired private ResponseBuilder builder;
 	@Autowired private PersonService personService;
+	@Autowired private DogRepository dogRepo;
+	@Autowired private AddressInflator addressInflator;
+	@Autowired private PersonInflator personInflator;
 	
 	@GetMapping("")
 	protected @ResponseBody String list_direct() {
@@ -39,15 +44,21 @@ public class ViewPersonController {
 		return builder.buildIndependentPage(loadPage(id));
 	}
 	
-	public PageResponse loadPage(int dog_id) {
-		return loadPage(personService.findPersonByID(dog_id));
+	public PageResponse loadPage(int person_id) {
+		return loadPage(personService.findPersonByID(person_id));
 	}
 	
 	public PageResponse loadPage(Person person) {
 		if(person == null) ; // TODO: build error page
 		
+		
 		Map<String, Object> vars = new HashMap<>();
 		vars.put("person", person);
+		vars.put("adoptList", dogRepo.findAllByAdopter(person));
+		vars.put("fosterList", dogRepo.findAllByFoster(person));
+		vars.put("roleAdopter", person.findRole(Adopter.class) != null);
+		vars.put("roleFoster", person.findRole(Foster.class) != null);
+		vars.put("roleCoordinator", person.findRole(ApplicationCoordinator.class) != null);
 		
 		return builder.redirect("/view/people/" + person.getId(), "pages/people/view/view_person :: page", vars);
 	}
@@ -57,18 +68,6 @@ public class ViewPersonController {
 				".person-header", 
 				"pages/people/view/person_header_card :: card", 
 				Map.of("person", person));
-	}
-	
-	public ReplaceResponse updateRoleCard(Role role) {
-		String clazz = "$.role-card_";
-		
-		if(role instanceof Adopter) clazz += "adopter";
-		else if(role instanceof Foster) clazz += "foster";
-		else if(role instanceof ApplicationCoordinator) clazz += "coordinator";
-		
-		return builder.replacement(
-				clazz + " $+.view-person_roles", 
-				"pages/people/view/role_card :: card", 
-				Map.of("role", role, "person", role.getPerson()));
+		//TODO updapte person-info_all card at same time ^  (basic info card)
 	}
 }

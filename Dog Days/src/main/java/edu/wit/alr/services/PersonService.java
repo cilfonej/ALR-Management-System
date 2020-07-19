@@ -111,9 +111,13 @@ public class PersonService {
 		return role;
 	}
 	
-	public Person updatePersonDetails(Person person, String firstname, String lastname) {
+	public Person updatePersonDetails(Person person, String firstname, String lastname, EmailContact email, PhoneContact phone, Address homeAddress, Address mailAddress) {
 		person.setFirstname(firstname);
 		person.setLastname(lastname);
+		person.setEmail(email);
+		person.setPrimaryPhone(phone);
+		person.setHomeAddress(homeAddress);
+		person.setMailingAddress(mailAddress);
 		
 		repository.save(person);
 		return person;
