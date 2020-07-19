@@ -16,4 +16,8 @@ public class ApplicationCoordinator extends Admin {
 	public ApplicationCoordinator(Person person) {
 		super(person);
 	}
+	
+	public String toString() {
+		return "Application Coordinator";
+	}
 }
