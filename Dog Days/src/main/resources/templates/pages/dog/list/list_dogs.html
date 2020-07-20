@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<ul th:fragment="breadcrums">
+		<li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+		<li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
+	</ul>	
+
+	<div th:fragment="page" class="view-all">
+	<!--  th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}" -->
+		<div th:replace="common/header :: title('ALR - Dogs', ~{:: breadcrums})">	</div>
+		
+		<div class="card view-all_heading">
+			<div class="view-all_heading-items">
+			    <h2> View All Dogs </h2>
+			    
+			    <div class="span-button">
+				    <i class="fa fa-plus"></i>
+				    New Dog
+			    </div>
+		    </div>
+		</div>
+
+	<div class="view-all_body">
+		<div class="view-all_left">
+			<div class="view-all_filter">
+			    <div class="view-all_search">
+					<div class="view-all_search_wrapper">
+					    <i class="fa fa-dog"></i>
+					    <input type="search" placeholder="Enter Dog name">
+					</div>
+				    <div class="span-button">
+					    <i class="fa fa-search"></i>
+					    Search
+				    </div>
+				</div>
+			 
+				<div class="view-all_filter_option">
+					<span class="filter-option_select">
+						<i class="fa fa-chevron-down"></i> 
+						AND  
+					</span>
+			 
+					<span class="filter-option_select">  <!-- font-size: .9rem; -->
+						Coordinator  
+						<i class="fa fa-chevron-down"></i>
+					</span>
+					 
+					<span style="
+					    flex-grow: 1;
+					    margin-right: 10px;
+					    border-bottom: 1px solid black;
+					    align-self: flex-end;
+					    padding-bottom: 3px;
+					    margin-bottom: 3px;
+					">
+						<i class="fa alr-user"></i>
+					</span>
+							
+					<span class="icon-button icon-button_box-plain" data-tippy-content="Remove"> 
+						<i class="fa fa-times"></i> 
+					</span>
+				</div>
+			 
+				<div class="view-all_result_order">
+					<span class="result-order_filter">
+						<i class="fa fa-filter"></i>
+						Add Filter
+					</span>
+					
+					<div class="result-order_sort">
+						<span class="result-order_sort_label"> Sort By </span>
+						<span class="result-order_sort_select">
+							Adoption Date
+							<i class="fa fa-chevron-down"></i>
+						</span>
+						<span class="icon-button icon-button_box-plain">
+							<i class="fa fa-sort-amount-up-alt"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="view-all_results">
+				<div class="view-all_dog-result">
+				
+					<div class="dog-result_icon">
+						<i class="fa fa-dog"></i>
+					</div>
+					
+					<div class="dog-result_label">
+						<h3> Suzan </h3>
+						<span> #261960 </span>
+					</div>
+					 
+					<div style="flex-grow: 1;"></div>
+					 
+					<div class="icon-button icon-button_box-plain">
+						<i class="fa fa-arrow-right"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="view-all_right">
+			<div class="view-all_display_wrapper">
+				<div th:replace="pages/dog/view/dog_info_card :: card(${dog})"></div>
+				
+				<div class="view-all_display_link">
+					View full record
+					<i class="fa fa-arrow-right"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+</body>
+</html>
