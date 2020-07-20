@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 	<link rel="stylesheet" href="/css/common/header.css" />
 </head>
@@ -7,7 +9,11 @@
 <body>
 	<header th:fragment="header" class="page-header">
 		<div class="page-header_menu-button">
-			<div class="icon-button icon-button_ghost">
+		
+			<div class="icon-button icon-button_ghost" 
+				 data-tippy-content="Collapse Sidebar" 
+				 onclick="toggleSidebar()">
+				 
 				<i class="fa fa-bars"></i>
 			</div>
 		</div>
@@ -18,17 +24,66 @@
 			    <input type="search" placeholder="Search">
 			</div>
 		</div>
-	
+
 		<div class="page-header_user-wrapper"> 
 			<span class="page-header_user"> 
 				<i class="fa fa-chevron-down"></i>
-				Ann Cilfone 
+				<th:block th:text="${#principal.name}"></th:block> 
 			</span>
 			
 			<div class="page-header_user-image">
 				<i class="page-header_user-image-default fa fa-user"></i>
 			</div>
+			
+			<div class="page-header_user-menu-wrapper">
+				<div class="user-menu">
+					<span class="user-menu_option"> 
+						<i class="fa fa-user-cog"></i> 
+						Account Settings 
+					</span>
+					
+					<span class="user-menu_option"> 
+						<i class="fa fa-sliders-h"></i> 
+						Preferences 
+					</span>
+        
+					<span class="user-menu_divider"> </span>
+
+					<span class="user-menu_option"> 
+						<i class="fa fa-sign-out-alt"></i> 
+						Logout 
+					</span>
+				</div>
+			</div>
 		</div>
+		
+		<script type="text/javascript">
+			// toggle user-menu function
+			(function() {
+				var $ele = $(".page-header_user-wrapper");
+				
+				function colapseUserMenu() {
+					$ele.removeClass("page-header_user-open");
+					$(window).unbind("click", colapseUserMenu);
+				}
+			
+				$ele.on("click", e => {
+					if($ele.hasClass("page-header_user-open")) {
+						$ele.removeClass("page-header_user-open");
+						$(window).unbind("click", colapseUserMenu);
+						
+					} else {
+						e.stopPropagation();
+						$ele.addClass("page-header_user-open");
+						$(window).bind("click", colapseUserMenu);
+					}
+				})
+			})();
+			
+			function toggleSidebar() {
+				$(".page-sidebar").toggleClass("page-sidebar_open");
+			}
+		</script>
 	</header>
 	
 	<nav th:fragment="breadcrums" class="breadcrums">

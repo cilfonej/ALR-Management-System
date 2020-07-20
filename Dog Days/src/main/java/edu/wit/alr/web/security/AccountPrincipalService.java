@@ -66,9 +66,9 @@ public class AccountPrincipalService implements UserDetailsService {
 //																.collect(Collectors.toSet());
 	
 		if(account.getAuthService() == AuthProviderType.local)
-			return new UserPrincipal(account.getId(), account.getUsername(), account.getPassword().getHash(), authorities);
+			return new UserPrincipal(account, account.getUsername(), account.getPassword().getHash(), authorities);
 		else
-			return new UserPrincipal(account.getId(), String.valueOf(account.getExternalId()), null, authorities);
+			return new UserPrincipal(account, String.valueOf(account.getExternalId()), null, authorities);
 	}
 	
 	public Account loadAccountByUsername(String username) {
