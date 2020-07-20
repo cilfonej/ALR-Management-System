@@ -6,11 +6,8 @@
     
     <title>ALR Login</title>
     <link rel="stylesheet" href="/webjars/font-awesome/css/all.min.css"/>
-    <link rel="stylesheet" href="/css/login.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/login.css"/> 
 
-    
-    
     <script type="text/javascript" src="/webjars/jquery/jquery.js"></script>
 	<script type="text/javascript" src="/js/UID.js"></script>
     
@@ -20,25 +17,35 @@
     <!--/*/ <th:block th:include="components/tooltips :: head"></th:block> /*/-->
 </head>
 <body>
+    <img src="alr_logo.png" class="logo">
+    
 	<div class="login-page_all">
-        <img src="alr_logo.png">
         
-		<h2>Sign in to ALR</h2>
+        <h2 class="sign_in">Sign in</h2>
+ 
+        <a class="login-page_facebook"><i class="fab fa-facebook-f"></i>Facebook Login</a>
 		
-        <a class="login-page_google"><i class="fa-google">Google Login</i></a>
+        <a class="login-page_google"><i class="fab fa-google"></i>Google Login</a>
         
-        <a class="login-page_yahoo"><i class="fa-yahoo"></i>Yahoo Login</a>
+        <a class="login-page_yahoo"><i class="fab fa-yahoo"></i>Yahoo Login</a>
         
-        <a class="login-page_facebook"><i class="fa-facebook-f"></i>Facebook Login</a>
+        <h4 class="or"><span>or</span></h4>
         
-        <h4>or</h4>
-        
-        <h4 class="login-page_ALR">ALR Login</h4>
-        
-        <i class="fa-lock"></i><input type="text" id=username name=usename placeholder="Username">
+        <i class="fa fa-user"></i><input type="text" id=username name=usename placeholder="Username" 
+                                      class="username">
 
-        <i class="fa-lock"></i><input type="text" id=password name=password placeholder="Password">
+        <i class="fa fa-lock"></i><input type="password" id=password name=password placeholder="Password"
+                                      class="password">
+        <a class="forgot_user">Forgot Username?</a>
+       
+        <a class="forgot_pass">Forgot Password?</a>
+        
+        <button class="sign_in_button">Sign in</button>
         
 	</div>
+    
+    <div class="sign_up">
+        <span>New? </span><span class="create">Create an Account</span>
+    </div>
 </body>
 </html>
