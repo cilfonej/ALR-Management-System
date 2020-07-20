@@ -3,11 +3,13 @@ package edu.wit.alr.web;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -52,6 +54,8 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 	
 	@Bean
+	@Primary
+	@Qualifier("web")
 	public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(htmlTemplateResolver());
