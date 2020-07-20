@@ -18,7 +18,7 @@ public class AuthRedirectService {
 	public static final String EXTRA_DATA_ATTRIBUTE = "redirect-data";
 	
 	@Autowired
-	private AuthorizedRedirectRepository repositoy;
+	private AuthorizedRedirectRepository repository;
 
 	@Autowired private AuthenticationTokenProvider tokenProvider;
 	@Autowired private SessionSecurityService sessionSecurity;
@@ -62,18 +62,18 @@ public class AuthRedirectService {
 	}
 	
 	public AuthorizedRedirect findByKey(String key) { // TODO: possibly throw NoSuchElement + @404
-		AuthorizedRedirect redirect = repositoy.findById(key).orElse(null);
+		AuthorizedRedirect redirect = repository.findById(key).orElse(null);
 		if(redirect == null) return null;
 		
 		// check if this is a 1-off link
 		if(redirect.getExpiration() == null) {
-			repositoy.delete(redirect); // TODO: maybe set the expiration to now + 10minuets instead
+			repository.delete(redirect); // TODO: maybe set the expiration to now + 10minuets instead
 			return redirect;
 		}
 		
 		// check if the redirect has expired
 		if(redirect.getExpiration().isBefore(LocalDateTime.now())) {
-			repositoy.delete(redirect); // remove the expirered link
+			repository.delete(redirect); // remove the expirered link
 			return null;
 		}
 		

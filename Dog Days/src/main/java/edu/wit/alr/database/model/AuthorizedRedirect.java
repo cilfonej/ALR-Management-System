@@ -78,7 +78,7 @@ public class AuthorizedRedirect {
 		this.expiration = expiration;
 	}
 
-	public void setRequest_data(String request_data) {
+	public void setRequestData(String request_data) {
 		this.request_data = request_data;
 	}
 	

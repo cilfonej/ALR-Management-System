@@ -10,14 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 import edu.wit.alr.database.model.Account;
+import edu.wit.alr.database.model.AuthorizedRedirect;
 import edu.wit.alr.database.model.Person;
 import edu.wit.alr.database.repository.AccountRepository;
+import edu.wit.alr.database.repository.AuthorizedRedirectRepository;
 
 @Service
 public class SignupService {
 	
-	@Autowired
-	private AccountRepository repository;
+	@Autowired private AccountRepository repository;
+	@Autowired private AuthorizedRedirectRepository redirectRepository;
 	
 	@Autowired
 	private InvitationData invitaion;
@@ -31,7 +33,12 @@ public class SignupService {
 		Account account = new Account(person);
 		repository.save(account);
 
-		// TODO: generate new Authorized-redirect
+		AuthorizedRedirect redirect = new AuthorizedRedirect(account, "/signup");
+		redirect.setExpiration(null); // link is only valid once
+		redirect.addPermittedResource("/signup");
+		redirect.setRequestData(String.valueOf(account.getId()));
+		redirectRepository.save(redirect);
+		
 		// TODO: send invitation email
 	}
 	
