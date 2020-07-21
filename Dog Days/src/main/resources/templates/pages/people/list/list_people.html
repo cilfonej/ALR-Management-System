@@ -16,11 +16,11 @@
 	
 	<div class="card view-all_heading">
 		<div class="view-all_heading-items">
-		    <h2> View All Dogs </h2>
+		    <h2> View All People </h2>
 		    
 		    <div class="span-button">
 			    <i class="fa fa-plus"></i>
-			    New Dog
+			    New Person
 		    </div>
 	    </div>
 	</div>
@@ -31,7 +31,7 @@
 			    <div class="view-all_search">
 					<div class="view-all_search_wrapper">
 					    <i class="fa fa-dog"></i>
-					    <input type="search" placeholder="Enter Dog name">
+					    <input type="search" placeholder="Enter Person's name">
 					</div>
 				    <div class="span-button" onclick="onSearch()">
 					    <i class="fa fa-search"></i>
@@ -70,7 +70,7 @@
 	
 	<script type="text/javascript">
 		function onSearch() {
-			Request.send("/view/dogs/search", {
+			Request.send("/view/people/search", {
 				nameOrId: $(".view-all_search_wrapper input").val()
 			})
 		}
@@ -78,40 +78,61 @@
 		onSearch();
 		
 		function onSelect(id) {
-			Request.send("/view/dogs/render/" + id);
+			Request.send("/view/people/render/" + id);
 		}
 	</script>
 </div>
 
-<div th:fragment="viewResult(obj)" class="view-all_display_wrapper">
-	<div th:replace="pages/dog/view/dog_info_card :: card(dog=${obj}, view_only=true)"></div>
+<div th:fragment="viewResult(obj)" class="view-all_display_wrapper" style="max-width: 400px">
+	<div th:fragment="card(caretaker)" class="card caretaker-card caretaker-card_slim">
+		<div>
+			<div class="caretaker-card_top">
+				<div class="caretaker-card_image">
+					<i class="caretaker-card_image-default fa fa-user"></i>
+				</div>
+		        
+				<div class="caretaker-card_primary">
+					<div>
+						<span class="card-primary_text" th:text="${obj.name}"></span>
+					</div>
+					
+					<div class="caretaker-card_contact">
+						<span> Phone: </span>
+						<span th:text="${obj.primaryPhone}"></span>
+						
+						<span> Email: </span>
+						<span th:text="${obj.email}"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 				
-	<div class="view-all_display_link" th:onclick="Request.send('/view/dogs/' + [[${obj.id}]]);">
+	<div class="view-all_display_link" th:onclick="Request.send('/view/people/' + [[${obj.id}]]);">
 		View full record
 		<i class="fa fa-arrow-right"></i>
 	</div>
 </div>
 
 <div th:fragment="searchResults(results)" class="view-all_results">
-	<th:block th:each="dog : ${results}"> <!-- TODO: show message if no results -->
-		<div th:replace=":: dog_lineitem(${dog})"></div>
+	<th:block th:each="person : ${results}"> <!-- TODO: show message if no results -->
+		<div th:replace=":: person_lineitem(${person})"></div>
 	</th:block>
 </div>
 
-<div th:fragment="dog_lineitem(dog)" class="view-all_dog-result" th:onclick="onSelect([[${dog.id}]])">
+<div th:fragment="person_lineitem(person)" class="view-all_dog-result" th:onclick="onSelect([[${person.id}]])">
 	<div class="dog-result_icon">
-		<i class="fa fa-dog"></i>
+		<i class="fa fa-user"></i>
 	</div>
 	
 	<div class="dog-result_label">
-		<h3 th:text="${dog.name}"> </h3>
-		<span th:text="${'#' + dog.id}"> </span>
+		<h3 th:text="${person.name}"> </h3>
 	</div>
 	 
 	<div style="flex-grow: 1;"></div>
 	 
 	<div class="icon-button icon-button_box-plain" 
-		 th:onclick="Request.send('/view/dogs/' + [[${dog.id}]]); event.stopPropagation();">
+		 th:onclick="Request.send('/view/people/' + [[${person.id}]]); event.stopPropagation();">
 		<i class="fa fa-arrow-right"></i>
 	</div>
 </div>

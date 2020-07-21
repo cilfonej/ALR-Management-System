@@ -34,13 +34,13 @@ public class ViewDogController {
 		return builder.buildIndependentPage(listPage());
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/{id:[\\d]+}")
 	public @ResponseBody String loadPage_direct(@PathVariable(value="id", required=false) Integer id) {
 		if(id == null) return list_direct();
 		return builder.buildIndependentPage(loadPage(id));
 	}
 
-	@PostMapping("/{id}")
+	@PostMapping("/{id:[\\d]+}")
 	public @ResponseBody PageResponse loadPage(@PathVariable("id") int dog_id) {
 		return loadPage(dogService.findDogByID(dog_id));
 	}

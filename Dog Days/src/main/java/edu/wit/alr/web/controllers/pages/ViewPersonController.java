@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,17 +35,17 @@ public class ViewPersonController {
 	
 	@GetMapping("")
 	protected @ResponseBody String list_direct() {
-//		return builder.buildIndependentPage(listPage());
-		return null;
+		return builder.buildIndependentPage(listPage());
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/{id:[\\d]+}")
 	protected @ResponseBody String loadPage_direct(@PathVariable("id") Integer id) {
 		if(id == null) return list_direct();
 		return builder.buildIndependentPage(loadPage(id));
 	}
-	
-	public PageResponse loadPage(int person_id) {
+
+	@PostMapping("/{id:[\\d]+}")
+	public @ResponseBody PageResponse loadPage(@PathVariable("id") int person_id) {
 		return loadPage(personService.findPersonByID(person_id));
 	}
 	
@@ -63,6 +64,11 @@ public class ViewPersonController {
 		vars.put("roleCoordinator", person.findRole(ApplicationCoordinator.class) != null);
 		
 		return builder.redirect("/view/people/" + person.getId(), "pages/people/view/view_person :: page", vars);
+	}
+	
+	@PostMapping("")
+	public @ResponseBody PageResponse listPage() {
+		return builder.redirect("/view/people", "pages/people/list/list_people :: page", null);
 	}
 	
 	public ReplaceResponse updatePersonHeader(Person person) {

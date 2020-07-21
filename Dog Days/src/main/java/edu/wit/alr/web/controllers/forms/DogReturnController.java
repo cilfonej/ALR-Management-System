@@ -131,6 +131,6 @@ public class DogReturnController {
 	
 	@PostMapping("")
 	public @ResponseBody PageResponse returnRedirect() {
-		return builderService.redirect("/forms/return_dog", "forms/return_dog/return_dog::form", null);
+		return builderService.redirect("/register/return", "forms/return_dog/return_dog::form", null);
 	}
 }
