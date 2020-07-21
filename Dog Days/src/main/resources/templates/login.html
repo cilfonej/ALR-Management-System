@@ -6,7 +6,8 @@
     
     <title>ALR Login</title>
     <link rel="stylesheet" href="/webjars/font-awesome/css/all.min.css"/>
-    
+    <link rel="stylesheet" href="/css/login.css"/> 
+
     <script type="text/javascript" src="/webjars/jquery/jquery.js"></script>
 	<script type="text/javascript" src="/js/UID.js"></script>
     
@@ -15,25 +16,36 @@
     <!--/*/ <th:block th:include="components/jsx :: head"></th:block> /*/-->
     <!--/*/ <th:block th:include="components/tooltips :: head"></th:block> /*/-->
 </head>
-<body th:with="u_id='root'" th:attr="data-uid=${u_id}">
-	<div th:replace="forms/form :: form(url='/login/local', title='Login', plain=true, body=~{:: #form})"></div>
-	
-	<th:block th:remove="all">
-		<div id="form" th:remove="tag">
-			<div th:replace="components/input :: form_input(
-				name='username',
-				
-				label='Username',
-				icon='fa alr-user'
-			)"> </div>
-			
-			<div th:replace="components/input :: form_input(
-				name='password',
-				
-				label='Password',
-				icon='fa fa-lock'
-			)"> </div>
-		</div>
-	</th:block>
+<body>
+    <img src="alr_logo.png" class="logo">
+    
+	<div class="login-page_all">
+        
+        <h2 class="sign_in">Sign in</h2>
+ 
+        <a class="login-page_facebook"><i class="fab fa-facebook-f"></i>Facebook Login</a>
+		
+        <a href="http://alr.localhost.com:9000/oauth2/authorize/google" class="login-page_google"><i class="fab fa-google"></i>Google Login</a>
+        
+        <a class="login-page_yahoo"><i class="fab fa-yahoo"></i>Yahoo Login</a>
+        
+        <h4 class="or"><span>or</span></h4>
+        
+        <i class="fa fa-user"></i><input type="text" id=username name=usename placeholder="Username" 
+                                      class="username">
+
+        <i class="fa fa-lock"></i><input type="password" id=password name=password placeholder="Password"
+                                      class="password">
+        <a class="forgot_user">Forgot Username?</a>
+       
+        <a class="forgot_pass">Forgot Password?</a>
+        
+        <button class="sign_in_button">Sign in</button>
+        
+	</div>
+    
+    <div class="sign_up">
+        <span>New? </span><span class="create">Create an Account</span>
+    </div>
 </body>
 </html>
