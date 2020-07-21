@@ -4,8 +4,8 @@
 </head>
 
 <body>
-	<div th:fragment="card(dog)" class="card caretaker-card" 
-		th:with="u_id=${#UID.$()}, caretaker=${dog?.caretaker}" th:attr="data-uid=${u_id}">
+	<div th:fragment="card(caretaker)" class="card caretaker-card caretaker-card_slim" 
+		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
 		
 		<header class="card-header">
 			<h2> Caretaker </h2>
@@ -20,7 +20,7 @@
 				<div class="caretaker-card_primary">
 					<div>
 						<span class="card-primary_text" th:text="${caretaker.name}"></span>
-						<span class="caretaker-card_type" th:text="${'(' + caretaker.class.simpleName + ')'}"></span>
+						<span class="caretaker-card_type" th:text="${'(' + caretaker.toString() + ')'}"></span>
 					</div>
 					
 					<div class="caretaker-card_contact">

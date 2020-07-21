@@ -85,7 +85,6 @@
 				</div>
 			</div>
 			<div class="view-all_results">
-				<span> Please enter a query to see results </span>
 			</div>
 		</div>
 	
@@ -102,6 +101,8 @@
 				nameOrId: $(".view-all_search_wrapper input").val()
 			})
 		}
+		
+		onSearch();
 		
 		function onSelect(id) {
 			Request.send("/view/dogs/render/" + id);

@@ -38,7 +38,10 @@ public class AddressHelperDialect extends AbstractDialect implements IExpression
 	
 	static class AddressHelper {
 		public String stateName(Address address) {
-			String state = address.getState();
+			return stateName(address.getState());
+		}
+		
+		public String stateName(String state) {
 			if(state == null) return "";
 			
 			switch(state.toUpperCase()) {

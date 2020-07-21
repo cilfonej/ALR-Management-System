@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 
+import edu.wit.alr.database.model.Address;
 import edu.wit.alr.database.model.Person;
 import edu.wit.alr.database.model.roles.Caretaker;
+import edu.wit.alr.database.repository.AccountRepository;
 import edu.wit.alr.database.repository.PersonRepository;
 import edu.wit.alr.services.PersonService;
 import edu.wit.alr.services.inflators.AddressInflator.AddressData;
@@ -22,6 +26,7 @@ import edu.wit.alr.services.inflators.InflatorService;
 import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.Response;
 import edu.wit.alr.web.response.ResponseBuilder;
+import edu.wit.alr.web.security.UserPrincipal;
 
 @Controller //taha was here
 @RequestMapping("/account/settings")
@@ -34,6 +39,10 @@ public class AccountSettingsController {
 	
 	@Autowired //TODO remove
 	private PersonRepository personRepo;
+	
+
+	@Autowired 
+	private AccountRepository accountRepo;
 	
 	@Autowired
 	private InflatorService inflater;
@@ -51,18 +60,28 @@ public class AccountSettingsController {
 		public AddressData mailAddress;
 	}
 	
-	@PostMapping("submit") //TODO NEEDS POST MAPPING TO ACTUALLY SAVE AND WORK
+	@PostMapping("submit")
 	public @ResponseBody Response update(@RequestBody EditData data) {
-		Person person = personRepo.findAll().iterator().next(); //TODO SWITCH TO ACCOUNT LOGGED IN NOT PERSON
-		Person updatePerson = personService.updateUserInfo(person, data.firstName, data.lastName, data.email, data.phone, inflater.inflate(data.homeAddress), inflater.inflate(data.mailAddress));	
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+		Person person = accountRepo.findById((int) principal.getId()).get().getPerson();
+		
+		Address homeAddress = data.homeAddress == null ? null : inflater.inflate(data.homeAddress);
+		Address mailAddress = data.mailAddress == null ? null : inflater.inflate(data.mailAddress);
+		
+		Person updatePerson = personService.updateUserInfo(person, data.firstName, data.lastName, data.email, data.phone, homeAddress, mailAddress);	
 		return null; //TODO show confirm msg (popup maybe - toast - alert )
 	}
-	
+
+	@PostMapping("")
 	public @ResponseBody PageResponse loadPage() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+		Person person = accountRepo.findById((int) principal.getId()).get().getPerson();
 		
 		Map<String, Object> vars = new HashMap<>();
-		vars.put("person", personRepo.findAll().iterator().next());   //TODO get currently logged in person for value + remove above todo
-		vars.put("isCaretaker", personRepo.findAll().iterator().next().findRole(Caretaker.class) != null); //TODO
+		vars.put("person", person);
+		vars.put("isCaretaker", person.findRole(Caretaker.class) != null); //TODO
 		
 		return builderService.redirect("/account/settings", "forms/account_settings/account_settings :: user_account_all", vars);
 	}

@@ -15,7 +15,7 @@ import edu.wit.alr.web.response.ReplaceResponse;
 import edu.wit.alr.web.response.ResponseBuilder;
 
 @Controller
-@RequestMapping("/view/{type}")
+@RequestMapping("/view/dogs")
 public class ViewAllDogsController {
 	
 	@Autowired

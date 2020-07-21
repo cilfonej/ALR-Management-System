@@ -4,8 +4,7 @@
 </head>
 
 <body>
-	<div th:fragment="card(returnDog)"
-		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+	<div th:fragment="card(returnDog)" th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
 		<a th:replace="${returnDog != null} ? ~{:: card_content(${returnDog})} : ~{:: card_blank(${returnDog})}"></a>
 	</div>
 
@@ -23,7 +22,7 @@
 		<div>
 			<div class="return-item">
 				<div class="return-item_person">
-		            <span th:text="${returnDog.addopter}"></span>
+		            <span th:text="${returnDog.addopter.name}"></span>
 					<span class="return-item_date" th:text="${returnDog.returnDate}"></span>
 				</div>
 				<div class="returm-item_details"> 
@@ -34,7 +33,7 @@
 						<div th:text="${returnDog.reason}"></div>
 					</div>
 					
-					<a class="return-info_more">
+					<a class="return-info_more" th:onclick="Request.send('/view/returns/' + [[${returnDog.id}]])">
 						read more...
 					</a>
 				</div>

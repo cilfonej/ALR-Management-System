@@ -81,9 +81,10 @@
 	</div>
 	
 	<div id="edit_form" th:remove="tag">
-		<div th:replace="components/input :: form_lookup(
+		<div th:replace="components/input :: form_person(
 			name='caretaker',
 			url='/edit/dog/list/caretakers',
+			roles=${ {'foster', 'adopter'} },
 			
 			label='Caretaker',
 			icon='fa alr-user',

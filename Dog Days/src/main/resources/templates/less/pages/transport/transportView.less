@@ -3,7 +3,7 @@
 .transport-view {
 	.transport-view_header {
 		display: grid;
-		grid-template-columns: 8rem auto 8rem;
+		grid-template-columns: 10rem auto 10rem;
 		
 		justify-content: space-between;
 		align-items: flex-end;
@@ -38,6 +38,14 @@
 			
 			i {
 				margin-right: 3px;
+			}
+			
+			&:last-child {
+				justify-self: flex-end;
+				
+				i {
+					margin-left: 3px;
+				}
 			}
 		}
 	}

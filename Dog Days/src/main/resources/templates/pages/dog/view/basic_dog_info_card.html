@@ -4,82 +4,46 @@
 </head>
 
 <body>
-	<!--     TODO REMOVE IF NOT NEEDED <div th:fragment="card" class="card basic-dog_card_all"
+<div th:fragment="dog_info_sections(dog)" class="basic-dog-card"
 	th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
-		
-		<header class="card-header">
-			<h2> Adopted </h2>
-		</header> -->            
-			
-		<div th:fragment="dog_info_sections(dog)" class="basic-dog-card"
-		th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
-		
-			<div class="basic-dog-card_image">
-	    		<i class="basic-dog-card_image-default fa fa-dog"></i>
-			</div>
-		    
-		    <div class="basic-dog-card_primary">
-				<div>	
-					<span class="basic-card-primary_text" th:text="${dog.name}"> </span>
-					<span class="basic-dog-card_id" th:text="${'#' + dog.id}"></span>
-					<div class="basic-dog-card_bday">
-						<th:block th:switch="${dog.DOB_Month}" th:if="${dog.DOB_Month != null}">
-							<th:block th:case="1"> January </th:block>
-							<th:block th:case="2"> February </th:block>
-							<th:block th:case="3"> March </th:block>
-							<th:block th:case="4"> April </th:block>
-							<th:block th:case="5"> May </th:block>
-							<th:block th:case="6"> June </th:block>
-							<th:block th:case="7"> July </th:block>
-							<th:block th:case="8"> August </th:block>
-							<th:block th:case="9"> September </th:block>
-							<th:block th:case="10"> October </th:block>
-							<th:block th:case="11"> November </th:block>
-							<th:block th:case="12"> December </th:block>
-						</th:block>
-						
-						<th:block th:text="${dog.DOB_Day + ','}" th:if="${dog.DOB_Day != null}"></th:block>
-						<th:block th:text="${dog.DOB_Year}"></th:block>
-					</div>
-				</div>
-				
-				<div class="basic-dog-card_sub-primary">
-					<div class="basic-dog-card_coordinator">
-						<span>  Coordinator: </span>
-						<div th:replace="components/templates :: person_link(${dog.addoptionCoordinator})"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		
-		<!-- TODO REMOVE IF NOT NEEDED 
-		<div class="basic-dog-card">
-			<div class="basic-dog-card_image">
-	    		<i class="basic-dog-card_image-default fa fa-dog"></i>
-			</div>
-		    
-		    <div class="basic-dog-card_primary">
-				<div>
-					<<<<  <span class="basic-card-primary_text" th:text="${dog.name}"> </span>
-					<span class="basic-dog-card_id" th:text="${'#' + dog.id}"></span>   >>>>>
-					
-					<span class="basic-card-primary_text" th:text="Duddus"> </span>
-					<span class="basic-dog-card_id" th:text="${'#' + 123456}"></span>
-					<div class="basic-dog-card_bday">Birthday: Jan 30</div>
-				</div>
-				
-				<div class="basic-dog-card_sub-primary">
-					<div class="basic-dog-card_coordinator">
-						<span>  Coordinator: AndyAndy Andy</span>
-						<<<  <div th:replace="components/templates :: person_link(${dog.addoptionCoordinator})"></div> >>>>
-					</div>
-				</div>
-			</div>
-		</div>
-		TODO RMEOVE IF NOT NEEDED-->
-		
+	
+	<div class="basic-dog-card_image">
+   		<i class="basic-dog-card_image-default fa fa-dog"></i>
 	</div>
+    
+    <div class="basic-dog-card_primary">
+		<div>	
+			<span class="basic-card-primary_text" th:text="${dog.name}"> </span>
+			<span class="basic-dog-card_id" th:text="${'#' + dog.id}"></span>
+			<div class="basic-dog-card_bday">
+				<th:block th:switch="${dog.DOB_Month}" th:if="${dog.DOB_Month != null}">
+					<th:block th:case="1"> January </th:block>
+					<th:block th:case="2"> February </th:block>
+					<th:block th:case="3"> March </th:block>
+					<th:block th:case="4"> April </th:block>
+					<th:block th:case="5"> May </th:block>
+					<th:block th:case="6"> June </th:block>
+					<th:block th:case="7"> July </th:block>
+					<th:block th:case="8"> August </th:block>
+					<th:block th:case="9"> September </th:block>
+					<th:block th:case="10"> October </th:block>
+					<th:block th:case="11"> November </th:block>
+					<th:block th:case="12"> December </th:block>
+				</th:block>
+				
+				<th:block th:text="${dog.DOB_Day + ','}" th:if="${dog.DOB_Day != null}"></th:block>
+				<th:block th:text="${dog.DOB_Year}"></th:block>
+			</div>
+		</div>
+		
+		<div class="basic-dog-card_sub-primary">
+			<div class="basic-dog-card_coordinator">
+				<span>  Coordinator: </span>
+				<div th:replace="components/templates :: person_link(${dog.addoptionCoordinator})"></div>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 
 </html>

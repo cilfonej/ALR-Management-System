@@ -12,14 +12,16 @@
 	<div th:fragment="page" class="returnPage">
 		<div th:replace="common/header :: title('ALR - Dog Return', ~{:: breadcrums(${dogReturn.id})})"></div>
 	
-		<div>
-			<div class="dogCard">
+		<div style="display: flex;">
+			<div class="card">
+				<header class="card-header">
+					<h2> Returned-Dog </h2>
+				</header>
+			
 				<div th:replace="pages/dog/view/basic_dog_info_card :: dog_info_sections(${dog})"></div>
 			</div>
 			
-			<div class="personCard">
-				<div th:replace="pages/dog/view/caretaker_assignment_card_slim :: card(${dog})"></div>
-			</div>
+			<div th:replace="pages/dog/view/caretaker_assignment_card_slim :: card(${dogReturn.addopter})"></div>
 		</div>
 		
 		<div th:fragment="pageReturnCard(returnDate, reason, dogReturn)" class="returnCard">

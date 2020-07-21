@@ -35,7 +35,7 @@ public class ReturnDogService {
 	}
 	
 	public DogReturn findReturnByDog(Dog dog) {
-		 return null; //TODO andy HELP how to find return by doggo
+		 return repository.findByDog(dog).orElse(null);
 	}
 	
 	public DogReturn updateReturn(DogReturn dogReturn, LocalDate returnDate, String reason) {

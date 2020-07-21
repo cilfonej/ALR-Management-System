@@ -35,7 +35,7 @@ public class ViewDogController {
 	}
 	
 	@GetMapping("/{id}")
-	protected @ResponseBody String loadPage_direct(@PathVariable(value="id", required=false) Integer id) {
+	public @ResponseBody String loadPage_direct(@PathVariable(value="id", required=false) Integer id) {
 		if(id == null) return list_direct();
 		return builder.buildIndependentPage(loadPage(id));
 	}
@@ -51,13 +51,14 @@ public class ViewDogController {
 		Map<String, Object> vars = new HashMap<>();
 		vars.put("reservation", transportService.findReservationForDog(dog));
 		vars.put("dog", dog);
-		vars.put("returnDog", returnService.findReturnByID(dog.getId()));
+		vars.put("returnDog", returnService.findReturnByDog(dog));
 		
 		return builder.redirect("/view/dogs/" + dog.getId(), "pages/dog/view/view_dog :: page", vars);
 	}
-	
-	public PageResponse listPage() {
-		return builder.redirect("/view/dogs", "pages/dog/list/list_dogs :: page", Map.of("dog", dogService.findDogByID(261960)));
+
+	@PostMapping("")
+	public @ResponseBody PageResponse listPage() {
+		return builder.redirect("/view/dogs", "pages/dog/list/list_dogs :: page", null);
 	}
 	
 	public ReplaceResponse updateDogInfo(Dog dog) {

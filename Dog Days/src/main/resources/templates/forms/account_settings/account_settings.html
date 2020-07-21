@@ -5,20 +5,14 @@
 </head>
 
 <body>	
-	<div th:fragment="user_account_all">					<!-- TODO /id ///account > person > data -->
-		<div th:replace="forms/form :: form(url='/account/settings/', title='Account Settings', body=~{:: #account}, class='user-account_account')">
-		</div>
-		<div th:replace="forms/form :: form(url='/account/settings/submit', title='Personal Settings', body=~{:: #personal}, class='user-account_personal')">
+	<div th:fragment="user_account_all">
+		<div th:replace="forms/form :: form(url='/account/settings/submit', 
+											title='Personal Settings', 
+											body=~{:: #personal}, 
+											class='user-account_personal'
+										)">
 		</div>
 	</div>
-	
-	<div id="account" th:remove="tag">
-		<!-- TODO different email thingy -->
-		<div th:replace="components/input :: form_input(label='Email', icon='fas fa-envelope', type='email', name='email')"></div>
-		<!-- TODO reset button for passowrd(SEND EMAIL> CHANGE PASS) -->
-		<div th:replace="components/input :: form_input(label='Password', icon='fas fa-lock', name='password')"></div>
-	</div>
-	
 	
 	<div id="personal" th:remove="tag">
 		<span class="form-input_label">Name</span>
@@ -57,6 +51,7 @@
 		                                                  
 		<div th:replace="components/input :: form_address(name='mail_address', label='Mail Address', 
 		                                                  icon='fa fa-home',
+		                                                  require=false,
 		                                                  value=${person.mailingAddress})"> </div>
 	</div>
 		

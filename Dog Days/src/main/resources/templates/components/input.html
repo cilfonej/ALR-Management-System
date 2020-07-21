@@ -592,8 +592,8 @@
 						$$( "[data-form-input='phone'], " + 
 							"[data-group-input='phone']")[0].input.params["allow-blank"] = !requirePhone;
 
-						$$( "[data-form-input='street'], " + 
-							"[data-group-input='street']")[0].input.params["allow-blank"] = !requireAddress;
+						$$( "[data-form-input='address'], " + 
+							"[data-group-input='address']")[0].input.params["require"] = requireAddress;
 					});
 				}
 				
