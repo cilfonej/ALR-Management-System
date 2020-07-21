@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="header" th:remove="tag">
+		<div class="view-person_role-divider">
+			<h1> Dogs </h1>
+		</div>
+	</div>
+	
+	<div th:fragment="subheader" th:remove="tag">
+		<div class="dog-subheaders">
+			<h3> Adopted </h3>	
+			<h3> Fostering </h3>
+			<h3> Returned </h3>
+		</div>
+	</div>
+</body>
+</html>

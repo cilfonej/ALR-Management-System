@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+<div th:fragment="card(person)" class="card person-header">
+	<div class="person-header_wrapper">
+		<div class="person-header_icon">
+			<i class="person-header_icon-default fa fa-user"></i>
+		</div>
+		
+		<div class="person-header_details-wrapper">
+			<h1 th:text="${person.name}"> </h1>
+			
+			<div class="person-header_details">
+				<div class="person-header_details_spacing">
+					<span > <th:block th:each="role, iter : ${person.roles}" th:text="${role} + (!${iter.last} ? ' | ' : '')"></th:block> </span>
+				</div>
+			</div>
+			
+	        <a class="person-header_edit icon-button icon-button_ghost fade-icon" 
+	        	data-micromodal-trigger="edit-person"
+	        	data-tippy-content="Edit">
+	        	<i class="fa fa-pen"></i>
+	    	</a>
+		</div>
+		
+		<div th:replace="components/modal :: modal('edit-person', 'Edit Person Info', 
+				~{forms/form :: edit_form(
+						url='/edit/person/' + ${person.id}, 
+						class='person-edit',
+						body=~{:: edit_form(${person})}
+				)}
+		)"></div>
+	</div>	
+</div>
+
+<div th:fragment="edit_form(person)" th:remove="tag">
+	<span class="form-input_label"> Person's Name </span>
+	
+	<div class="person-edit_names">
+		<div th:replace="components/input :: form_input(
+			name='firstname',
+			placeholder='First name',
+			
+			show_limit=false, 
+			max_length=25,
+			
+			allow_blank=false
+		)"> </div>
+		
+		<div th:replace="components/input :: form_input(
+			name='lastname', 
+			placeholder='Last name',
+			
+			show_limit=false, 
+			max_length=25,
+			
+			allow_blank=false
+		)"> </div>
+	</div>
+	
+	<div th:replace="components/input :: revert(
+		${ {'firstname', 'lastname'} }, 
+		${ {person.firstname, person.lastname} }
+	)"> </div>
+	
+	<!--  TODO A WAY TO EDIT ROLES - add / delete -  -->
+	<span class="form-input_email"> Email: </span>
+	
+	<div th:replace="components/input :: form_input(
+		name='email',
+		placeholder='Email',	
+		type = 'email',	
+		allow_blank=false
+	)"> </div>	
+
+	<div th:replace="components/input :: revert(
+		${ {'email'} }, 
+		${ {person.email.toString()} }
+	)"> </div>
+	
+	
+	<span class="form-input_phone"> Phone: </span>
+	
+	<div th:replace="components/input :: form_input(
+		name='phone',
+		placeholder='Phone Number',		
+		type = 'phone',
+		allow_blank=false
+	)"> </div>	
+		
+	<div th:replace="components/input :: revert(
+		${ {'phone'} }, 
+		${ {person.primaryPhone.toString()} }
+	)"> </div>
+	
+	
+	<span class="form-input_home_address"> Home Address:</span>
+	
+	<div th:replace="components/input :: form_address(
+		name='home_address',
+		placeholder='Home Address',
+		require=true
+	)"></div>
+	
+		<!-- TODO: home if adopter / foster -->
+		
+	<div th:replace="components/input :: revert(
+		${ {'home_address'} }, 
+		${ {person.homeAddress} }
+	)"> </div>
+	
+	
+	<span class="form-input_mail_address"> Mailing Address:</span>
+	
+	<div th:replace="components/input :: form_address(
+		name='mail_address',
+		placeholder='Mailing Address',
+		require=false 
+	)"></div>
+	
+	<div th:replace="components/input :: revert(
+		${ {'maila_ddress'} }, 
+		${ {person.mailingAddress} }
+	)"> </div>
+	
+	
+</div>
+
+<!-- basic info card -->
+
+<body>
+	<div class="card person-info_all" th:fragment="person_basic_info(person)">		
+		<div class="person-info_basic">
+			<h4>Basic Info</h4>
+			<span>Email: <th:block th:text="${person.email}"></th:block></span>
+			<span>Phone: <th:block th:text="${person.primaryPhone}"></th:block></span>
+			<span>Date Joined: January 30th, 2020</span> <!--  TODO GET DATE JOINED -->
+		</div>
+		<div class="person-info_basic" th:if="${person.homeAddress != null}">
+			<h4>Home Address</h4>
+			<span class="card-sub_item" th:text="${person.homeAddress.streetAddress}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatStateLine(person.homeAddress)}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatPostalLine(person.homeAddress)}"></span>
+			
+		
+		</div>
+		<div class="person-info_basic" th:if="${person.mailingAddress != null}">
+			<h4>Mailing Address</h4>
+			<span class="card-sub_item" th:text="${person.mailingAddress.streetAddress}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatStateLine(person.mailingAddress)}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatPostalLine(person.mailingAddress)}"></span>
+		</div>
+	</div>
+</body>
+
+</body>
+</html>

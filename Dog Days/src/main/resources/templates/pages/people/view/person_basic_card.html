@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>   
+</head>
+
+<body>
+	<div class="card person-info_all" th:fragment="person_basic_info(person)">		
+		<div class="person-info_basic">
+			<h4>Basic Info</h4>
+			<span>Email: <th:block th:text="${person.email}"></th:block></span>
+			<span>Phone: <th:block th:text="${person.primaryPhone}"></th:block></span>
+			<span>Date Joined: January 30th, 2020</span> <!--  TODO GET DATE JOINED -->
+		</div>
+		<div class="person-info_basic" th:if="${person.homeAddress != null}">
+			<h4>Home Address</h4>
+			<span class="card-sub_item" th:text="${person.homeAddress.streetAddress}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatStateLine(person.homeAddress)}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatPostalLine(person.homeAddress)}"></span>
+			
+		
+		</div>
+		<div class="person-info_basic" th:if="${person.mailingAddress != null}">
+			<h4>Mailing Address</h4>
+			<span class="card-sub_item" th:text="${person.mailingAddress.streetAddress}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatStateLine(person.mailingAddress)}"></span>
+			<span class="card-sub_item" th:text="${#Addresses.formatPostalLine(person.mailingAddress)}"></span>
+		</div>
+	</div>
+</body>
+
+
+	<span class="basic-card-primary_text" th:text="${dog.name}"> </span>
+					<span class="basic-dog-card_id" th:text="${'#' + dog.id}"></span>

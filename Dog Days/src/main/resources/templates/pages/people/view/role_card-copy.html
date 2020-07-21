@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(role)" th:remove="tag">
+		<th:block th:switch="${role.class.simpleName}">
+			<th:block th:case="ApplicationCoordinator" >
+				<div th:replace="pages/people/view/role_coordinator_card :: card(${role})"></div>
+			</th:block>
+				
+			<th:block th:case="Foster">
+				<div th:replace="pages/people/view/role_foster_card :: card(${role})"></div>
+			</th:block>
+			
+			<th:block th:case="Adopter">
+				<div th:replace="pages/people/view/role_adopter_card :: card(${role})"></div>
+			</th:block>
+			
+		</th:block>
+	</div>
+	
+	<div th:fragment="header" th:remove="tag">
+		<div class="view-person_role-divider">
+			<h1> Dogs </h1>
+		</div>
+			
+		<th:block th:with="role_only=true">
+			<div th:replace="components/modal :: modal('add-role', 'Add New Role', 
+				~{forms/form :: form(
+						url=${'/edit/person/' + person.id + '/role'}, 
+						class='modal-form person-form',
+						header=~{},
+						body=~{forms/create_person/create_person :: #form}
+				)}
+			)"></div>
+		</th:block>
+	</div>
+	
+	<div th:fragment="subheader" th:remove="tag">
+		<div class="dog-subheaders">
+			<h3> Adopted </h3>	
+			<h3> Fostering </h3>
+			<h3> Returned </h3>
+		</div>
+	</div>
+</body>
+</html>

@@ -10,32 +10,36 @@
 		title='Create New Person', 
 		body=~{:: #form})">
 	</div>
-	
+		
 	<div id="form" th:remove="tag">
-		<span class="form-input_label"> Person's Name </span>
-		<div class="person-form_name">
-			<div th:replace="components/input :: form_input(
-				name='firstname',
-				placeholder='First name',
-				 
-				max_length=25,
-				show_limit=false, 
-				allow_blank=false
-			)"> </div>
-			
-			<div th:replace="components/input :: form_input(
-				name='lastname',
-				placeholder='Last name',
-				 
-				max_length=25,
-				show_limit=false,
-				allow_blank=false
-			)"> </div>
-		</div>
+		<th:block th:if="${!(role_only ?: false)}">
+			<span class="form-input_label"> Person's Name </span>
+			<div class="person-form_name">
+				<div th:replace="components/input :: form_input(
+					name='firstname',
+					placeholder='First name',
+					 
+					max_length=25,
+					show_limit=false, 
+					allow_blank=false
+				)"> </div>
+				
+				<div th:replace="components/input :: form_input(
+					name='lastname',
+					placeholder='Last name',
+					 
+					max_length=25,
+					show_limit=false,
+					allow_blank=false
+				)"> </div>
+			</div>
+		</th:block>
 		
 		<span class="form-input_label"> Roles </span>
 		<div class="person-form_roles">
-			<div th:replace="components/input :: form_buttonGroup(name='roles', allow_multiple=true)"></div>
+			<div th:replace="components/input :: form_buttonGroup(
+														name='roles', 
+														allow_multiple=${!(role_only ?: false)})"></div>
 			
 			<div class="person-form_roles-group">
 				<div th:replace="components/input :: form_checkbox(text='Adopter')"> </div>
@@ -77,7 +81,7 @@
 			label='Home Address',
 			icon='fa fa-home',
 			
-			allow_blank=true
+			require=false
 		)"> </div>
 		
 		<div th:replace="components/input :: form_address(
@@ -86,7 +90,7 @@
 			label='Mailing Address (Optional)',
 			icon='fa fa-mail-bulk',
 			
-			allow_blank=true
+			require=false
 		)"> </div>
 		
 		<script type="text/javascript" th:inline="javascript">
@@ -95,8 +99,10 @@
 				
 				// add event-listener to detect when the slected roles change
 				$rolesInput[0].input.addListener(UID.bind(function(input, value) {
-					var requireEmail, requirePhone, requireAddress;
+					var requireEmail = false, requirePhone = false, requireAddress = false;
+					
 					var roles = input.getValue();
+					roles = Array.isArray(roles) && roles || [roles];
 					
 					for(var role of roles) {
 						switch(role.toLowerCase()) {
@@ -115,12 +121,15 @@
 						}
 					}
 					
-					$$("[data-form-input='email']")[0].input.params["allow-blank"] = !requireEmail;
-					$$("[data-form-input='phone']")[0].input.params["allow-blank"] = !requirePhone;
+					var email_input = $$("[data-form-input='email']")[0].input;
+					var phone_input = $$("[data-form-input='phone']")[0].input;
+					var address = $$("[data-form-input='home_address']")[0].input;
+					
+					email_input.params["allow-blank"] = !requireEmail;
+					phone_input.params["allow-blank"] = !requirePhone;
 
 					// fine home-address street input
-					$$("[data-form-input='home_address'] [data-group-input='street']")[0]
-						.input.params["allow-blank"] = !requireAddress;
+					address.params["require"] = requireAddress;
 				}));
 			}); /*]]>*/
 		</script>

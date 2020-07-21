@@ -1,0 +1,49 @@
+@import "../../../const/all.less";
+@import  "../../../card.less";
+	
+.person-dog_card {	
+	flex-shrink: 1;
+	flex-grow: 1;
+
+    max-width: 410px;
+    min-width: 330px;
+    
+    .input-dog {
+    	width: 15rem;
+    }
+    
+	.card-blank_body {
+		display: flex;
+		
+		width: 100%;
+		height: 100%;
+		
+		opacity: .25;
+		box-sizing: border-box;
+		
+		.card-blank_inner {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			width: min-content;
+			
+			margin: auto;
+			padding: 20px 40px;
+			border-radius: 3px;
+			
+			i {
+				font-size: 75px;
+			}
+			
+			.card-blank_message {
+				margin-top: 25px;
+				white-space: nowrap;
+				
+				font-weight: bold;
+				font-size: 1.15rem;
+			}
+		}
+	}
+
+}

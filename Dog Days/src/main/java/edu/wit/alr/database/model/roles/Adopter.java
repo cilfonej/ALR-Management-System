@@ -16,4 +16,8 @@ public class Adopter extends Caretaker {
 	public Adopter(Person person) {
 		super(person);
 	}
+	
+	public String toString() {
+		return "Adopter";
+	}
 }

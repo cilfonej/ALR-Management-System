@@ -1,0 +1,80 @@
+@import "../../../card.less";
+
+@dog-image_size: 90px;
+ 
+.basic-dog-card:nth-child(odd){ 	 
+	background-color: @light_gray97;
+}
+
+.basic-dog-card {
+	display: flex;
+	
+	.basic-dog-card_image {
+		display: flex;
+		flex-shrink: 0;
+		
+		width: @dog-image_size;
+		height: @dog-image_size;
+		
+		margin: @card-section_gap;
+		margin-right: @card-padding / 2;
+
+		background: @theme-color_light;
+		border-radius: 15%;
+		
+		.basic-dog-card_image-default {
+			margin: auto;
+			
+			color: white;
+			font-size: @dog-image_size * 2/3;
+		}
+	}
+	
+	.basic-dog-card_primary {
+		display: flex;
+		flex-direction: column;
+		
+		flex-grow: 1;
+		margin: @card-section_gap;
+		
+		.dog-card_id {
+			color: @value-text_color;
+			font-size: .9rem;
+		}
+		
+		.basic-dog-card_bday {
+			font-size: 0.8rem;
+			padding-top: 3px;
+		}
+		
+		.basic-dog-card_id {
+			disply: block;
+		}
+		
+		.basic-dog-card_sub-primary {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+
+			height: 100%;
+			margin-top: @card-padding;
+			
+			.basic-dog-card_coordinator {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				
+				& > span {
+					font-size: .8rem;
+					font-weight: bold;
+					
+					margin-right: @card-padding;
+				}
+				
+				.person-link {
+					font-size: .85rem;
+				}
+			}
+		}
+	}		
+}

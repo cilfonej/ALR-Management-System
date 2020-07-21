@@ -1,0 +1,106 @@
+@import "../../../card.less";
+
+@icon-size: 75px;
+
+.person-header {
+	.person-header_wrapper {
+		display: flex;
+		align-items: center;
+
+	.person-header_icon {
+			display: flex;
+			flex-shrink: 0;
+			
+			width: @icon-size;
+			height: @icon-size;
+			
+			margin: @card-padding;
+			border-radius: 50%;
+			
+			background: @theme-color_light;
+			color: #fff;
+			
+			.person-header_icon-default {
+				margin: auto;
+				font-size: @icon-size / 2;
+			}
+		}
+		
+		.person-header_details-wrapper {
+			flex-grow: 1;
+			margin: @card-section_gap;
+			
+			h1 {
+				margin: 0;
+				margin-bottom: @card-padding;
+				
+				font-size: 1.5rem;
+			}
+			
+			
+			.person-header_details {
+				font-size: .85rem;
+				color: @dark_gray35;
+				// values
+				*:nth-child(2n) {
+					color: @value-text_color;
+				}
+				
+				.person-header_details_spacing{
+					margin-bottom: 5px;
+					font-size: 1rem;
+					padding-left: 4px;
+				}
+			}
+			
+			.person-header_edit {
+				position: absolute;
+				top: 0;
+				right: 0;
+				
+				margin: @card-section_gap;
+			}
+		}
+	}
+}
+
+.person-edit {
+	.person-edit_names {
+		display: grid;
+		grid-template-columns: minmax(10rem, auto) minmax(10rem, auto);
+		grid-column-gap: @card-padding;
+	}
+	
+	.person-edit_email{
+		display: grid;
+		grid-template-columns: minmax(10rem, auto);
+		grid-column-gap: @card-padding;
+	}	
+}
+
+
+.person-info_all {
+	display: grid;
+	width: 400px;
+	padding: @card-margin;
+	
+	.person-info_basic {
+		margin-bottom: @card-margin;
+		
+		&:last-child {
+			margin-bottom: 0px;
+		}
+		
+		h4 {
+			border-bottom: 1px ridge #a6a6a6;
+			margin-top: 5px;
+		    margin-bottom: 12px;
+		    padding-bottom: 2px;
+		}
+		
+		span {
+			display: block;
+			padding: 5px;
+		}
+	}
+}

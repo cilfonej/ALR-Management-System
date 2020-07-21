@@ -16,4 +16,8 @@ public class Foster extends Caretaker {
 	public Foster(Person person) {
 		super(person);
 	}
+	
+	public String toString() {
+		return "Foster";
+	}
 }

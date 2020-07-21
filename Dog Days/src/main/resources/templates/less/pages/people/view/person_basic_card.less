@@ -1,0 +1,27 @@
+@import "../../../card.less";
+
+.person-info_all {
+	display: grid;
+	width: 400px;
+	padding: @card-margin;
+	
+	.person-info_basic {
+		margin-bottom: @card-margin;
+		
+		&:last-child {
+			margin-bottom: 0px;
+		}
+		
+		h4 {
+			border-bottom: 1px ridge #a6a6a6;
+			margin-top: 5px;
+		    margin-bottom: 12px;
+		    padding-bottom: 2px;
+		}
+		
+		span {
+			display: block;
+			padding: 5px;
+		}
+	}
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(returnList, person)" class="card person-dog_card" th:replace="pages/dog/view/return_history_card :: card(${dog})"
+	th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+		
+		<header class="card-header">
+			<h2> Returned </h2>
+		</header>
+		
+		<div th:each="dog : ${returnList}" th:remove="tag">
+			<div th:replace="pages/dog/view/basic_dog_info_card :: dog_info_sections(${dog})"></div> <!-- TODO CHANGED RETURN DOG -->
+		</div>
+		
+	</div>	
+</body>
+
+</html>

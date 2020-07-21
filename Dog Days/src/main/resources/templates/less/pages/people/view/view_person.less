@@ -1,0 +1,57 @@
+@import "role_card.less";
+@import "person_header_card.less";
+
+.view-person_wrapper {
+	
+	.view-person_role-divider {
+		display: flex;
+		justify-content: space-between;
+		
+		margin-bottom: -12px;
+		margin-right: @card-margin;
+		
+		padding-bottom: @card-sub_spacing;
+		//border-bottom: 4px solid @gray65;
+		
+		h2 {
+			margin: 0;
+			font-weight: normal;
+		}
+	}
+	
+	.dog-subheaders {
+		display: grid;
+		grid-template-columns: auto auto auto;
+		grid-column-gap: 40px;
+		
+		h3{
+			display: inline-block;
+			border-bottom: 1px ridge @gray65;
+			padding-bottom: 5px;
+		}
+	}
+	
+	.view-person_roles {
+		display: flex;
+		flex-wrap: wrap;
+		
+		//justify-content: space-between;
+		align-items: flex-start;
+		
+		// margin-right: -@card-margin;
+	}
+	
+	.view-person_cards {
+		display: grid;
+    	grid-template-columns: min-content auto;
+    	align-items: flex-start;
+	}
+	
+	.view-person_dogs {
+		display: flex;
+		flex-wrap: wrap;
+    	height: fit-content;
+    	align-items: flex-start;
+    	
+	}
+}
