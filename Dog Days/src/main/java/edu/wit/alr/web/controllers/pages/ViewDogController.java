@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.wit.alr.database.model.Dog;
 import edu.wit.alr.services.DogService;
+import edu.wit.alr.services.ReturnDogService;
 import edu.wit.alr.services.TransportService;
 import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.ReplaceResponse;
@@ -25,6 +26,7 @@ public class ViewDogController {
 	
 	@Autowired private DogService dogService;
 	@Autowired private TransportService transportService;
+	@Autowired private ReturnDogService returnService;
 	
 	@GetMapping("")
 	protected @ResponseBody String list_direct() {
@@ -47,6 +49,7 @@ public class ViewDogController {
 		Map<String, Object> vars = new HashMap<>();
 		vars.put("reservation", transportService.findReservationForDog(dog));
 		vars.put("dog", dog);
+		vars.put("returnDog", returnService.findReturnByID(dog.getId()));
 		
 		return builder.redirect("/view/dogs/" + dog.getId(), "pages/dog/view/view_dog :: page", vars);
 	}
