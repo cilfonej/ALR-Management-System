@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -23,6 +24,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 import edu.wit.alr.web.preprocessor.AddressHelperDialect;
 import edu.wit.alr.web.preprocessor.IdentifyDialect;
 import edu.wit.alr.web.preprocessor.NumberFormatDialect;
+import edu.wit.alr.web.preprocessor.UserPrincipalDialect;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -60,6 +62,8 @@ public class WebConfig implements WebMvcConfigurer {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(htmlTemplateResolver());
         templateEngine.addDialect(new Java8TimeDialect());
+        templateEngine.addDialect(new SpringSecurityDialect());
+        templateEngine.addDialect(new UserPrincipalDialect());
         templateEngine.addDialect(new NumberFormatDialect());
         templateEngine.addDialect(new IdentifyDialect());
         templateEngine.addDialect(new AddressHelperDialect());

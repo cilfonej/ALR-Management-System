@@ -1,4 +1,4 @@
-package edu.wit.alr;
+package edu.wit.alr.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -33,7 +33,15 @@ var Form = (function() {
 			// TODO: Add form-object, allow for extra methods (onClose, beforeSubmit, ect.) and remove this line \/
 			try { MicroModal.close(); } catch(ex) {}
 			
-			Request.send(url, form_data);
+			var config = {};
+			if($form.attr("data-form-plain")) {
+				config = {
+					contentType: 'application/x-www-form-urlencoded',
+					raw_data: true
+				};
+			}
+			
+			Request.send(url, form_data, config);
 			
 		} else {
 			// TODO: ???

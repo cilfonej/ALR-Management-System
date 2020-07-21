@@ -13,6 +13,7 @@
 	<div th:fragment="form(url, body)" 
 		 th:with="u_id=${#UID.$()}, _class=${class}, class=null"
 		 th:attr="data-uid=${u_id}, data-form=${url}"
+		 th:attrappend="data-form-plain=${plain == true} ? 'true'"
 		 class="form" th:classappend="${_class}">
 		 
 		 <!-- 
