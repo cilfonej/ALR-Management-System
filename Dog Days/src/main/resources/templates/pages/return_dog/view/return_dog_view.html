@@ -14,13 +14,11 @@
 	
 		<div>
 			<div class="dogCard">
-				<!-- TODO: Slim non-editable dog info card -->
-				<div th:replace="pages/dog/view/dog_info_card :: card(${dog})"></div>
+				<div th:replace="pages/dog/view/basic_dog_info_card :: dog_info_sections(${dog})"></div>
 			</div>
 			
 			<div class="personCard">
-				<!-- TODO: Slim non-editable adopter card -->
-				<!-- TODO <div th:replace="pages/dog/view/caretaker_assignment_card :: card(${dog})"></div> -->
+				<div th:replace="pages/dog/view/caretaker_assignment_card_slim :: card(${dog})"></div>
 			</div>
 		</div>
 		
