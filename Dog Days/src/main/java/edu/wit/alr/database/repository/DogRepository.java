@@ -16,6 +16,9 @@ public interface DogRepository extends CrudRepository<Dog, Integer> {
 
 	@Query("SELECT d FROM Dog d WHERE d.name = ?1")
 	public Optional<Dog> findByName(String name);
+
+	@Query(nativeQuery = true, value = "SELECT * FROM Dog d WHERE d.id LIKE ?1 OR d.name LIKE ?1")
+	public Iterable<Dog> findAllByFuzzyNameOrId(String search);
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM dog d INNER JOIN role r ON d.caretaker_id = r.id WHERE r.DTYPE = \"adopter\" AND r.person_id = ?1")
 	public Iterable<Dog> findAllByAdopter(Person adopter);

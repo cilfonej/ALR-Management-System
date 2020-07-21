@@ -1,0 +1,252 @@
+@import "../../../card.less";
+
+.view-all {
+	.view-all_heading {
+		margin: 0;
+		margin-bottom: @card-section_gap;
+		padding: @card-padding;
+		
+		.view-all_heading-items {
+			display: flex;
+			justify-content: space-between;
+			
+			h2 {
+				margin: 0;
+			}
+			
+			.span-button {
+				margin-left: @card-padding;
+				background: @color-success;
+				color: white;
+				
+				i {
+					margin-right: @card-padding;
+				}
+			}
+		}
+	}
+	
+	.view-all_body {
+		display: grid;
+		grid-template-columns: minmax(auto, 600px) minmax(350px, auto);
+		grid-column-gap: @card-margin;
+	
+		.view-all_left {
+			.view-all_filter {
+				display: grid;
+				grid-row-gap: @card-padding;
+				
+				.view-all_search {
+					display: flex;
+					
+					.view-all_search_wrapper {
+						display: flex;
+						align-items: center;
+						
+						flex-grow: 1;
+						padding: 5px 10px;
+						
+						border: @border-divider;
+						border-radius: 7px;
+						
+						background: @light_gray98;
+						
+						i {
+							margin-right: @card-padding;
+							color: @gray50;
+							margin-top: -3px;
+						}
+						
+						input {
+							flex-grow: 1;
+							font-size: 1rem;
+							
+							background: none;
+							outline: none;
+							border: none;
+						}
+					}
+					
+					.span-button {
+						margin-left: @card-padding;
+						background: @theme-color;
+						color: white;
+						
+						i {
+							margin-right: 5px;
+						}
+					}
+				}
+			
+				.view-all_filter_option {
+					display: flex;
+					
+					.filter-option_select {
+						background: @light_gray98;
+						border: 1px solid @gray85;
+						
+						padding: 5px 8px;
+						margin-right: 5px;
+						border-radius: 3px;
+						
+						font-size: .85rem;
+						
+						i {
+							font-size: .75rem;
+						}
+					}
+					
+					.icon-button {
+						font-size: .85rem;
+					}	
+				}
+				
+				.view-all_result_order {
+					display: flex;
+					justify-content: space-between;
+					
+					.result-order_filter { // TODO: this and .result-order_sort_select very similar
+						margin: auto 0;
+						margin-right: 5px;
+						
+						padding: 5px 8px;
+						border-radius: 3px;
+						
+						font-size: .85rem;
+						color: @dark_gray35;
+						
+						background: @gray85;
+						cursor: pointer;
+						
+						i {
+							font-size: .75rem;
+							margin-right: @card-padding;
+						}
+					}
+					
+					.result-order_sort {
+						display: flex;
+						align-items: center;
+						
+						.result-order_sort_label {
+							font-size: .85rem;
+							margin-right: @card-padding;
+						}
+						
+						.result-order_sort_select {
+							
+							padding: 5px 8px;
+							margin-right: 5px;
+							
+							border-radius: 3px;
+							border: 1px solid @gray85;
+							
+							font-size: .85rem;
+							color: #666666;
+							
+							background: @light_gray98;
+							
+							i {
+								font-size: .75rem;
+								margin-left: @card-padding;
+							}
+						}
+					}
+				}
+			}
+			
+			.view-all_results {
+				//margin-top: @card-section_gap;
+			    //border-top: 1px solid #4d4d4d;
+			    padding-top: 5px;
+			    
+			    .view-all_dog-result {
+					display: flex;
+					align-items: center;
+					
+					padding: 8px 10px;
+					margin: @card-padding 0;
+					border-radius: 3px;
+					
+					background: @light_gray98;
+					box-shadow: 0 0 1px @gray50;
+					
+					.dog-result_icon {
+						display: flex;
+						
+						width: 2.25rem;
+						height: 2.25rem;
+						
+						flex-shrink: 0;
+						margin-right: @card-padding;
+						
+						background: @theme-color_light;
+						border-radius: 15%;
+						
+						i {
+							margin: auto;
+							color: #fff;
+							font-size: 1.25rem;
+						}
+					}
+					
+					.dog-result_label {
+						display: grid;
+						
+						h3 {
+							margin: 0;
+							font-size: 1.05rem;
+						}
+						
+						span {
+							font-size: .75rem;
+							color: #666666;
+						}
+					}
+			    }
+			}
+		}
+		
+		.view-all_right {
+			justify-self: center;
+			
+			.view-all_display_wrapper {
+				position: sticky;
+				top: @card-section_gap;
+				
+				margin: 0;
+				max-width: 350px;
+			
+				.dog-card {
+					margin: 0;
+				}
+				
+				.view-all_display_link {
+					float: right;
+
+					margin-top: @card-section_gap;
+					
+					color: @link_color;
+					border-bottom: 1px solid;
+					
+					font-size: .85rem;
+					font-weight: bold;
+					
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
+
+.span-button {
+    display: flex;
+    align-items: center;
+    
+    font-size: .85rem;
+    
+    padding: 0 @card-padding;
+    border-radius: .5rem;
+    
+    cursor: pointer;
+}
