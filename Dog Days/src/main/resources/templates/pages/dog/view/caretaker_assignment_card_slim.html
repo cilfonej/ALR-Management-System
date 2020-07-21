@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div th:fragment="card(dog)" class="card caretaker-card" 
+		th:with="u_id=${#UID.$()}, caretaker=${dog?.caretaker}" th:attr="data-uid=${u_id}">
+		
+		<header class="card-header">
+			<h2> Caretaker </h2>
+		</header>
+			
+		<div>
+			<div class="caretaker-card_top">
+				<div class="caretaker-card_image">
+					<i class="caretaker-card_image-default fa fa-user"></i>
+				</div>
+		        
+				<div class="caretaker-card_primary">
+					<div>
+						<span class="card-primary_text" th:text="${caretaker.name}"></span>
+						<span class="caretaker-card_type" th:text="${'(' + caretaker.class.simpleName + ')'}"></span>
+					</div>
+					
+					<div class="caretaker-card_contact">
+						<span> Phone: </span>
+						<span th:text="${caretaker.primaryPhone}"></span>
+						
+						<span> Email: </span>
+						<span th:text="${caretaker.email}"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
