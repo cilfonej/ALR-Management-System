@@ -16,9 +16,6 @@
 			 
 			<div th:replace="common/header :: title(
 					'ALR - Transport ' + ${date_str}, ~{:: breadcrums(${date_str})})"></div>
-					
-			<!-- TODO: Add Navigation buttons to move to the next/prev transport -->
-			<!-- TODO: Add header for the date of the current transport -->
 	
 			<div class="transport-view_header card">
 				<a th:if="${prev_date != null}" th:onclick="
@@ -54,8 +51,61 @@
         </div>	 
         
         <div th:fragment="section(state, citylist)" class="transport-view_section">
-        <!-- TODO: STATE abbreivation to full name -->
-        	<h2 th:text="${state}" class="transportview-state"></h2>
+        	<h2  class="transportview-state"> 
+        		<th:block th:switch="${state}">
+<!-- -----------------------------------------Just State Things ----------------------------------------------------------------- -->
+	        		<th:block th:case="AL"> Alabama </th:block>
+					<th:block th:case="AK"> Alaska </th:block>
+					<th:block th:case="AZ"> Arizona</th:block>
+					<th:block th:case="AR"> Arkansas</th:block>
+					<th:block th:case="CA"> California</th:block>
+					<th:block th:case="CO"> Colorado</th:block>
+					<th:block th:case="CT"> Connecticut</th:block>
+					<th:block th:case="DE"> Delaware</th:block>
+					<th:block th:case="FL"> Florida</th:block>
+					<th:block th:case="GA"> Georgia</th:block>
+					<th:block th:case="HI"> Hawaii</th:block>
+					<th:block th:case="ID"> Idaho</th:block>
+					<th:block th:case="IL"> Illinois</th:block>
+					<th:block th:case="IN"> Indiana</th:block>
+					<th:block th:case="IA"> Iowa</th:block>
+					<th:block th:case="KS"> Kansas</th:block>
+					<th:block th:case="KY"> Kentucky</th:block>
+					<th:block th:case="LA"> Louisiana</th:block>
+					<th:block th:case="ME"> Maine</th:block>
+					<th:block th:case="MD"> Maryland</th:block>
+					<th:block th:case="MA"> Massachusetts</th:block>
+					<th:block th:case="MI"> Michigan</th:block>
+					<th:block th:case="MN"> Minnesota</th:block>
+					<th:block th:case="MS"> Mississippi</th:block>
+					<th:block th:case="MO"> Missouri</th:block>
+					<th:block th:case="MT"> Montana</th:block>
+					<th:block th:case="NE"> Nebraska</th:block>
+					<th:block th:case="NV"> Nevada</th:block>
+					<th:block th:case="NH"> New Hampshire</th:block>
+					<th:block th:case="NJ"> New Jersey</th:block>
+					<th:block th:case="NM"> New Mexico</th:block>
+					<th:block th:case="NY"> New York</th:block>
+					<th:block th:case="NC"> North Carolina</th:block>
+					<th:block th:case="ND"> North Dakota</th:block>
+					<th:block th:case="OH"> Ohio</th:block>
+					<th:block th:case="OK"> Oklahoma</th:block>
+					<th:block th:case="OR"> Oregon</th:block>
+					<th:block th:case="PA"> Pennsylvania</th:block>
+					<th:block th:case="RI"> Rhode Island</th:block>
+					<th:block th:case="SC"> South Carolina</th:block>
+					<th:block th:case="SD"> South Dakota</th:block>
+					<th:block th:case="TN"> Tennessee</th:block>
+					<th:block th:case="TX"> Texas</th:block>
+					<th:block th:case="UT"> Utah</th:block>
+					<th:block th:case="VT"> Vermont</th:block>
+					<th:block th:case="VA"> Virginia</th:block>
+					<th:block th:case="WA"> Washington</th:block>
+					<th:block th:case="WV"> West Virginia</th:block>
+					<th:block th:case="WI"> Wisconsin</th:block>
+					<th:block th:case="WY"> Wyoming </th:block>
+<!-- -----------------------------------------Just State Things ----------------------------------------------------------------- -->
+			</h2>
         	
 	        <div class="transportview-location">
 	            <div th:each="cityCard : ${citylist}" class="transportview-location_card">
