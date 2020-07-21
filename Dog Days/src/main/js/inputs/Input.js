@@ -14,6 +14,8 @@ window.Input = (function() {
 		$ele.attr("data-form-input", input_obj.getField());
 		
 		input_obj.setupElement(element);
+		
+		return input_obj;
 	}
 	
 //	======================================== Export ======================================== \\

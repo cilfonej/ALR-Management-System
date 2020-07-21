@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- TODO <link rel="stylesheet" href="/css/forms/user_edit/user_edit.css" /> -->
+</head>
+
+<body>	
+	<div th:fragment="user_account_all">					<!-- TODO /id ///account > person > data -->
+		<div th:replace="forms/form :: form(url='/account/settings/', title='Account Settings', body=~{:: #account}, class='user-account_account')">
+		</div>
+		<div th:replace="forms/form :: form(url='/account/settings/submit', title='Personal Settings', body=~{:: #personal}, class='user-account_personal')">
+		</div>
+	</div>
+	
+	<div id="account" th:remove="tag">
+		<!-- TODO different email thingy -->
+		<div th:replace="components/input :: form_input(label='Email', icon='fas fa-envelope', type='email', name='email')"></div>
+		<!-- TODO reset button for passowrd(SEND EMAIL> CHANGE PASS) -->
+		<div th:replace="components/input :: form_input(label='Password', icon='fas fa-lock', name='password')"></div>
+	</div>
+	
+	
+	<div id="personal" th:remove="tag">
+		<span class="form-input_label">Name</span>
+		<div class="person-name">
+			<div th:replace="components/input :: form_input(icon='fas fa-user', 
+															 name='firstName',
+															 placeholder='First Name', 
+															 max_length=25, 
+															 show_limit=false, 
+															 allow_blank=false,
+															 value=${person.firstname})">
+			</div>
+			<div th:replace="components/input :: form_input(name='lastName', 
+															placeholder='Last Name', 
+															max_length=25, 
+															show_limit=false, 
+															allow_blank=false,
+															value=${person.lastname})">
+			</div>
+		</div>
+		
+		<div th:replace="components/input :: form_input(label='Email', icon='fas fa-envelope', 
+														type='email', name='email', 
+														allow_blank=false, 
+														value=${person.email})"></div>
+														
+		<div th:replace="components/input :: form_input(label='Phone', icon='fas fa-phone', 
+														name='phone', type='phone', 
+														allow_blank=${!isCaretaker}, 
+														value=${person.primaryPhone})"></div>
+														
+		<div th:replace="components/input :: form_address(name='home_address', label='Home Address', 
+														  icon='fa fa-home', 
+		                                                  require=${isCaretaker}, 
+		                                                  value=${person.homeAddress})"> </div>
+		                                                  
+		<div th:replace="components/input :: form_address(name='mail_address', label='Mail Address', 
+		                                                  icon='fa fa-home',
+		                                                  value=${person.mailingAddress})"> </div>
+	</div>
+		
+</body> 
