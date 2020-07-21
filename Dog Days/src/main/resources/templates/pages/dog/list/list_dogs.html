@@ -4,25 +4,26 @@
 </head>
 
 <body>
-	<ul th:fragment="breadcrums">
-		<li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
-		<li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
-	</ul>	
+<ul th:fragment="breadcrums">
+	<li th:replace="common/header :: breadcrum(name='Home', icon='fa-home')"></li>
+	<li th:replace="common/header :: breadcrum(name='Dogs', icon='fa-dog')"></li>
+</ul>	
 
-	<div th:fragment="page" class="view-all">
-	<!--  th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}" -->
-		<div th:replace="common/header :: title('ALR - Dogs', ~{:: breadcrums})">	</div>
-		
-		<div class="card view-all_heading">
-			<div class="view-all_heading-items">
-			    <h2> View All Dogs </h2>
-			    
-			    <div class="span-button">
-				    <i class="fa fa-plus"></i>
-				    New Dog
-			    </div>
+<div th:fragment="page" class="view-all"
+	 th:with="u_id=${#UID.$()}" th:attr="data-uid=${u_id}">
+	 
+	<div th:replace="common/header :: title('ALR - Dogs', ~{:: breadcrums})">	</div>
+	
+	<div class="card view-all_heading">
+		<div class="view-all_heading-items">
+		    <h2> View All Dogs </h2>
+		    
+		    <div class="span-button">
+			    <i class="fa fa-plus"></i>
+			    New Dog
 		    </div>
-		</div>
+	    </div>
+	</div>
 
 	<div class="view-all_body">
 		<div class="view-all_left">
@@ -32,7 +33,7 @@
 					    <i class="fa fa-dog"></i>
 					    <input type="search" placeholder="Enter Dog name">
 					</div>
-				    <div class="span-button">
+				    <div class="span-button" onclick="onSearch()">
 					    <i class="fa fa-search"></i>
 					    Search
 				    </div>
@@ -84,36 +85,60 @@
 				</div>
 			</div>
 			<div class="view-all_results">
-				<div class="view-all_dog-result">
-				
-					<div class="dog-result_icon">
-						<i class="fa fa-dog"></i>
-					</div>
-					
-					<div class="dog-result_label">
-						<h3> Suzan </h3>
-						<span> #261960 </span>
-					</div>
-					 
-					<div style="flex-grow: 1;"></div>
-					 
-					<div class="icon-button icon-button_box-plain">
-						<i class="fa fa-arrow-right"></i>
-					</div>
-				</div>
+				<span> Please enter a query to see results </span>
 			</div>
 		</div>
 	
 		<div class="view-all_right">
 			<div class="view-all_display_wrapper">
-				<div th:replace="pages/dog/view/dog_info_card :: card(${dog})"></div>
 				
-				<div class="view-all_display_link">
-					View full record
-					<i class="fa fa-arrow-right"></i>
-				</div>
 			</div>
 		</div>
+	</div>
+	
+	<script type="text/javascript">
+		function onSearch() {
+			Request.send("/view/dogs/search", {
+				nameOrId: $(".view-all_search_wrapper input").val()
+			})
+		}
+		
+		function onSelect(id) {
+			Request.send("/view/dogs/render/" + id);
+		}
+	</script>
+</div>
+
+<div th:fragment="viewResult(dog)" class="view-all_display_wrapper">
+	<div th:replace="pages/dog/view/dog_info_card :: card(dog=${dog}, view_only=true)"></div>
+				
+	<div class="view-all_display_link" th:onclick="Request.send('/view/dogs/' + [[${dog.id}]]);">
+		View full record
+		<i class="fa fa-arrow-right"></i>
+	</div>
+</div>
+
+<div th:fragment="searchResults(dogs)" class="view-all_results">
+	<th:block th:each="dog : ${dogs}"> <!-- TODO: show message if no results -->
+		<div th:replace=":: dog_lineitem(${dog})"></div>
+	</th:block>
+</div>
+
+<div th:fragment="dog_lineitem(dog)" class="view-all_dog-result" th:onclick="onSelect([[${dog.id}]])">
+	<div class="dog-result_icon">
+		<i class="fa fa-dog"></i>
+	</div>
+	
+	<div class="dog-result_label">
+		<h3 th:text="${dog.name}"> </h3>
+		<span th:text="${'#' + dog.id}"> </span>
+	</div>
+	 
+	<div style="flex-grow: 1;"></div>
+	 
+	<div class="icon-button icon-button_box-plain" 
+		 th:onclick="Request.send('/view/dogs/' + [[${dog.id}]]); event.stopPropagation();">
+		<i class="fa fa-arrow-right"></i>
 	</div>
 </div>
 	

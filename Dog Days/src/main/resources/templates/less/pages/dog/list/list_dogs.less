@@ -113,9 +113,10 @@
 						border-radius: 3px;
 						
 						font-size: .85rem;
-						color: #666666;
+						color: @dark_gray35;
 						
 						background: @gray85;
+						cursor: pointer;
 						
 						i {
 							font-size: .75rem;
@@ -155,8 +156,8 @@
 			}
 			
 			.view-all_results {
-				margin-top: 15px;
-			    border-top: 1px solid #4d4d4d;
+				//margin-top: @card-section_gap;
+			    //border-top: 1px solid #4d4d4d;
 			    padding-top: 5px;
 			    
 			    .view-all_dog-result {
@@ -207,11 +208,14 @@
 		}
 		
 		.view-all_right {
+			justify-self: center;
+			
 			.view-all_display_wrapper {
 				position: sticky;
 				top: @card-section_gap;
 				
 				margin: 0;
+				max-width: 350px;
 			
 				.dog-card {
 					margin: 0;
@@ -240,7 +244,6 @@
     align-items: center;
     
     font-size: .85rem;
-    height: 2em;
     
     padding: 0 @card-padding;
     border-radius: .5rem;

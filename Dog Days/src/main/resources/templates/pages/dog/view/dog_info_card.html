@@ -27,10 +27,12 @@
 				
 			</div>
 			
-			<a class="dog-card_edit icon-button icon-button_ghost fade-icon" 
-				data-tippy-content="Edit" data-micromodal-trigger="edit-dog">
-				<i class="fa fa-pen"></i>
-			</a>
+			<th:block th:if="!${view_only ?: false}">
+				<a class="dog-card_edit icon-button icon-button_ghost fade-icon" 
+					data-tippy-content="Edit" data-micromodal-trigger="edit-dog">
+					<i class="fa fa-pen"></i>
+				</a>
+			</th:block>
 		</div>
 		
 		<div class="card-sub_layout">
@@ -86,7 +88,9 @@
 			</div>
 		</div>
 		
-		<div th:replace="components/modal :: modal('edit-dog', 'Edit Dog Info', ~{:: edit(${dog})})"></div>
+		<th:block th:if="!${view_only ?: false}">
+			<div th:replace="components/modal :: modal('edit-dog', 'Edit Dog Info', ~{:: edit(${dog})})"></div>
+		</th:block>
 	</div>
 	
 	<div th:fragment="edit(dog)">

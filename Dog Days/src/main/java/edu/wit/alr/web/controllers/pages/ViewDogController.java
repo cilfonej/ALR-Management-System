@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,12 +33,13 @@ public class ViewDogController {
 	}
 	
 	@GetMapping("/{id}")
-	protected @ResponseBody String loadPage_direct(@PathVariable("id") Integer id) {
+	protected @ResponseBody String loadPage_direct(@PathVariable(value="id", required=false) Integer id) {
 		if(id == null) return list_direct();
 		return builder.buildIndependentPage(loadPage(id));
 	}
-	
-	public PageResponse loadPage(int dog_id) {
+
+	@PostMapping("/{id}")
+	public @ResponseBody PageResponse loadPage(@PathVariable("id") int dog_id) {
 		return loadPage(dogService.findDogByID(dog_id));
 	}
 	
@@ -52,7 +54,7 @@ public class ViewDogController {
 	}
 	
 	public PageResponse listPage() {
-		return builder.redirect("/view/dogs", "pages/dog/list/list_dogs :: page", null);
+		return builder.redirect("/view/dogs", "pages/dog/list/list_dogs :: page", Map.of("dog", dogService.findDogByID(261960)));
 	}
 	
 	public ReplaceResponse updateDogInfo(Dog dog) {
