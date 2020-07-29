@@ -43,7 +43,7 @@ public class PersonService {
 		
 		// insert person into repository
 		repository.save(person);
-		return null;
+		return person;
 	}
 	
 	@SuppressWarnings("unchecked")

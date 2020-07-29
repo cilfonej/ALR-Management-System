@@ -16,6 +16,7 @@ import edu.wit.alr.database.model.roles.Role;
 import edu.wit.alr.services.PersonService;
 import edu.wit.alr.services.inflators.AddressInflator.AddressData;
 import edu.wit.alr.services.inflators.InflatorService;
+import edu.wit.alr.web.controllers.pages.ViewPersonController;
 import edu.wit.alr.web.response.PageResponse;
 import edu.wit.alr.web.response.Response;
 import edu.wit.alr.web.response.ResponseBuilder;
@@ -24,6 +25,8 @@ import edu.wit.alr.web.response.ResponseBuilder;
 @RequestMapping("/register/person")
 public class CreatePersonController {
 
+	@Autowired private ViewPersonController viewController;
+	
 	@Autowired private PersonService personService;
 	@Autowired private InflatorService inflator;
 	
@@ -51,8 +54,8 @@ public class CreatePersonController {
 		
 		Person person = personService.createPerson(data.firstname, data.lastname, 
 				data.email, data.phone, home_address, mail_address, roles);
-		
-		return null;
+
+		return viewController.loadPage(person);
 	}
 	
 	@GetMapping("")

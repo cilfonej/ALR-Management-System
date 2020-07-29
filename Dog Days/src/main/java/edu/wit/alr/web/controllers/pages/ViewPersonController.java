@@ -58,7 +58,7 @@ public class ViewPersonController {
 		vars.put("person", person);
 		vars.put("adoptList", dogRepo.findAllByAdopter(person));
 		vars.put("fosterList", dogRepo.findAllByFoster(person));
-		vars.put("returnList", returns.hasNext() ? returns.next() : null);
+		vars.put("returnList", returns.hasNext() ? returns.next() : null); 
 		vars.put("roleAdopter", person.findRole(Adopter.class) != null);
 		vars.put("roleFoster", person.findRole(Foster.class) != null);
 		vars.put("roleCoordinator", person.findRole(ApplicationCoordinator.class) != null);
